@@ -6,22 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Python web development with Flask(1) | DanielHu&#39;s Blog</title>
+  <title>Python web development with Flask(2) | DanielHu&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前言Flask是目前最为流行的Python Web框架之一。Flask仅仅保留了Web框架的核心，其他功能都交由扩展实现。因其灵活性，越来越多的公司选择Flask作为Web框架，知名公司有Netflix、Reddit和豆瓣等，这也说明了Flask能够经受大型项目的挑战，适应各种需求。  开发环境OS ：Windows 10 (x64)软件 : Pycharm版本管理： Git  Hello,">
-<meta name="keywords" content="python,web development">
+  <meta name="description" content="上节聊了Flask程序的运作方式，以及构建一个外部可访问的Flask程序的方法。在本节中，主要聚焦于隐藏在Flask背后的重要角色——HTTP，看看Flask是如何与之进行前后端交互的。  请求循环效应随意输入一个网址，按下Enter，浏览器便会显示一个对应网页。在其背后，实际上是程序正在运行着，它负责接收用户的请求，并把对应的内容返回给客户端，显示在用户的浏览器上。事实上，每一个Web应用都包含">
+<meta name="keywords" content="python,web development,Http">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python web development with Flask(1)">
-<meta property="og:url" content="http://yoursite.com/2019/06/09/我的第一篇博客文章/index.html">
+<meta property="og:title" content="Python web development with Flask(2)">
+<meta property="og:url" content="http://yoursite.com/2019/06/09/No2/index.html">
 <meta property="og:site_name" content="DanielHu&#39;s Blog">
-<meta property="og:description" content="前言Flask是目前最为流行的Python Web框架之一。Flask仅仅保留了Web框架的核心，其他功能都交由扩展实现。因其灵活性，越来越多的公司选择Flask作为Web框架，知名公司有Netflix、Reddit和豆瓣等，这也说明了Flask能够经受大型项目的挑战，适应各种需求。  开发环境OS ：Windows 10 (x64)软件 : Pycharm版本管理： Git  Hello,">
+<meta property="og:description" content="上节聊了Flask程序的运作方式，以及构建一个外部可访问的Flask程序的方法。在本节中，主要聚焦于隐藏在Flask背后的重要角色——HTTP，看看Flask是如何与之进行前后端交互的。  请求循环效应随意输入一个网址，按下Enter，浏览器便会显示一个对应网页。在其背后，实际上是程序正在运行着，它负责接收用户的请求，并把对应的内容返回给客户端，显示在用户的浏览器上。事实上，每一个Web应用都包含">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:image" content="http://yoursite.com/images/Flask_image.png">
-<meta property="og:updated_time" content="2019-06-09T15:57:26.335Z">
+<meta property="og:updated_time" content="2019-06-09T15:54:49.472Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python web development with Flask(1)">
-<meta name="twitter:description" content="前言Flask是目前最为流行的Python Web框架之一。Flask仅仅保留了Web框架的核心，其他功能都交由扩展实现。因其灵活性，越来越多的公司选择Flask作为Web框架，知名公司有Netflix、Reddit和豆瓣等，这也说明了Flask能够经受大型项目的挑战，适应各种需求。  开发环境OS ：Windows 10 (x64)软件 : Pycharm版本管理： Git  Hello,">
-<meta name="twitter:image" content="http://yoursite.com/images/Flask_image.png">
+<meta name="twitter:title" content="Python web development with Flask(2)">
+<meta name="twitter:description" content="上节聊了Flask程序的运作方式，以及构建一个外部可访问的Flask程序的方法。在本节中，主要聚焦于隐藏在Flask背后的重要角色——HTTP，看看Flask是如何与之进行前后端交互的。  请求循环效应随意输入一个网址，按下Enter，浏览器便会显示一个对应网页。在其背后，实际上是程序正在运行着，它负责接收用户的请求，并把对应的内容返回给客户端，显示在用户的浏览器上。事实上，每一个Web应用都包含">
   
     <link rel="alternative" href="/atom.xml" title="DanielHu&#39;s Blog" type="application/atom+xml">
   
@@ -161,53 +159,59 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-我的第一篇博客文章" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-No2" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Python web development with Flask(1)
+      Python web development with Flask(2)
     </h1>
   
 
         
-        <a href="/2019/06/09/我的第一篇博客文章/" class="archive-article-date">
-  	<time datetime="2019-06-09T03:21:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-09</time>
+        <a href="/2019/06/09/No2/" class="archive-article-date">
+  	<time datetime="2019-06-09T14:23:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-09</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="/images/Flask_image.png" alt></p>
+        <p>上节聊了Flask程序的运作方式，以及构建一个外部可访问的Flask程序的方法。在本节中，主要聚焦于隐藏在Flask背后的重要角色——HTTP，看看Flask是如何与之进行前后端交互的。</p>
 <hr>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Flask是目前最为流行的Python Web框架之一。Flask仅仅保留了Web框架的核心，其他功能都交由扩展实现。因其灵活性，越来越多的公司选择Flask作为Web框架，知名公司有Netflix、Reddit和豆瓣等，这也说明了Flask能够经受大型项目的挑战，适应各种需求。</p>
-<hr>
-<h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h2><p>OS ：Windows 10 (x64)<br>软件 : Pycharm<br>版本管理： Git</p>
-<hr>
-<h2 id="Hello-Flask"><a href="#Hello-Flask" class="headerlink" title="Hello, Flask!"></a>Hello, Flask!</h2><p>这是一个最小的Flask程序，仅需5行就能够实现。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line">@app.route(&apos;/&apos;)</span><br><span class="line">def index():</span><br><span class="line">    return &apos;Hello Flask！&apos;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="请求循环效应"><a href="#请求循环效应" class="headerlink" title="请求循环效应"></a>请求循环效应</h2><p>随意输入一个网址，按下Enter，浏览器便会显示一个对应网页。在其背后，实际上是程序正在运行着，它负责接收用户的请求，并把对应的内容返回给客户端，显示在用户的浏览器上。事实上，每一个Web应用都包含这种处理模式，即“请求-响应循环(Request-Response)。<br>注：客户端（Client Side）是指用来提供给用户的与服务器通信的各种软件；服务器端（Server Side）则指为用户提供服务的服务器，也是我们的程序运行的地方。</p>
+<p>这是每一个Web程序的基本工作模式，如果再进一步，HTTP在整个流程中起到了至关重要的作用，它是客户端和服务器端之间沟通的桥梁。</p>
+<p>当用户访问一个URL，浏览器便生成对应的HTTP请求，经由互联网发送到对应的Web服务器。Web服务器接收请求，通过WSGI将HTTP格式的请求数据转换成我们的Flask程序能够使用的Python数据。在程序中，Flask根据请求的URL执行对应的视图函数，获取返回值生成响应。响应依次经过WSGI转换生成HTTP响应，再经由Web服务器传递，最终被发出请求的客户端接收。浏览器渲染响应中包含的HTML和CSS代码，并执行JavaScript代码，最终把解析后的页面呈现在用户浏览器的窗口中。</p>
+<h2 id="HTTP请求"><a href="#HTTP请求" class="headerlink" title="HTTP请求"></a>HTTP请求</h2><p>HTTP通过方法来区分不同的请求类型。比如，当你直接访问一个页面时，请求的方法是GET；当你在某个页面填写了表单并提交时，请求方法则通常为POST。下表是常见的几种HTTP方法类型：</p>
+<p>1.<strong>GET</strong>:获取资源</p>
+<p>GET方法用来请求URL指定的资源。指定的资源经服务器端解析后返回响应内容。例子：</p>
+<p>2.<strong>POST</strong>:传输实体主题</p>
+<p>POST方法用来传输实体的主体。</p>
+<p>3.<strong>PUT</strong>:传输文件</p>
+<p>PUT方法用来传输文件。就像FTP协议的文件上传一样，要求在请求报文主体中包含文件的内容，然后保存到请求URL指定的位置。不太常用。</p>
+<p>4.<strong>HEAD</strong>：获取报文首部</p>
+<p>HEAD方法和GET方法一样，只是不返回报文主体部分。用于确认URL的有效性及资源更新的日期时间等。</p>
+<p>5.<strong>DELETE</strong>：删除文件</p>
+<p>DELETE方法用来删除文件，是PUT的相反方法。DELETE方法按请求URL删除指定的资源。也不常用。</p>
+<p>6.<strong>OPTIONS</strong>:询问支持的方法</p>
+<p>OPTIONS方法用来查询针对请求URL指定的资源支持的方法。</p>
+<p>可以通过在装饰器中指定HTTP方法，如下所示。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&apos;/&apos;, methods=[&apos;GET&apos;])</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 
-<h2 id="启动开发服务器"><a href="#启动开发服务器" class="headerlink" title="启动开发服务器"></a>启动开发服务器</h2><p>Flask内置了一个简单的开发服务器（由Werkzeug提供），足够在开发和测试时使用。通过依赖包Click, Flask内置了一个CLI系统，可以通过flask命令执行内置命令、扩展提供的命令或者自己定义的命令。其中flask run命令就是用来启动内置的开发服务器。</p>
-<p>一般来说，在执行flask run命令运行程序前，需要提供程序实例所在的模块的位置。Flask会自动探测程序实例，规则如下：</p>
-<ol>
-<li>寻找app.py或者wsgi.py模块，并从中寻找名为app或者application的程序实例。</li>
-<li>从环境变量Flask_APP对应的模块名寻找名为app或者application的程序实例。</li>
-</ol>
-<p>如果程序的主模块名为app.py，flask run命令会自动在其中寻找程序实例，符合规则1，即可运行。</p>
-<p>如果程序的主模块名是其他名称，例如hello.py，则需要设置环境变量,如下所示：<br>Linu/macOS：$ export FLASK_ALL=hello.py<br>Windows: &gt; set Flask_APP=hello.py</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(venv) &gt;set FLASK_APP=hello.py &amp; flask run</span><br><span class="line"> * Serving Flask app &quot;hello.py &quot;</span><br><span class="line"> * Environment: production</span><br><span class="line">   WARNING: Do not use the development server in a production environment.</span><br><span class="line">   Use a production WSGI server instead.</span><br><span class="line"> * Debug mode: off</span><br><span class="line"> * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)</span><br></pre></td></tr></table></figure>
+<h2 id="在Flask中处理请求"><a href="#在Flask中处理请求" class="headerlink" title="在Flask中处理请求"></a>在Flask中处理请求</h2><p>URL是指向网络上资源的地址。在Flask中，我们需要让请求的URL匹配对应的视图函数，视图函数返回值就是URL对应的资源。</p>
+<h3 id="路由匹配"><a href="#路由匹配" class="headerlink" title="路由匹配"></a>路由匹配</h3><p>为了便于将请求分发到对应的视图函数，程序实例中存储了一个路由表（app.url_map），其中定义了URL规则和视图函数的映射关系。当请求发来后，Flask会根据请求报文中的URL（path部分）来尝试与这个表中的所有的URL规则进行匹配，调用匹配成功的视图函数。如果没有找到匹配的URL规则，说明程序中没有处理这个URL的视图函数，Flask会自动返回404错误响应（Not Found，表示资源未找到）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(venv) F:\Study\Python\Flask1&gt;set FLASK_APP=hello.py &amp; flask routes</span><br><span class="line">Endpoint     Methods  Rule</span><br><span class="line">-----------  -------  -----------------------</span><br><span class="line">hello_world  GET      /</span><br><span class="line">static       GET      /static/&lt;path:filename&gt;</span><br></pre></td></tr></table></figure>
 
-<p>提示：旧的启动开发服务器的方法是app.run()方法，目前已不推荐使用。</p>
-<h3 id="启动选项"><a href="#启动选项" class="headerlink" title="启动选项"></a>启动选项</h3><p>1.服务器外部可见：<br>Flask提供的服务器默认是对外不可见的，可以在run命令后添加–host选项将主机地址设为0.0.0.0，这会让操作系统监听所有公网IP。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; flask run --host=0.0.0.0</span><br></pre></td></tr></table></figure>
+<h3 id="设置监听的HTTP方法"><a href="#设置监听的HTTP方法" class="headerlink" title="设置监听的HTTP方法"></a>设置监听的HTTP方法</h3><p>我们可以在app.route()装饰器中使用methods参数传入一个包含监听的HTTP方法的可迭代对象。比如，下面的视图函数同时监听GET请求和POST请求：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&apos;/&apos;, methods=[&apos;GET&apos;, &apos;POST&apos;])</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 
-<p>2.改变默认端口：<br>Flask提供的服务器默认监听5000端口。可以通过传入函数改变：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; flask run --port=8000</span><br></pre></td></tr></table></figure>
+<p>当某个请求的方法不符合要求时，请求将无法被正常处理。比如，在提交表单时通常使用POST方法，而如果提交的目标URL对应的视图函数只允许GET方法，这时Flask会自动返回一个405错误响应（Method Not Allowed，表示请求方法不允许）。</p>
+<h3 id="URL处理"><a href="#URL处理" class="headerlink" title="URL处理"></a>URL处理</h3><p>URL中的变量部分默认类型为字符串，但Flask提供了一些转换器可以在URL规则里使用。例如下面代码中的<a href="int:year" target="_blank" rel="noopener">int:year</a>（&lt;转换器:变量名&gt;）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&apos;goback/&lt;int:year&gt;&apos;)</span><br><span class="line">def go_back(year):</span><br><span class="line">    return &apos;&lt;p&gt;Welcome to %d!&lt;/p&gt;&apos; % (2018 - year)</span><br></pre></td></tr></table></figure>
 
-<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>书籍：<a href="http://helloflask.com/book/" target="_blank" rel="noopener">Flask Web开发实战——入门、进阶与原理解析</a></p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>书籍：<a href="http://helloflask.com/book/" target="_blank" rel="noopener">Flask Web开发实战——入门、进阶与原理解析</a><br>CSDN：<a href="https://blog.csdn.net/wuyoudeyuer/article/details/80509901" target="_blank" rel="noopener">https://blog.csdn.net/wuyoudeyuer/article/details/80509901</a></p>
 
       
 
@@ -257,6 +261,10 @@
       		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">web development</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Http</a>
         		</li>
       		
 		</ul>
@@ -312,7 +320,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/06/09/我的第一篇博客文章/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/06/09/No2/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -326,18 +334,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/06/09/No2/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Python web development with Flask(2)
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/06/09/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Hello World</div>
+    <a href="/2019/06/09/我的第一篇博客文章/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python web development with Flask(1)</div>
       <i class="icon-circle-right"></i>
     </a>
   
