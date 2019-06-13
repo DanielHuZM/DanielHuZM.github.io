@@ -160,6 +160,129 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-No3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/12/No3/">Python 中的正则表达式</a>
+    </h1>
+  
+
+        
+        <a href="/2019/06/12/No3/" class="archive-article-date">
+  	<time datetime="2019-06-12T15:59:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这节来聊聊Python中的正则表达式。字符串是编程时涉及到的最多的一种数据结构，对字符串进行操作的需求几乎无处不在。正则表达式是一种用来匹配字符串的强有力的武器。它的设计思想是用一种描述性的语言来给字符串定义一个规则，凡是符合规则的字符串，我们就认为它“匹配”了，否则，该字符串就是不合法的。</p>
+<p>通过使用正则表达式，可以：</p>
+<ul>
+<li>测试字符串内的模式。<br>例如，可以测试输入字符串，以查看字符串内是否出现电话号码模式或信用卡号码模式。这称为数据验证。</li>
+<li>替换文本。<br>可以使用正则表达式来识别文档中的特定文本，完全删除该文本或者用其他文本替换它。</li>
+<li>基于模式匹配从字符串中提取子字符串。<br>可以查找文档内或输入域内特定的文本。</li>
+</ul>
+<hr>
+<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p>正则表达式并不是Python的一部分。正则表达式是用于处理字符串的强大工具，拥有自己独特的语法以及一个独立的处理引擎，效率上可能不如str自带的方法，但功能十分强大。得益于这一点，在提供了正则表达式的语言里，正则表达式的语法都是一样的，区别只在于不同的编程语言实现支持的语法数量不同。</p>
+<p>下图列出了Python支持的正则表达式的语法。</p>
+<p><img src="/images/grammar.png" alt></p>
+<h2 id="re-模块"><a href="#re-模块" class="headerlink" title="re 模块"></a>re 模块</h2><p>Python 自1.5版本起增加了re 模块，它提供 Perl 风格的正则表达式模式。re 模块使 Python 语言拥有全部的正则表达式功能。</p>
+<p>Tips: 由于Python的字符串本身也用\转义，所以要特别注意：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">s = &apos;ABC\\-001&apos; # Python的字符串</span><br><span class="line"># 对应的正则表达式字符串变成：</span><br><span class="line"># &apos;ABC\-001&apos;</span><br><span class="line"></span><br><span class="line"># 强烈建议采用Python的r前缀：</span><br><span class="line">s = r&apos;ABC\-001&apos; # Python的字符串</span><br><span class="line"># 对应的正则表达式字符串不变：</span><br><span class="line"># &apos;ABC\-001&apos;</span><br></pre></td></tr></table></figure>
+
+<h3 id="match-方法"><a href="#match-方法" class="headerlink" title="match()方法"></a>match()方法</h3><p>match()方法判断是否匹配，如果匹配成功，返回一个Match对象，否则返回None。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import re</span><br><span class="line">&gt;&gt;&gt; re.match(r&apos;^\d&#123;3&#125;\-\d&#123;3,8&#125;$&apos;, &apos;021-10086&apos;)</span><br><span class="line">&lt;_sre.SRE_Match object; span=(0, 9), match=&apos;021-10086&apos;&gt;</span><br><span class="line">&gt;&gt;&gt; re.match(r&apos;^\d&#123;3&#125;\-\d&#123;3,8&#125;$&apos;, &apos;021 10086&apos;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="split-方法"><a href="#split-方法" class="headerlink" title="split()方法"></a>split()方法</h3><p>常用的str.split()方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; &apos;a b   c&apos;.split(&apos; &apos;)</span><br><span class="line">[&apos;a&apos;, &apos;b&apos;, &apos;&apos;, &apos;&apos;, &apos;c&apos;]</span><br><span class="line"># 无法识别空格</span><br></pre></td></tr></table></figure>
+
+<p>但re.split()方法完美解决：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; re.split(r&apos;\s+&apos;, &apos;a b   c&apos;)</span><br><span class="line">[&apos;a&apos;, &apos;b&apos;, &apos;c&apos;]</span><br></pre></td></tr></table></figure>
+
+<p>如果遇到不规则输入，可以使用正则表达式处理转化为规范形式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; re.split(r&apos;[\s\,\;]+&apos;, &apos;a,b;; c  d&apos;)</span><br><span class="line">[&apos;a&apos;, &apos;b&apos;, &apos;c&apos;, &apos;d&apos;]</span><br></pre></td></tr></table></figure>
+
+<h3 id="group-分组"><a href="#group-分组" class="headerlink" title="group()分组"></a>group()分组</h3><p>除了简单地判断是否匹配之外，正则表达式还有提取子串的强大功能。用()表示的就是要提取的分组（Group）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; m = re.match(r&apos;^(\d&#123;3&#125;)-(\d&#123;3,8&#125;)$&apos;, &apos;010-12345&apos;)</span><br><span class="line">&gt;&gt;&gt; m</span><br><span class="line">&lt;_sre.SRE_Match object; span=(0, 9), match=&apos;010-12345&apos;&gt;</span><br><span class="line">&gt;&gt;&gt; m.group(0)</span><br><span class="line">&apos;010-12345&apos;</span><br><span class="line">&gt;&gt;&gt; m.group(1)</span><br><span class="line">&apos;010&apos;</span><br><span class="line">&gt;&gt;&gt; m.group(2)</span><br><span class="line">&apos;12345&apos;</span><br></pre></td></tr></table></figure>
+
+<h3 id="贪婪匹配"><a href="#贪婪匹配" class="headerlink" title="贪婪匹配"></a>贪婪匹配</h3><p>在python中，正则匹配默认贪婪匹配，即尽可能匹配多的字符。</p>
+<p>举个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; re.match(r&apos;^(\d+)(0*)$&apos;, &apos;102300&apos;).groups()</span><br><span class="line">(&apos;102300&apos;, &apos;&apos;)</span><br><span class="line"># 由于\d+采用贪婪匹配，直接把后面0都匹配了，因此group(1)为None</span><br><span class="line"># 要让\d+采用非贪婪匹配，可以在\d+后面加入?，看看效果：</span><br><span class="line">&gt;&gt;&gt; re.match(r&apos;^(\d+?)(0*)$&apos;, &apos;102300&apos;).groups()</span><br><span class="line">(&apos;1023&apos;, &apos;00&apos;)</span><br><span class="line"># And one:</span><br><span class="line">&gt;&gt;&gt; re.match(r&apos;^(\d+)(0*)&apos;, &apos;102300&apos;).groups()</span><br><span class="line">(&apos;102300&apos;, &apos;&apos;)</span><br><span class="line">&gt;&gt;&gt; re.match(r&apos;^(\d+?)(0*)&apos;, &apos;102300&apos;).groups()</span><br><span class="line">(&apos;1&apos;, &apos;0&apos;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="效率编译"><a href="#效率编译" class="headerlink" title="效率编译"></a>效率编译</h2><p><img src="/images/compile.png" alt></p>
+<p>如图，当我们在Python中使用正则表达式时，re模块内部会干两件事情：</p>
+<p>1、编译正则表达式，如果正则表达式的字符串本身不合法，会报错；</p>
+<p>2、用编译后的正则表达式去匹配字符串。</p>
+<p>因此，如果一个正则表达式要重复使用几千次，我们可以预编译该正则表达式，这样将大大提升效率。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import re</span><br><span class="line"># 编译:</span><br><span class="line">&gt;&gt;&gt; re_telephone = re.compile(r&apos;^(\d&#123;3&#125;)-(\d&#123;3,8&#125;)$&apos;)</span><br><span class="line"># 使用：</span><br><span class="line">&gt;&gt;&gt; re_telephone.match(&apos;010-12345&apos;).groups()</span><br><span class="line">(&apos;010&apos;, &apos;12345&apos;)</span><br><span class="line">&gt;&gt;&gt; re_telephone.match(&apos;010-8086&apos;).groups()</span><br><span class="line">(&apos;010&apos;, &apos;8086&apos;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
+<li><a href="https://www.runoob.com/python/python-strings.html" target="_blank" rel="noopener">https://www.runoob.com/python/python-strings.html</a></li>
+<li><a href="https://www.cnblogs.com/huxi/archive/2010/07/04/1771073.html" target="_blank" rel="noopener">https://www.cnblogs.com/huxi/archive/2010/07/04/1771073.html</a></li>
+<li><a href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017639890281664" target="_blank" rel="noopener">https://www.liaoxuefeng.com/wiki/1016959663602400/1017639890281664</a></li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Regular Expression</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/06/12/No3/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-No2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -274,19 +397,19 @@
 
 
   
-    <article id="post-我的第一篇博客文章" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-No1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/09/我的第一篇博客文章/">Python web development with Flask(1)</a>
+      <a class="article-title" href="/2019/06/09/No1/">Python web development with Flask(1)</a>
     </h1>
   
 
         
-        <a href="/2019/06/09/我的第一篇博客文章/" class="archive-article-date">
+        <a href="/2019/06/09/No1/" class="archive-article-date">
   	<time datetime="2019-06-09T03:21:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-09</time>
 </a>
         
@@ -348,7 +471,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/09/我的第一篇博客文章/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/06/09/No1/">展开全文 >></a>
         </p>
       
 
@@ -555,6 +678,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Http</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Regular Expression</a>
               </li>
             
             <div class="clearfix"></div>
