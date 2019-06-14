@@ -160,6 +160,120 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-No4" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/14/No4/">python中的多进程使用总结（1）</a>
+    </h1>
+  
+
+        
+        <a href="/2019/06/14/No4/" class="archive-article-date">
+  	<time datetime="2019-06-14T13:31:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天去一家公司面试，在笔试过程中遇到了多线程、多进程等问题，之前的学习中对此内容都是一笔带过，未曾深入了解。此外，之后希望完成一个基于Django的仿淘宝秒杀系统，将不可避免地遇到多进程、分布式的编程问题，因此今天在此系统性地学习多进程、多线程，并做一个总结。</p>
+<p>首先来谈谈多进程。</p>
+<h2 id="fork-in-Linux-Unix"><a href="#fork-in-Linux-Unix" class="headerlink" title="fork() in Linux/Unix"></a>fork() in Linux/Unix</h2><p>Linux 系统提供了一个fork()系统调用，普通的函数调用，调用一次，返回一次，但是fork()调用一次，返回两次，因为操作系统自动把当前进程（称为父进程）复制了一份（称为子进程），然后，分别在父进程和子进程内返回。</p>
+<p>子进程永远返回0，而父进程返回子进程的ID。这样做的理由是，一个父进程可以fork出很多子进程，所以，父进程要记下每个子进程的ID，而子进程只需要调用getppid()就可以拿到父进程的ID。来看代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line"></span><br><span class="line">print(&apos;Process (%s) start...&apos; % os.getpid())</span><br><span class="line"># Only works on Unix/Linux/Mac:</span><br><span class="line">pid = os.fork()</span><br><span class="line">count = 0</span><br><span class="line">if pid == 0:</span><br><span class="line">    print(&apos;I am child process (%s) and my parent is %s.&apos; % (os.getpid(), os.getppid()))</span><br><span class="line">	count += 1</span><br><span class="line">else:</span><br><span class="line">    print(&apos;I (%s) just created a child process (%s).&apos; % (os.getpid(), pid))</span><br><span class="line">	count += 1</span><br><span class="line">print(&quot;Number is %s&quot;, count)</span><br><span class="line"></span><br><span class="line"># 输出结果</span><br><span class="line">Process (876) start...</span><br><span class="line">I (876) just created a child process (877).</span><br><span class="line">Number is 1</span><br><span class="line">I am child process (877) and my parent is 876.</span><br><span class="line">Number is 1</span><br></pre></td></tr></table></figure>
+
+<p>来解读一下这段代码。在语句pid = os.fork()之前，只有一个进程在执行这段代码，但在这条语句之后，就变成两个进程在执行了，这两个进程的几乎完全相同，将要执行的下一条语句都是if pid == 0。</p>
+<p>由于在父进程中，fork返回新创建子进程的进程ID；在子进程中，fork返回0；因此可以通过fork返回值来判断当前进程是子进程还是父进程。</p>
+<p>Tips：注意一点，fork可能会出错，返回一个负值，原因可能有以下两点：</p>
+<p>1）当前的进程数已经达到了系统规定的上限，这时errno的值被设置为EAGAIN。</p>
+<p>2）系统内存不足，这时errno的值被设置为ENOMEM。</p>
+<h2 id="Multiprocessing"><a href="#Multiprocessing" class="headerlink" title="Multiprocessing"></a>Multiprocessing</h2><p>由于Windows没有fork调用，在Windows上无法用Python编写多进程的程序，Multiprocessing模块就是跨平台版本的多进程模块。</p>
+<h3 id="Process"><a href="#Process" class="headerlink" title="Process"></a>Process</h3><p>Multiprocessing模块提供了一个Process类来代表一个进程对象。举个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">from multiprocessing import Process</span><br><span class="line">import os</span><br><span class="line"></span><br><span class="line"># 子进程要执行的代码</span><br><span class="line">def run_proc(name):</span><br><span class="line">    print(&apos;Run child process %s (%s)...&apos; % (name, os.getpid()))</span><br><span class="line"></span><br><span class="line">if __name__==&apos;__main__&apos;:</span><br><span class="line">    print(&apos;Parent process %s.&apos; % os.getpid())</span><br><span class="line">    p = Process(target=run_proc, args=(&apos;test&apos;,))</span><br><span class="line">    print(&apos;Child process will start.&apos;)</span><br><span class="line">    p.start()</span><br><span class="line">    p.join()</span><br><span class="line">    print(&apos;Child process end.&apos;)</span><br><span class="line">	</span><br><span class="line"># 执行结果</span><br><span class="line">Parent process 2764.</span><br><span class="line">Child process will start.</span><br><span class="line">Run child process test (18072)...</span><br><span class="line">Child process end.</span><br></pre></td></tr></table></figure>
+
+<p>解读一下。创建子进程时，只需要传入一个执行函数和函数的参数，创建一个Process实例，用start()方法启动，这样创建进程比fork()还要简单。</p>
+<p>join()方法可以等待子进程结束后再继续往下运行，通常用于进程间的同步。</p>
+<p><strong><em>高能预警</em></strong>~~:Windows系统中编译，子进程不会运行。这是由于multiprocessing模块在交互模式下是<strong>不支持的</strong>，即使如网上许多教程所说，添加freeze_support()也无法再交互模式下运行子进程！！！</p>
+<p><strong>需要在 cmd 中输入 python xxx.py 运行，你就可以看到子进程的执行了。</strong></p>
+<h3 id="Pool-非阻塞"><a href="#Pool-非阻塞" class="headerlink" title="Pool 非阻塞"></a>Pool 非阻塞</h3><p>如果要启动大量的子进程，可以采用进程池的方法批量创建子进程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">from multiprocessing import Pool</span><br><span class="line">import os, time, random</span><br><span class="line"></span><br><span class="line">def long_time_task(name):</span><br><span class="line">    print(&apos;Run task %s (%s)...&apos; % (name, os.getpid()))</span><br><span class="line">    start = time.time()</span><br><span class="line">    time.sleep(random.random() * 3)</span><br><span class="line">    end = time.time()</span><br><span class="line">    print(&apos;Task %s runs %0.2f seconds.&apos; % (name, (end - start)))</span><br><span class="line"></span><br><span class="line">if __name__==&apos;__main__&apos;:</span><br><span class="line">    print(&apos;Parent process %s.&apos; % os.getpid())</span><br><span class="line">    p = Pool()</span><br><span class="line">    for i in range(7):</span><br><span class="line">        p.apply_async(long_time_task, args=(i,))</span><br><span class="line">    print(&apos;Waiting for all subprocesses done...&apos;)</span><br><span class="line">    p.close()</span><br><span class="line">    p.join()</span><br><span class="line">    print(&apos;All subprocesses done.&apos;)</span><br><span class="line">	</span><br><span class="line"># cmd中执行结果</span><br><span class="line">Parent process 13400.</span><br><span class="line">Waiting for all subprocesses done...</span><br><span class="line">Run task 0 (4980)...</span><br><span class="line">Run task 1 (656)...</span><br><span class="line">Run task 2 (5852)...</span><br><span class="line">Run task 3 (10452)...</span><br><span class="line">Run task 4 (18168)...</span><br><span class="line">Run task 5 (18160)...</span><br><span class="line">Task 0 runs 0.20 seconds.</span><br><span class="line">Run task 6 (4980)...</span><br><span class="line">Task 1 runs 0.33 seconds.</span><br><span class="line">Task 5 runs 1.83 seconds.</span><br><span class="line">Task 4 runs 1.89 seconds.</span><br><span class="line">Task 2 runs 2.36 seconds.</span><br><span class="line">Task 6 runs 2.24 seconds.</span><br><span class="line">Task 3 runs 2.54 seconds.</span><br><span class="line">All subprocesses done.</span><br></pre></td></tr></table></figure>
+
+<p>代码解读：对Pool对象调用join()方法会等待所有子进程执行完毕，调用join()之前必须先调用close()，调用close()之后就不能继续添加新的Process了。</p>
+<p>由于我的笔记本是六核处理器，Pool()默认为6，因此我提交了7个子进程，才能看到task 6 的等待效果。</p>
+<h3 id="Pool-阻塞"><a href="#Pool-阻塞" class="headerlink" title="Pool 阻塞"></a>Pool 阻塞</h3><p>首先，了解一下阻塞的概念。阻塞调用是指调用结果返回之前，当前线程会被挂起。函数只有在得到结果之后才会返回。</p>
+<p>在Pool中应用apply函数其实对应的就是阻塞，上面调用apply_async函数对应非阻塞。</p>
+<p>看下结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">		...</span><br><span class="line">        p.apply(long_time_task, args=(i,))</span><br><span class="line">		...</span><br><span class="line">	</span><br><span class="line"># cmd中执行结果</span><br><span class="line">Parent process 5852.</span><br><span class="line">Run task 0 (17216)...</span><br><span class="line">Task 0 runs 0.08 seconds.</span><br><span class="line">Run task 1 (17760)...</span><br><span class="line">Task 1 runs 1.19 seconds.</span><br><span class="line">Run task 2 (18168)...</span><br><span class="line">Task 2 runs 0.79 seconds.</span><br><span class="line">Run task 3 (8464)...</span><br><span class="line">Task 3 runs 0.26 seconds.</span><br><span class="line">Run task 4 (17216)...</span><br><span class="line">Task 4 runs 0.28 seconds.</span><br><span class="line">Run task 5 (15292)...</span><br><span class="line">Task 5 runs 2.19 seconds.</span><br><span class="line">Run task 6 (2616)...</span><br><span class="line">Task 6 runs 0.01 seconds.</span><br><span class="line">Waiting for all subprocesses done...</span><br><span class="line">All subprocesses done.</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，在阻塞调用下，每个进程在得到结果后返回。</p>
+<p>下一节中，会学习多进程之间的通信。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
+<li><a href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017628290184064" target="_blank" rel="noopener">廖雪峰的python教程</a></li>
+<li>[<a href="https://www.cnblogs.com/dongguolei/p/8086346.html（fork()详解）(https://www.cnblogs.com/dongguolei/p/8086346.html)" target="_blank" rel="noopener">https://www.cnblogs.com/dongguolei/p/8086346.html（fork()详解）(https://www.cnblogs.com/dongguolei/p/8086346.html)</a></li>
+<li><a href="https://blog.csdn.net/likunshan/article/details/82224367" target="_blank" rel="noopener">https://blog.csdn.net/likunshan/article/details/82224367（阻塞、同步详解）</a></li>
+<li><a href="https://www.cnblogs.com/lxmhhy/p/6052167.html" target="_blank" rel="noopener">https://www.cnblogs.com/lxmhhy/p/6052167.html（一些代码）</a></li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多进程</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/06/14/No4/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-No3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -682,6 +796,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Regular Expression</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">多进程</a>
               </li>
             
             <div class="clearfix"></div>

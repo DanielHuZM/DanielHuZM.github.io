@@ -6,20 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Python web development with Flask(2) | DanielHu&#39;s Blog</title>
+  <title>python中的多进程使用总结（1） | DanielHu&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="上节聊了Flask程序的运作方式，以及构建一个外部可访问的Flask程序的方法。在本节中，主要聚焦于隐藏在Flask背后的重要角色——HTTP，看看Flask是如何与之进行前后端交互的。  请求循环效应随意输入一个网址，按下Enter，浏览器便会显示一个对应网页。在其背后，实际上是程序正在运行着，它负责接收用户的请求，并把对应的内容返回给客户端，显示在用户的浏览器上。事实上，每一个Web应用都包含">
-<meta name="keywords" content="python,web development,Http">
+  <meta name="description" content="今天去一家公司面试，在笔试过程中遇到了多线程、多进程等问题，之前的学习中对此内容都是一笔带过，未曾深入了解。此外，之后希望完成一个基于Django的仿淘宝秒杀系统，将不可避免地遇到多进程、分布式的编程问题，因此今天在此系统性地学习多进程、多线程，并做一个总结。 首先来谈谈多进程。 fork() in Linux/UnixLinux 系统提供了一个fork()系统调用，普通的函数调用，调用一次，返回">
+<meta name="keywords" content="python,多进程">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python web development with Flask(2)">
-<meta property="og:url" content="http://yoursite.com/2019/06/09/No2/index.html">
+<meta property="og:title" content="python中的多进程使用总结（1）">
+<meta property="og:url" content="http://yoursite.com/2019/06/14/No4/index.html">
 <meta property="og:site_name" content="DanielHu&#39;s Blog">
-<meta property="og:description" content="上节聊了Flask程序的运作方式，以及构建一个外部可访问的Flask程序的方法。在本节中，主要聚焦于隐藏在Flask背后的重要角色——HTTP，看看Flask是如何与之进行前后端交互的。  请求循环效应随意输入一个网址，按下Enter，浏览器便会显示一个对应网页。在其背后，实际上是程序正在运行着，它负责接收用户的请求，并把对应的内容返回给客户端，显示在用户的浏览器上。事实上，每一个Web应用都包含">
+<meta property="og:description" content="今天去一家公司面试，在笔试过程中遇到了多线程、多进程等问题，之前的学习中对此内容都是一笔带过，未曾深入了解。此外，之后希望完成一个基于Django的仿淘宝秒杀系统，将不可避免地遇到多进程、分布式的编程问题，因此今天在此系统性地学习多进程、多线程，并做一个总结。 首先来谈谈多进程。 fork() in Linux/UnixLinux 系统提供了一个fork()系统调用，普通的函数调用，调用一次，返回">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-06-09T15:54:49.472Z">
+<meta property="og:updated_time" content="2019-06-14T15:58:38.511Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python web development with Flask(2)">
-<meta name="twitter:description" content="上节聊了Flask程序的运作方式，以及构建一个外部可访问的Flask程序的方法。在本节中，主要聚焦于隐藏在Flask背后的重要角色——HTTP，看看Flask是如何与之进行前后端交互的。  请求循环效应随意输入一个网址，按下Enter，浏览器便会显示一个对应网页。在其背后，实际上是程序正在运行着，它负责接收用户的请求，并把对应的内容返回给客户端，显示在用户的浏览器上。事实上，每一个Web应用都包含">
+<meta name="twitter:title" content="python中的多进程使用总结（1）">
+<meta name="twitter:description" content="今天去一家公司面试，在笔试过程中遇到了多线程、多进程等问题，之前的学习中对此内容都是一笔带过，未曾深入了解。此外，之后希望完成一个基于Django的仿淘宝秒杀系统，将不可避免地遇到多进程、分布式的编程问题，因此今天在此系统性地学习多进程、多线程，并做一个总结。 首先来谈谈多进程。 fork() in Linux/UnixLinux 系统提供了一个fork()系统调用，普通的函数调用，调用一次，返回">
   
     <link rel="alternative" href="/atom.xml" title="DanielHu&#39;s Blog" type="application/atom+xml">
   
@@ -159,59 +159,63 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-No2" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-No4" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Python web development with Flask(2)
+      python中的多进程使用总结（1）
     </h1>
   
 
         
-        <a href="/2019/06/09/No2/" class="archive-article-date">
-  	<time datetime="2019-06-09T14:23:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-09</time>
+        <a href="/2019/06/14/No4/" class="archive-article-date">
+  	<time datetime="2019-06-14T13:31:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-14</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>上节聊了Flask程序的运作方式，以及构建一个外部可访问的Flask程序的方法。在本节中，主要聚焦于隐藏在Flask背后的重要角色——HTTP，看看Flask是如何与之进行前后端交互的。</p>
-<hr>
-<h2 id="请求循环效应"><a href="#请求循环效应" class="headerlink" title="请求循环效应"></a>请求循环效应</h2><p>随意输入一个网址，按下Enter，浏览器便会显示一个对应网页。在其背后，实际上是程序正在运行着，它负责接收用户的请求，并把对应的内容返回给客户端，显示在用户的浏览器上。事实上，每一个Web应用都包含这种处理模式，即“请求-响应循环(Request-Response)。<br>注：客户端（Client Side）是指用来提供给用户的与服务器通信的各种软件；服务器端（Server Side）则指为用户提供服务的服务器，也是我们的程序运行的地方。</p>
-<p>这是每一个Web程序的基本工作模式，如果再进一步，HTTP在整个流程中起到了至关重要的作用，它是客户端和服务器端之间沟通的桥梁。</p>
-<p>当用户访问一个URL，浏览器便生成对应的HTTP请求，经由互联网发送到对应的Web服务器。Web服务器接收请求，通过WSGI将HTTP格式的请求数据转换成我们的Flask程序能够使用的Python数据。在程序中，Flask根据请求的URL执行对应的视图函数，获取返回值生成响应。响应依次经过WSGI转换生成HTTP响应，再经由Web服务器传递，最终被发出请求的客户端接收。浏览器渲染响应中包含的HTML和CSS代码，并执行JavaScript代码，最终把解析后的页面呈现在用户浏览器的窗口中。</p>
-<h2 id="HTTP请求"><a href="#HTTP请求" class="headerlink" title="HTTP请求"></a>HTTP请求</h2><p>HTTP通过方法来区分不同的请求类型。比如，当你直接访问一个页面时，请求的方法是GET；当你在某个页面填写了表单并提交时，请求方法则通常为POST。下表是常见的几种HTTP方法类型：</p>
-<p>1.<strong>GET</strong>:获取资源</p>
-<p>GET方法用来请求URL指定的资源。指定的资源经服务器端解析后返回响应内容。例子：</p>
-<p>2.<strong>POST</strong>:传输实体主题</p>
-<p>POST方法用来传输实体的主体。</p>
-<p>3.<strong>PUT</strong>:传输文件</p>
-<p>PUT方法用来传输文件。就像FTP协议的文件上传一样，要求在请求报文主体中包含文件的内容，然后保存到请求URL指定的位置。不太常用。</p>
-<p>4.<strong>HEAD</strong>：获取报文首部</p>
-<p>HEAD方法和GET方法一样，只是不返回报文主体部分。用于确认URL的有效性及资源更新的日期时间等。</p>
-<p>5.<strong>DELETE</strong>：删除文件</p>
-<p>DELETE方法用来删除文件，是PUT的相反方法。DELETE方法按请求URL删除指定的资源。也不常用。</p>
-<p>6.<strong>OPTIONS</strong>:询问支持的方法</p>
-<p>OPTIONS方法用来查询针对请求URL指定的资源支持的方法。</p>
-<p>可以通过在装饰器中指定HTTP方法，如下所示。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&apos;/&apos;, methods=[&apos;GET&apos;])</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+        <p>今天去一家公司面试，在笔试过程中遇到了多线程、多进程等问题，之前的学习中对此内容都是一笔带过，未曾深入了解。此外，之后希望完成一个基于Django的仿淘宝秒杀系统，将不可避免地遇到多进程、分布式的编程问题，因此今天在此系统性地学习多进程、多线程，并做一个总结。</p>
+<p>首先来谈谈多进程。</p>
+<h2 id="fork-in-Linux-Unix"><a href="#fork-in-Linux-Unix" class="headerlink" title="fork() in Linux/Unix"></a>fork() in Linux/Unix</h2><p>Linux 系统提供了一个fork()系统调用，普通的函数调用，调用一次，返回一次，但是fork()调用一次，返回两次，因为操作系统自动把当前进程（称为父进程）复制了一份（称为子进程），然后，分别在父进程和子进程内返回。</p>
+<p>子进程永远返回0，而父进程返回子进程的ID。这样做的理由是，一个父进程可以fork出很多子进程，所以，父进程要记下每个子进程的ID，而子进程只需要调用getppid()就可以拿到父进程的ID。来看代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line"></span><br><span class="line">print(&apos;Process (%s) start...&apos; % os.getpid())</span><br><span class="line"># Only works on Unix/Linux/Mac:</span><br><span class="line">pid = os.fork()</span><br><span class="line">count = 0</span><br><span class="line">if pid == 0:</span><br><span class="line">    print(&apos;I am child process (%s) and my parent is %s.&apos; % (os.getpid(), os.getppid()))</span><br><span class="line">	count += 1</span><br><span class="line">else:</span><br><span class="line">    print(&apos;I (%s) just created a child process (%s).&apos; % (os.getpid(), pid))</span><br><span class="line">	count += 1</span><br><span class="line">print(&quot;Number is %s&quot;, count)</span><br><span class="line"></span><br><span class="line"># 输出结果</span><br><span class="line">Process (876) start...</span><br><span class="line">I (876) just created a child process (877).</span><br><span class="line">Number is 1</span><br><span class="line">I am child process (877) and my parent is 876.</span><br><span class="line">Number is 1</span><br></pre></td></tr></table></figure>
 
-<h2 id="在Flask中处理请求"><a href="#在Flask中处理请求" class="headerlink" title="在Flask中处理请求"></a>在Flask中处理请求</h2><p>URL是指向网络上资源的地址。在Flask中，我们需要让请求的URL匹配对应的视图函数，视图函数返回值就是URL对应的资源。</p>
-<h3 id="路由匹配"><a href="#路由匹配" class="headerlink" title="路由匹配"></a>路由匹配</h3><p>为了便于将请求分发到对应的视图函数，程序实例中存储了一个路由表（app.url_map），其中定义了URL规则和视图函数的映射关系。当请求发来后，Flask会根据请求报文中的URL（path部分）来尝试与这个表中的所有的URL规则进行匹配，调用匹配成功的视图函数。如果没有找到匹配的URL规则，说明程序中没有处理这个URL的视图函数，Flask会自动返回404错误响应（Not Found，表示资源未找到）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(venv) F:\Study\Python\Flask1&gt;set FLASK_APP=hello.py &amp; flask routes</span><br><span class="line">Endpoint     Methods  Rule</span><br><span class="line">-----------  -------  -----------------------</span><br><span class="line">hello_world  GET      /</span><br><span class="line">static       GET      /static/&lt;path:filename&gt;</span><br></pre></td></tr></table></figure>
+<p>来解读一下这段代码。在语句pid = os.fork()之前，只有一个进程在执行这段代码，但在这条语句之后，就变成两个进程在执行了，这两个进程的几乎完全相同，将要执行的下一条语句都是if pid == 0。</p>
+<p>由于在父进程中，fork返回新创建子进程的进程ID；在子进程中，fork返回0；因此可以通过fork返回值来判断当前进程是子进程还是父进程。</p>
+<p>Tips：注意一点，fork可能会出错，返回一个负值，原因可能有以下两点：</p>
+<p>1）当前的进程数已经达到了系统规定的上限，这时errno的值被设置为EAGAIN。</p>
+<p>2）系统内存不足，这时errno的值被设置为ENOMEM。</p>
+<h2 id="Multiprocessing"><a href="#Multiprocessing" class="headerlink" title="Multiprocessing"></a>Multiprocessing</h2><p>由于Windows没有fork调用，在Windows上无法用Python编写多进程的程序，Multiprocessing模块就是跨平台版本的多进程模块。</p>
+<h3 id="Process"><a href="#Process" class="headerlink" title="Process"></a>Process</h3><p>Multiprocessing模块提供了一个Process类来代表一个进程对象。举个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">from multiprocessing import Process</span><br><span class="line">import os</span><br><span class="line"></span><br><span class="line"># 子进程要执行的代码</span><br><span class="line">def run_proc(name):</span><br><span class="line">    print(&apos;Run child process %s (%s)...&apos; % (name, os.getpid()))</span><br><span class="line"></span><br><span class="line">if __name__==&apos;__main__&apos;:</span><br><span class="line">    print(&apos;Parent process %s.&apos; % os.getpid())</span><br><span class="line">    p = Process(target=run_proc, args=(&apos;test&apos;,))</span><br><span class="line">    print(&apos;Child process will start.&apos;)</span><br><span class="line">    p.start()</span><br><span class="line">    p.join()</span><br><span class="line">    print(&apos;Child process end.&apos;)</span><br><span class="line">	</span><br><span class="line"># 执行结果</span><br><span class="line">Parent process 2764.</span><br><span class="line">Child process will start.</span><br><span class="line">Run child process test (18072)...</span><br><span class="line">Child process end.</span><br></pre></td></tr></table></figure>
 
-<h3 id="设置监听的HTTP方法"><a href="#设置监听的HTTP方法" class="headerlink" title="设置监听的HTTP方法"></a>设置监听的HTTP方法</h3><p>我们可以在app.route()装饰器中使用methods参数传入一个包含监听的HTTP方法的可迭代对象。比如，下面的视图函数同时监听GET请求和POST请求：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&apos;/&apos;, methods=[&apos;GET&apos;, &apos;POST&apos;])</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>解读一下。创建子进程时，只需要传入一个执行函数和函数的参数，创建一个Process实例，用start()方法启动，这样创建进程比fork()还要简单。</p>
+<p>join()方法可以等待子进程结束后再继续往下运行，通常用于进程间的同步。</p>
+<p><strong><em>高能预警</em></strong>~~:Windows系统中编译，子进程不会运行。这是由于multiprocessing模块在交互模式下是<strong>不支持的</strong>，即使如网上许多教程所说，添加freeze_support()也无法再交互模式下运行子进程！！！</p>
+<p><strong>需要在 cmd 中输入 python xxx.py 运行，你就可以看到子进程的执行了。</strong></p>
+<h3 id="Pool-非阻塞"><a href="#Pool-非阻塞" class="headerlink" title="Pool 非阻塞"></a>Pool 非阻塞</h3><p>如果要启动大量的子进程，可以采用进程池的方法批量创建子进程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">from multiprocessing import Pool</span><br><span class="line">import os, time, random</span><br><span class="line"></span><br><span class="line">def long_time_task(name):</span><br><span class="line">    print(&apos;Run task %s (%s)...&apos; % (name, os.getpid()))</span><br><span class="line">    start = time.time()</span><br><span class="line">    time.sleep(random.random() * 3)</span><br><span class="line">    end = time.time()</span><br><span class="line">    print(&apos;Task %s runs %0.2f seconds.&apos; % (name, (end - start)))</span><br><span class="line"></span><br><span class="line">if __name__==&apos;__main__&apos;:</span><br><span class="line">    print(&apos;Parent process %s.&apos; % os.getpid())</span><br><span class="line">    p = Pool()</span><br><span class="line">    for i in range(7):</span><br><span class="line">        p.apply_async(long_time_task, args=(i,))</span><br><span class="line">    print(&apos;Waiting for all subprocesses done...&apos;)</span><br><span class="line">    p.close()</span><br><span class="line">    p.join()</span><br><span class="line">    print(&apos;All subprocesses done.&apos;)</span><br><span class="line">	</span><br><span class="line"># cmd中执行结果</span><br><span class="line">Parent process 13400.</span><br><span class="line">Waiting for all subprocesses done...</span><br><span class="line">Run task 0 (4980)...</span><br><span class="line">Run task 1 (656)...</span><br><span class="line">Run task 2 (5852)...</span><br><span class="line">Run task 3 (10452)...</span><br><span class="line">Run task 4 (18168)...</span><br><span class="line">Run task 5 (18160)...</span><br><span class="line">Task 0 runs 0.20 seconds.</span><br><span class="line">Run task 6 (4980)...</span><br><span class="line">Task 1 runs 0.33 seconds.</span><br><span class="line">Task 5 runs 1.83 seconds.</span><br><span class="line">Task 4 runs 1.89 seconds.</span><br><span class="line">Task 2 runs 2.36 seconds.</span><br><span class="line">Task 6 runs 2.24 seconds.</span><br><span class="line">Task 3 runs 2.54 seconds.</span><br><span class="line">All subprocesses done.</span><br></pre></td></tr></table></figure>
 
-<p>当某个请求的方法不符合要求时，请求将无法被正常处理。比如，在提交表单时通常使用POST方法，而如果提交的目标URL对应的视图函数只允许GET方法，这时Flask会自动返回一个405错误响应（Method Not Allowed，表示请求方法不允许）。</p>
-<h3 id="URL处理"><a href="#URL处理" class="headerlink" title="URL处理"></a>URL处理</h3><p>URL中的变量部分默认类型为字符串，但Flask提供了一些转换器可以在URL规则里使用。例如下面代码中的<a href="int:year" target="_blank" rel="noopener">int:year</a>（&lt;转换器:变量名&gt;）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&apos;goback/&lt;int:year&gt;&apos;)</span><br><span class="line">def go_back(year):</span><br><span class="line">    return &apos;&lt;p&gt;Welcome to %d!&lt;/p&gt;&apos; % (2018 - year)</span><br></pre></td></tr></table></figure>
+<p>代码解读：对Pool对象调用join()方法会等待所有子进程执行完毕，调用join()之前必须先调用close()，调用close()之后就不能继续添加新的Process了。</p>
+<p>由于我的笔记本是六核处理器，Pool()默认为6，因此我提交了7个子进程，才能看到task 6 的等待效果。</p>
+<h3 id="Pool-阻塞"><a href="#Pool-阻塞" class="headerlink" title="Pool 阻塞"></a>Pool 阻塞</h3><p>首先，了解一下阻塞的概念。阻塞调用是指调用结果返回之前，当前线程会被挂起。函数只有在得到结果之后才会返回。</p>
+<p>在Pool中应用apply函数其实对应的就是阻塞，上面调用apply_async函数对应非阻塞。</p>
+<p>看下结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">		...</span><br><span class="line">        p.apply(long_time_task, args=(i,))</span><br><span class="line">		...</span><br><span class="line">	</span><br><span class="line"># cmd中执行结果</span><br><span class="line">Parent process 5852.</span><br><span class="line">Run task 0 (17216)...</span><br><span class="line">Task 0 runs 0.08 seconds.</span><br><span class="line">Run task 1 (17760)...</span><br><span class="line">Task 1 runs 1.19 seconds.</span><br><span class="line">Run task 2 (18168)...</span><br><span class="line">Task 2 runs 0.79 seconds.</span><br><span class="line">Run task 3 (8464)...</span><br><span class="line">Task 3 runs 0.26 seconds.</span><br><span class="line">Run task 4 (17216)...</span><br><span class="line">Task 4 runs 0.28 seconds.</span><br><span class="line">Run task 5 (15292)...</span><br><span class="line">Task 5 runs 2.19 seconds.</span><br><span class="line">Run task 6 (2616)...</span><br><span class="line">Task 6 runs 0.01 seconds.</span><br><span class="line">Waiting for all subprocesses done...</span><br><span class="line">All subprocesses done.</span><br></pre></td></tr></table></figure>
 
-<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>书籍：<a href="http://helloflask.com/book/" target="_blank" rel="noopener">Flask Web开发实战——入门、进阶与原理解析</a><br>CSDN：<a href="https://blog.csdn.net/wuyoudeyuer/article/details/80509901" target="_blank" rel="noopener">https://blog.csdn.net/wuyoudeyuer/article/details/80509901</a></p>
+<p>可以看到，在阻塞调用下，每个进程在得到结果后返回。</p>
+<p>下一节中，会学习多进程之间的通信。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
+<li><a href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017628290184064" target="_blank" rel="noopener">廖雪峰的python教程</a></li>
+<li>[<a href="https://www.cnblogs.com/dongguolei/p/8086346.html（fork()详解）(https://www.cnblogs.com/dongguolei/p/8086346.html)" target="_blank" rel="noopener">https://www.cnblogs.com/dongguolei/p/8086346.html（fork()详解）(https://www.cnblogs.com/dongguolei/p/8086346.html)</a></li>
+<li><a href="https://blog.csdn.net/likunshan/article/details/82224367" target="_blank" rel="noopener">https://blog.csdn.net/likunshan/article/details/82224367（阻塞、同步详解）</a></li>
+<li><a href="https://www.cnblogs.com/lxmhhy/p/6052167.html" target="_blank" rel="noopener">https://www.cnblogs.com/lxmhhy/p/6052167.html（一些代码）</a></li>
+</ol>
 
       
 
@@ -260,11 +264,7 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">web development</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Http</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多进程</a>
         		</li>
       		
 		</ul>
@@ -320,7 +320,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/06/09/No2/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/06/14/No4/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -334,18 +334,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/06/12/No3/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Python 中的正则表达式
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/06/09/No1/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Python web development with Flask(1)</div>
+    <a href="/2019/06/12/No3/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python 中的正则表达式</div>
       <i class="icon-circle-right"></i>
     </a>
   
