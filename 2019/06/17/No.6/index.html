@@ -6,20 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Python web development with Flask(2) | DanielHu&#39;s Blog</title>
+  <title>Python web development with Flask(4) -- flask-script模块与click模块 | DanielHu&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="上节聊了Flask程序的运作方式，以及构建一个外部可访问的Flask程序的方法。在本节中，主要聚焦于隐藏在Flask背后的重要角色——HTTP，看看Flask是如何与之进行前后端交互的。  请求循环效应随意输入一个网址，按下Enter，浏览器便会显示一个对应网页。在其背后，实际上是程序正在运行着，它负责接收用户的请求，并把对应的内容返回给客户端，显示在用户的浏览器上。事实上，每一个Web应用都包含">
-<meta name="keywords" content="python,web development,Http">
+  <meta name="description" content="Flask-scriptFlask Script扩展提供向Flask插入外部脚本的功能，包括运行一个开发用的服务器，一个定制的Python shell，设置数据库的脚本，cronjobs，及其他运行在web应用之外的命令行任务；使得脚本和系统分开； Flask Script和Flask本身的工作方式类似，只需定义和添加从命令行中被Manager实例调用的命令； 先来看一个简单的例子： 123456">
+<meta name="keywords" content="python,web development">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python web development with Flask(2)">
-<meta property="og:url" content="http://yoursite.com/2019/06/09/No2/index.html">
+<meta property="og:title" content="Python web development with Flask(4) -- flask-script模块与click模块">
+<meta property="og:url" content="http://yoursite.com/2019/06/17/No.6/index.html">
 <meta property="og:site_name" content="DanielHu&#39;s Blog">
-<meta property="og:description" content="上节聊了Flask程序的运作方式，以及构建一个外部可访问的Flask程序的方法。在本节中，主要聚焦于隐藏在Flask背后的重要角色——HTTP，看看Flask是如何与之进行前后端交互的。  请求循环效应随意输入一个网址，按下Enter，浏览器便会显示一个对应网页。在其背后，实际上是程序正在运行着，它负责接收用户的请求，并把对应的内容返回给客户端，显示在用户的浏览器上。事实上，每一个Web应用都包含">
+<meta property="og:description" content="Flask-scriptFlask Script扩展提供向Flask插入外部脚本的功能，包括运行一个开发用的服务器，一个定制的Python shell，设置数据库的脚本，cronjobs，及其他运行在web应用之外的命令行任务；使得脚本和系统分开； Flask Script和Flask本身的工作方式类似，只需定义和添加从命令行中被Manager实例调用的命令； 先来看一个简单的例子： 123456">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-06-09T15:54:49.472Z">
+<meta property="og:updated_time" content="2019-06-17T16:31:11.926Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python web development with Flask(2)">
-<meta name="twitter:description" content="上节聊了Flask程序的运作方式，以及构建一个外部可访问的Flask程序的方法。在本节中，主要聚焦于隐藏在Flask背后的重要角色——HTTP，看看Flask是如何与之进行前后端交互的。  请求循环效应随意输入一个网址，按下Enter，浏览器便会显示一个对应网页。在其背后，实际上是程序正在运行着，它负责接收用户的请求，并把对应的内容返回给客户端，显示在用户的浏览器上。事实上，每一个Web应用都包含">
+<meta name="twitter:title" content="Python web development with Flask(4) -- flask-script模块与click模块">
+<meta name="twitter:description" content="Flask-scriptFlask Script扩展提供向Flask插入外部脚本的功能，包括运行一个开发用的服务器，一个定制的Python shell，设置数据库的脚本，cronjobs，及其他运行在web应用之外的命令行任务；使得脚本和系统分开； Flask Script和Flask本身的工作方式类似，只需定义和添加从命令行中被Manager实例调用的命令； 先来看一个简单的例子： 123456">
   
     <link rel="alternative" href="/atom.xml" title="DanielHu&#39;s Blog" type="application/atom+xml">
   
@@ -159,59 +159,68 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-No2" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-No.6" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Python web development with Flask(2)
+      Python web development with Flask(4) -- flask-script模块与click模块
     </h1>
   
 
         
-        <a href="/2019/06/09/No2/" class="archive-article-date">
-  	<time datetime="2019-06-09T14:23:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-09</time>
+        <a href="/2019/06/17/No.6/" class="archive-article-date">
+  	<time datetime="2019-06-17T14:13:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-17</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>上节聊了Flask程序的运作方式，以及构建一个外部可访问的Flask程序的方法。在本节中，主要聚焦于隐藏在Flask背后的重要角色——HTTP，看看Flask是如何与之进行前后端交互的。</p>
-<hr>
-<h2 id="请求循环效应"><a href="#请求循环效应" class="headerlink" title="请求循环效应"></a>请求循环效应</h2><p>随意输入一个网址，按下Enter，浏览器便会显示一个对应网页。在其背后，实际上是程序正在运行着，它负责接收用户的请求，并把对应的内容返回给客户端，显示在用户的浏览器上。事实上，每一个Web应用都包含这种处理模式，即“请求-响应循环(Request-Response)。<br>注：客户端（Client Side）是指用来提供给用户的与服务器通信的各种软件；服务器端（Server Side）则指为用户提供服务的服务器，也是我们的程序运行的地方。</p>
-<p>这是每一个Web程序的基本工作模式，如果再进一步，HTTP在整个流程中起到了至关重要的作用，它是客户端和服务器端之间沟通的桥梁。</p>
-<p>当用户访问一个URL，浏览器便生成对应的HTTP请求，经由互联网发送到对应的Web服务器。Web服务器接收请求，通过WSGI将HTTP格式的请求数据转换成我们的Flask程序能够使用的Python数据。在程序中，Flask根据请求的URL执行对应的视图函数，获取返回值生成响应。响应依次经过WSGI转换生成HTTP响应，再经由Web服务器传递，最终被发出请求的客户端接收。浏览器渲染响应中包含的HTML和CSS代码，并执行JavaScript代码，最终把解析后的页面呈现在用户浏览器的窗口中。</p>
-<h2 id="HTTP请求"><a href="#HTTP请求" class="headerlink" title="HTTP请求"></a>HTTP请求</h2><p>HTTP通过方法来区分不同的请求类型。比如，当你直接访问一个页面时，请求的方法是GET；当你在某个页面填写了表单并提交时，请求方法则通常为POST。下表是常见的几种HTTP方法类型：</p>
-<p>1.<strong>GET</strong>:获取资源</p>
-<p>GET方法用来请求URL指定的资源。指定的资源经服务器端解析后返回响应内容。例子：</p>
-<p>2.<strong>POST</strong>:传输实体主题</p>
-<p>POST方法用来传输实体的主体。</p>
-<p>3.<strong>PUT</strong>:传输文件</p>
-<p>PUT方法用来传输文件。就像FTP协议的文件上传一样，要求在请求报文主体中包含文件的内容，然后保存到请求URL指定的位置。不太常用。</p>
-<p>4.<strong>HEAD</strong>：获取报文首部</p>
-<p>HEAD方法和GET方法一样，只是不返回报文主体部分。用于确认URL的有效性及资源更新的日期时间等。</p>
-<p>5.<strong>DELETE</strong>：删除文件</p>
-<p>DELETE方法用来删除文件，是PUT的相反方法。DELETE方法按请求URL删除指定的资源。也不常用。</p>
-<p>6.<strong>OPTIONS</strong>:询问支持的方法</p>
-<p>OPTIONS方法用来查询针对请求URL指定的资源支持的方法。</p>
-<p>可以通过在装饰器中指定HTTP方法，如下所示。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&apos;/&apos;, methods=[&apos;GET&apos;])</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+        <h2 id="Flask-script"><a href="#Flask-script" class="headerlink" title="Flask-script"></a>Flask-script</h2><p>Flask Script扩展提供向Flask插入外部脚本的功能，包括运行一个开发用的服务器，一个定制的Python shell，设置数据库的脚本，cronjobs，及其他运行在web应用之外的命令行任务；使得脚本和系统分开；</p>
+<p>Flask Script和Flask本身的工作方式类似，只需定义和添加从命令行中被Manager实例调用的命令；</p>
+<p>先来看一个简单的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># manage.py</span><br><span class="line"># 导入库</span><br><span class="line">from flask_script import Manager</span><br><span class="line">from debug import app</span><br><span class="line"># 实例,参数为Flask实例</span><br><span class="line">manager = Manager(app)</span><br><span class="line"></span><br><span class="line"># 使用command实例的@command修饰符</span><br><span class="line">@manager.command</span><br><span class="line">def hello():</span><br><span class="line">	print(&apos;hello world&apos;)</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">	manager.run()</span><br></pre></td></tr></table></figure>
 
-<h2 id="在Flask中处理请求"><a href="#在Flask中处理请求" class="headerlink" title="在Flask中处理请求"></a>在Flask中处理请求</h2><p>URL是指向网络上资源的地址。在Flask中，我们需要让请求的URL匹配对应的视图函数，视图函数返回值就是URL对应的资源。</p>
-<h3 id="路由匹配"><a href="#路由匹配" class="headerlink" title="路由匹配"></a>路由匹配</h3><p>为了便于将请求分发到对应的视图函数，程序实例中存储了一个路由表（app.url_map），其中定义了URL规则和视图函数的映射关系。当请求发来后，Flask会根据请求报文中的URL（path部分）来尝试与这个表中的所有的URL规则进行匹配，调用匹配成功的视图函数。如果没有找到匹配的URL规则，说明程序中没有处理这个URL的视图函数，Flask会自动返回404错误响应（Not Found，表示资源未找到）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(venv) F:\Study\Python\Flask1&gt;set FLASK_APP=hello.py &amp; flask routes</span><br><span class="line">Endpoint     Methods  Rule</span><br><span class="line">-----------  -------  -----------------------</span><br><span class="line">hello_world  GET      /</span><br><span class="line">static       GET      /static/&lt;path:filename&gt;</span><br></pre></td></tr></table></figure>
+<p>运行方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">python manage.py hello</span><br><span class="line"></span><br><span class="line"># 输出结果</span><br><span class="line">&gt; hello world</span><br></pre></td></tr></table></figure>
 
-<h3 id="设置监听的HTTP方法"><a href="#设置监听的HTTP方法" class="headerlink" title="设置监听的HTTP方法"></a>设置监听的HTTP方法</h3><p>我们可以在app.route()装饰器中使用methods参数传入一个包含监听的HTTP方法的可迭代对象。比如，下面的视图函数同时监听GET请求和POST请求：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&apos;/&apos;, methods=[&apos;GET&apos;, &apos;POST&apos;])</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>再来看下如何在命令行中传参：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># manage.py</span><br><span class="line"># 导入库</span><br><span class="line">from flask_script import Manager</span><br><span class="line">from debug import app</span><br><span class="line"># 实例,参数为Flask实例</span><br><span class="line">manager = Manager(app)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@manager.command</span><br><span class="line">def hello(name):</span><br><span class="line">	print(&apos;Hello &apos; + name)</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">	manager.run()</span><br></pre></td></tr></table></figure>
 
-<p>当某个请求的方法不符合要求时，请求将无法被正常处理。比如，在提交表单时通常使用POST方法，而如果提交的目标URL对应的视图函数只允许GET方法，这时Flask会自动返回一个405错误响应（Method Not Allowed，表示请求方法不允许）。</p>
-<h3 id="URL处理"><a href="#URL处理" class="headerlink" title="URL处理"></a>URL处理</h3><p>URL中的变量部分默认类型为字符串，但Flask提供了一些转换器可以在URL规则里使用。例如下面代码中的<a href="int:year" target="_blank" rel="noopener">int:year</a>（&lt;转换器:变量名&gt;）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&apos;goback/&lt;int:year&gt;&apos;)</span><br><span class="line">def go_back(year):</span><br><span class="line">    return &apos;&lt;p&gt;Welcome to %d!&lt;/p&gt;&apos; % (2018 - year)</span><br></pre></td></tr></table></figure>
+<p>运行方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># 查看 可以传入参数？得到缺失的参数信息</span><br><span class="line">python tryt.py hello -?</span><br><span class="line"></span><br><span class="line"># 输出结果</span><br><span class="line">&gt; usage: tryt.py hello [-?] name</span><br><span class="line">&gt;</span><br><span class="line">&gt; positional arguments:</span><br><span class="line">&gt;  name</span><br><span class="line">&gt;</span><br><span class="line">&gt; optional arguments:</span><br><span class="line">&gt;  -?, --help  show this help message and exit</span><br><span class="line"></span><br><span class="line"># 传个参试试</span><br><span class="line">python manage.py hello Daniel</span><br><span class="line"></span><br><span class="line"># 输出结果</span><br><span class="line">&gt; Hello Daniel</span><br></pre></td></tr></table></figure>
 
-<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>书籍：<a href="http://helloflask.com/book/" target="_blank" rel="noopener">Flask Web开发实战——入门、进阶与原理解析</a><br>CSDN：<a href="https://blog.csdn.net/wuyoudeyuer/article/details/80509901" target="_blank" rel="noopener">https://blog.csdn.net/wuyoudeyuer/article/details/80509901</a></p>
+<p>换一种方式传参，采用-option方式，优点是可以设置默认值，可以设置help信息等。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">from flask_script import Manager</span><br><span class="line">from debug import app</span><br><span class="line"># 实例,参数为Flask实例</span><br><span class="line">manager = Manager(app)</span><br><span class="line"></span><br><span class="line"># option修饰符在复杂传参的情况下是更好的选择</span><br><span class="line">@manager.option(&apos;-n&apos;, &apos;--name&apos;, dest=&apos;name&apos;, help=&apos;Your name&apos;, default=&apos;Daniel&apos;)</span><br><span class="line">def hello(name):</span><br><span class="line">	print(&apos;Hello &apos; + name)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">	manager.run()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>运行方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># 查看 可以传入参数？得到缺失的参数信息</span><br><span class="line">python tryt.py hello -?</span><br><span class="line"></span><br><span class="line"># 输出结果</span><br><span class="line">&gt; usage: tryt.py hello [-?] [-n NAME]</span><br><span class="line">&gt;</span><br><span class="line">&gt; optional arguments:</span><br><span class="line">&gt;  -?, --help            show this help message and exit</span><br><span class="line">&gt;  -n NAME, --name NAME  Your name</span><br><span class="line"></span><br><span class="line"># 传个参试试</span><br><span class="line">python tryt.py hello -n James</span><br><span class="line">&gt; Hello James</span><br><span class="line"></span><br><span class="line">python tryt.py hello --name James</span><br><span class="line">&gt; Hello James</span><br><span class="line"></span><br><span class="line"># 输出结果</span><br><span class="line">&gt; hello Daniel</span><br></pre></td></tr></table></figure>
+
+<h2 id="Click"><a href="#Click" class="headerlink" title="Click"></a>Click</h2><p>看似flask-script讲完了，但是，<strong>flask从0.11版本开始引入了click提供命令行支持。</strong></p>
+<p>而且，click成为flask核心的一部分使flask-script的维护者离开了，而且从github的repository来看，这个项目似乎正在缓慢死亡。</p>
+<p>因此，从Flask-script迁移到Flask-Cli是大势所趋。下面来看看Flask-Cli的使用，重点介绍与Flask-script的<strong>区别</strong>。</p>
+<p>当我们使用Flask-Script时，你将创建名为manage.py的驱动脚本。我们来看下flask-script与flask-cli之间的对比：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#flask-script -&gt; flask-Cli</span><br><span class="line">./manage.py runserver -&gt; flask run</span><br><span class="line">./manage.py shell -&gt;flask shell</span><br></pre></td></tr></table></figure>
+
+<p>看上去似乎没什么区别。</p>
+<p>然而事实上，manage.py和flask发现我们Flask应用实例的方式是完全不一样的。</p>
+<p>对于Flask-Script提供了Manager类直接在我们的应用工厂中使用。</p>
+<p>但是，新的Flask-Cli却没用提供应用实例而是设定FLASK_APP的环境变量，一般用来设定文件名或者模块名。FLask将会寻找模块中的app或者application的实例来使用。</p>
+<p>如果没有，则需要在环境文件.env中设定包含app实例的模块，如：FLASK_APP=flasky.py 或者在命令行中，输出 set FLASK_APP=flasky.py。</p>
+<p>来看看Click的使用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import click</span><br><span class="line">from debug import app</span><br><span class="line"># ...</span><br><span class="line"></span><br><span class="line">@app.cli.command()</span><br><span class="line">@click.option(&apos;--name&apos;, default=&apos;Daniel&apos;,help=&apos;The person to greet.&apos;)</span><br><span class="line">def hello(name):</span><br><span class="line">	click.echo(&apos;Hello %s!&apos; % name)</span><br></pre></td></tr></table></figure>
+
+<p>另外，还有一点不同的是，在Flask-Click中，为了避免python2与python3对print处理的不同，采用了click.echo()。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
+<li><a href="https://www.cnblogs.com/lynsyklate/p/7693169.html" target="_blank" rel="noopener">从Flask-Script迁移到Flask-Cli</a></li>
+<li><a href="https://github.com/smurfix/flask-script/issues/97" target="_blank" rel="noopener">Flask开发者对待Click取代Script的讨论</a></li>
+<li><a href="https://isudox.com/2016/09/03/learning-python-package-click/" target="_blank" rel="noopener">Python Click 学习笔记</a></li>
+<li><a href="http://click.palletsprojects.com/en/7.x/" target="_blank" rel="noopener">Click官方文档</a></li>
+<li><a href="https://www.cnblogs.com/buyisan/p/8270283.html" target="_blank" rel="noopener">Flask之flask-script模块使用</a></li>
+</ol>
 
       
 
@@ -261,10 +270,6 @@
       		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">web development</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Http</a>
         		</li>
       		
 		</ul>
@@ -320,7 +325,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/06/09/No2/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/06/17/No.6/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -334,18 +339,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/06/12/No3/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Python 中的正则表达式
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/06/09/No1/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Python web development with Flask(1)</div>
+    <a href="/2019/06/17/No5/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python web development with Flask(3)--Blueprints 蓝图</div>
       <i class="icon-circle-right"></i>
     </a>
   
