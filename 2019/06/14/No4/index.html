@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="DanielHu&#39;s Blog">
 <meta property="og:description" content="今天去一家公司面试，在笔试过程中遇到了多线程、多进程等问题，之前的学习中对此内容都是一笔带过，未曾深入了解。此外，之后希望完成一个基于Django的仿淘宝秒杀系统，将不可避免地遇到多进程、分布式的编程问题，因此今天在此系统性地学习多进程、多线程，并做一个总结。 首先来谈谈多进程。 fork() in Linux/UnixLinux 系统提供了一个fork()系统调用，普通的函数调用，调用一次，返回">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-06-14T16:04:33.350Z">
+<meta property="og:updated_time" content="2019-06-18T02:38:46.354Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python中的多进程使用总结（1）">
 <meta name="twitter:description" content="今天去一家公司面试，在笔试过程中遇到了多线程、多进程等问题，之前的学习中对此内容都是一笔带过，未曾深入了解。此外，之后希望完成一个基于Django的仿淘宝秒杀系统，将不可避免地遇到多进程、分布式的编程问题，因此今天在此系统性地学习多进程、多线程，并做一个总结。 首先来谈谈多进程。 fork() in Linux/UnixLinux 系统提供了一个fork()系统调用，普通的函数调用，调用一次，返回">
@@ -183,6 +183,7 @@
 <p>首先来谈谈多进程。</p>
 <h2 id="fork-in-Linux-Unix"><a href="#fork-in-Linux-Unix" class="headerlink" title="fork() in Linux/Unix"></a>fork() in Linux/Unix</h2><p>Linux 系统提供了一个fork()系统调用，普通的函数调用，调用一次，返回一次，但是fork()调用一次，返回两次，因为操作系统自动把当前进程（称为父进程）复制了一份（称为子进程），然后，分别在父进程和子进程内返回。</p>
 <p>子进程永远返回0，而父进程返回子进程的ID。这样做的理由是，一个父进程可以fork出很多子进程，所以，父进程要记下每个子进程的ID，而子进程只需要调用getppid()就可以拿到父进程的ID。来看代码：</p>
+<a id="more"></a>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line"></span><br><span class="line">print(&apos;Process (%s) start...&apos; % os.getpid())</span><br><span class="line"># Only works on Unix/Linux/Mac:</span><br><span class="line">pid = os.fork()</span><br><span class="line">count = 0</span><br><span class="line">if pid == 0:</span><br><span class="line">    print(&apos;I am child process (%s) and my parent is %s.&apos; % (os.getpid(), os.getppid()))</span><br><span class="line">	count += 1</span><br><span class="line">else:</span><br><span class="line">    print(&apos;I (%s) just created a child process (%s).&apos; % (os.getpid(), pid))</span><br><span class="line">	count += 1</span><br><span class="line">print(&quot;Number is %s&quot;, count)</span><br><span class="line"></span><br><span class="line"># 输出结果</span><br><span class="line">Process (876) start...</span><br><span class="line">I (876) just created a child process (877).</span><br><span class="line">Number is 1</span><br><span class="line">I am child process (877) and my parent is 876.</span><br><span class="line">Number is 1</span><br></pre></td></tr></table></figure>
 
 <p>来解读一下这段代码。在语句pid = os.fork()之前，只有一个进程在执行这段代码，但在这条语句之后，就变成两个进程在执行了，这两个进程的几乎完全相同，将要执行的下一条语句都是if pid == 0。</p>
@@ -483,11 +484,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Http</a>
+                <a href="javascript:void(0)" class="js-tag color4">多进程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多进程</a>
+                <a href="javascript:void(0)" class="js-tag color5">Http</a>
               </li>
             
             <div class="clearfix"></div>

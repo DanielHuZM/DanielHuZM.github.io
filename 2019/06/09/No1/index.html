@@ -17,7 +17,7 @@
 <meta property="og:description" content="前言Flask是目前最为流行的Python Web框架之一。Flask仅仅保留了Web框架的核心，其他功能都交由扩展实现。因其灵活性，越来越多的公司选择Flask作为Web框架，知名公司有Netflix、Reddit和豆瓣等，这也说明了Flask能够经受大型项目的挑战，适应各种需求。  开发环境OS ：Windows 10 (x64)软件 : Pycharm版本管理： Git  Hello,">
 <meta property="og:locale" content="zh-cn">
 <meta property="og:image" content="http://yoursite.com/images/Flask_image.png">
-<meta property="og:updated_time" content="2019-06-09T15:57:26.335Z">
+<meta property="og:updated_time" content="2019-06-18T02:38:44.261Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python web development with Flask(1)">
 <meta name="twitter:description" content="前言Flask是目前最为流行的Python Web框架之一。Flask仅仅保留了Web框架的核心，其他功能都交由扩展实现。因其灵活性，越来越多的公司选择Flask作为Web框架，知名公司有Netflix、Reddit和豆瓣等，这也说明了Flask能够经受大型项目的挑战，适应各种需求。  开发环境OS ：Windows 10 (x64)软件 : Pycharm版本管理： Git  Hello,">
@@ -188,6 +188,7 @@
 <h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h2><p>OS ：Windows 10 (x64)<br>软件 : Pycharm<br>版本管理： Git</p>
 <hr>
 <h2 id="Hello-Flask"><a href="#Hello-Flask" class="headerlink" title="Hello, Flask!"></a>Hello, Flask!</h2><p>这是一个最小的Flask程序，仅需5行就能够实现。</p>
+<a id="more"></a>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line">@app.route(&apos;/&apos;)</span><br><span class="line">def index():</span><br><span class="line">    return &apos;Hello Flask！&apos;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h2 id="启动开发服务器"><a href="#启动开发服务器" class="headerlink" title="启动开发服务器"></a>启动开发服务器</h2><p>Flask内置了一个简单的开发服务器（由Werkzeug提供），足够在开发和测试时使用。通过依赖包Click, Flask内置了一个CLI系统，可以通过flask命令执行内置命令、扩展提供的命令或者自己定义的命令。其中flask run命令就是用来启动内置的开发服务器。</p>
@@ -475,11 +476,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Http</a>
+                <a href="javascript:void(0)" class="js-tag color4">多进程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多进程</a>
+                <a href="javascript:void(0)" class="js-tag color5">Http</a>
               </li>
             
             <div class="clearfix"></div>

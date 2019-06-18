@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="DanielHu&#39;s Blog">
 <meta property="og:description" content="上节聊了Flask程序的运作方式，以及构建一个外部可访问的Flask程序的方法。在本节中，主要聚焦于隐藏在Flask背后的重要角色——HTTP，看看Flask是如何与之进行前后端交互的。  请求循环效应随意输入一个网址，按下Enter，浏览器便会显示一个对应网页。在其背后，实际上是程序正在运行着，它负责接收用户的请求，并把对应的内容返回给客户端，显示在用户的浏览器上。事实上，每一个Web应用都包含">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-06-09T15:54:49.472Z">
+<meta property="og:updated_time" content="2019-06-18T02:38:43.027Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python web development with Flask(2)">
 <meta name="twitter:description" content="上节聊了Flask程序的运作方式，以及构建一个外部可访问的Flask程序的方法。在本节中，主要聚焦于隐藏在Flask背后的重要角色——HTTP，看看Flask是如何与之进行前后端交互的。  请求循环效应随意输入一个网址，按下Enter，浏览器便会显示一个对应网页。在其背后，实际上是程序正在运行着，它负责接收用户的请求，并把对应的内容返回给客户端，显示在用户的浏览器上。事实上，每一个Web应用都包含">
@@ -184,6 +184,7 @@
 <h2 id="请求循环效应"><a href="#请求循环效应" class="headerlink" title="请求循环效应"></a>请求循环效应</h2><p>随意输入一个网址，按下Enter，浏览器便会显示一个对应网页。在其背后，实际上是程序正在运行着，它负责接收用户的请求，并把对应的内容返回给客户端，显示在用户的浏览器上。事实上，每一个Web应用都包含这种处理模式，即“请求-响应循环(Request-Response)。<br>注：客户端（Client Side）是指用来提供给用户的与服务器通信的各种软件；服务器端（Server Side）则指为用户提供服务的服务器，也是我们的程序运行的地方。</p>
 <p>这是每一个Web程序的基本工作模式，如果再进一步，HTTP在整个流程中起到了至关重要的作用，它是客户端和服务器端之间沟通的桥梁。</p>
 <p>当用户访问一个URL，浏览器便生成对应的HTTP请求，经由互联网发送到对应的Web服务器。Web服务器接收请求，通过WSGI将HTTP格式的请求数据转换成我们的Flask程序能够使用的Python数据。在程序中，Flask根据请求的URL执行对应的视图函数，获取返回值生成响应。响应依次经过WSGI转换生成HTTP响应，再经由Web服务器传递，最终被发出请求的客户端接收。浏览器渲染响应中包含的HTML和CSS代码，并执行JavaScript代码，最终把解析后的页面呈现在用户浏览器的窗口中。</p>
+<a id="more"></a>
 <h2 id="HTTP请求"><a href="#HTTP请求" class="headerlink" title="HTTP请求"></a>HTTP请求</h2><p>HTTP通过方法来区分不同的请求类型。比如，当你直接访问一个页面时，请求的方法是GET；当你在某个页面填写了表单并提交时，请求方法则通常为POST。下表是常见的几种HTTP方法类型：</p>
 <p>1.<strong>GET</strong>:获取资源</p>
 <p>GET方法用来请求URL指定的资源。指定的资源经服务器端解析后返回响应内容。例子：</p>
@@ -483,11 +484,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Http</a>
+                <a href="javascript:void(0)" class="js-tag color4">多进程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多进程</a>
+                <a href="javascript:void(0)" class="js-tag color5">Http</a>
               </li>
             
             <div class="clearfix"></div>

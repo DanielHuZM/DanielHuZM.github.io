@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="DanielHu&#39;s Blog">
 <meta property="og:description" content="白话版 在基于Flask框架的web开发学习中，遇到了Blueprints （蓝图）的概念，转载一篇知乎上关于此的高分回答。 恩，理解「蓝本」对于没有接触其他Web编程实现的Python+Flask新手而言，是一个不好迈过的坎儿。 我得用「比喻」的方式穿插讲述一下「蓝本」，方便你更好理解，问这个问题估计是新手，所以我啰嗦点好了。 首先，提一下概念，「蓝本」的对应官方词汇是「Blueprint」，中">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-06-17T14:15:34.891Z">
+<meta property="og:updated_time" content="2019-06-18T02:37:40.056Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python web development with Flask(3)--Blueprints 蓝图">
 <meta name="twitter:description" content="白话版 在基于Flask框架的web开发学习中，遇到了Blueprints （蓝图）的概念，转载一篇知乎上关于此的高分回答。 恩，理解「蓝本」对于没有接触其他Web编程实现的Python+Flask新手而言，是一个不好迈过的坎儿。 我得用「比喻」的方式穿插讲述一下「蓝本」，方便你更好理解，问这个问题估计是新手，所以我啰嗦点好了。 首先，提一下概念，「蓝本」的对应官方词汇是「Blueprint」，中">
@@ -186,6 +186,7 @@
 <p>首先，提一下概念，「蓝本」的对应官方词汇是「Blueprint」，中译还有「蓝图」这种叫法，是一种东西。你去餐馆吃饭，点一些菜，你一定吃过「麻辣香锅」这种东西。你可以点一些杂七杂八的菜，选好口味，之后一个碗儿端上来，你吃的很滋味，并且也会觉得这种「一锅端」的方式很好，毕竟不会一道吃完等下一道啊，一起上来热乎乎的多好。并且吃的很少的时候，一点点的菜单独用一个碗儿装也是有点「装逼」的事情。</p>
 <p>假如你一个人一己之力要写一个BBS（论坛系统）的话，上面的这个例子，其真实写照是初期功能很弱时，可能页面不多，实现的功能也很少。可能首页就是一个帖子列表，允许用户发布帖子，并且不涉及登录退出、会员等级、权限管理等，你想着，那是后面再说的事情。于是，你将网站主干代码写在一个run.py文件里，让网站成功的跑了起来，你觉得这样实现很方便，快捷。</p>
 <p>如果我让你这个时候把run.py理一下，能独立出来的独立成其他的文件，之后在run.py里导入，你要骂我「装逼」了，没事找事。是的，「蓝本」并不适合用来构建想当简单的网站系统。</p>
+<a id="more"></a>
 <p>然而，你胃口变大了，你也有了好朋友，你们要一起去吃饭。于是你遇到一些问题：你的朋友不喜欢吃某些东西，但你喜欢吃。你朋友喜欢吃的一些东西，你不喜欢吃。</p>
 <p>人多了，点的东西多了，你们想如果吃不完可以打包明天吃，但是你们打包还是要挑一些菜打包的，毕竟有些菜隔夜就味道不好，容易坏掉。你和你的朋友都想先吃一种东西，然后再吃一种东西。比如先吃点荤的，然后吃点素的解解荤。</p>
 <p>以上，如果你们还去吃「麻辣香锅」，就都不开心了，你想想看。类似的，当你的BBS系统越来越复杂，有了登录退出、会员等级、权限管理等等功能后，问题迎面而来：run.py文件肯定越来越大，代码行数越来越多。</p>
@@ -491,11 +492,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Http</a>
+                <a href="javascript:void(0)" class="js-tag color4">多进程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多进程</a>
+                <a href="javascript:void(0)" class="js-tag color5">Http</a>
               </li>
             
             <div class="clearfix"></div>
