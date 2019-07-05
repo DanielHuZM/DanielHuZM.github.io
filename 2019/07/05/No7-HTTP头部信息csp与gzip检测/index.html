@@ -6,19 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: python | DanielHu&#39;s Blog</title>
+  <title>HTTP头部信息之csp | DanielHu&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="上海大学硕士在读，本博客内容有关于后端开发、通信以及足球">
-<meta name="keywords" content="Python, Coding, Communication Technology, Information Technology，程序猿，后端">
-<meta property="og:type" content="website">
-<meta property="og:title" content="DanielHu&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/tags/python/index.html">
+  <meta name="description" content="最近在某公司实习，一直没有时间整理所学。希望以后可以做到每周必更。 HTTP的头部信息包含许多有用的内容，今天我们重点来聊两个，分别是csp与gzip。 什么是CSP？首先来谈谈CSP。根据维基百科的定义，CSP，即内容安全策略(Content Security Policy）是一种计算机安全标准，旨在防御跨站脚本（XSS）、点击劫持等代码注入攻击，阻止恶意内容在受信网页环境中执行。 这里就需要讲">
+<meta name="keywords" content="HTTP,CSP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP头部信息之csp">
+<meta property="og:url" content="http://yoursite.com/2019/07/05/No7-HTTP头部信息csp与gzip检测/index.html">
 <meta property="og:site_name" content="DanielHu&#39;s Blog">
-<meta property="og:description" content="上海大学硕士在读，本博客内容有关于后端开发、通信以及足球">
+<meta property="og:description" content="最近在某公司实习，一直没有时间整理所学。希望以后可以做到每周必更。 HTTP的头部信息包含许多有用的内容，今天我们重点来聊两个，分别是csp与gzip。 什么是CSP？首先来谈谈CSP。根据维基百科的定义，CSP，即内容安全策略(Content Security Policy）是一种计算机安全标准，旨在防御跨站脚本（XSS）、点击劫持等代码注入攻击，阻止恶意内容在受信网页环境中执行。 这里就需要讲">
 <meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="http://yoursite.com/images/CSP.jpg">
+<meta property="og:image" content="http://yoursite.com/images/CSP_command.jpg">
+<meta property="og:image" content="http://yoursite.com/images/CSP_value.jpg">
+<meta property="og:updated_time" content="2019-07-05T16:20:14.530Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DanielHu&#39;s Blog">
-<meta name="twitter:description" content="上海大学硕士在读，本博客内容有关于后端开发、通信以及足球">
+<meta name="twitter:title" content="HTTP头部信息之csp">
+<meta name="twitter:description" content="最近在某公司实习，一直没有时间整理所学。希望以后可以做到每周必更。 HTTP的头部信息包含许多有用的内容，今天我们重点来聊两个，分别是csp与gzip。 什么是CSP？首先来谈谈CSP。根据维基百科的定义，CSP，即内容安全策略(Content Security Policy）是一种计算机安全标准，旨在防御跨站脚本（XSS）、点击劫持等代码注入攻击，阻止恶意内容在受信网页环境中执行。 这里就需要讲">
+<meta name="twitter:image" content="http://yoursite.com/images/CSP.jpg">
   
     <link rel="alternative" href="/atom.xml" title="DanielHu&#39;s Blog" type="application/atom+xml">
   
@@ -158,278 +163,205 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-No7-HTTP头部信息csp与gzip检测" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      HTTP头部信息之csp
+    </h1>
+  
+
+        
+        <a href="/2019/07/05/No7-HTTP头部信息csp与gzip检测/" class="archive-article-date">
+  	<time datetime="2019-07-05T13:33:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-05</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在某公司实习，一直没有时间整理所学。希望以后可以做到每周必更。</p>
+<p>HTTP的头部信息包含许多有用的内容，今天我们重点来聊两个，分别是csp与gzip。</p>
+<h2 id="什么是CSP？"><a href="#什么是CSP？" class="headerlink" title="什么是CSP？"></a>什么是CSP？</h2><p>首先来谈谈CSP。根据维基百科的定义，CSP，即内容安全策略(Content Security Policy）是一种计算机安全标准，旨在防御跨站脚本（XSS）、点击劫持等代码注入攻击，阻止恶意内容在受信网页环境中执行。</p>
+<p>这里就需要讲到XSS，一个网页安全漏洞。</p>
+<p>网站的安全模式源于“同源策略”，web浏览器允许第一个web页面中的脚本访问页面中的数据，但前提是两个web页面具有相同的源。此策略防止一个页面的恶意脚本通过该页面的文档访问另一个网页上的敏感数据。</p>
+<p>在某些情况下，同源策略的限制性如果太强，其实是不太友好的，比如说大型网站的子域之间的数据传递，开发过程中的一些调试等；但是人类是比较聪明的，利用一些技术、从而放宽策略。</p>
+<p>但是，跨网站脚本 (XSS)攻击可通过欺骗网站提供恶意代码和计划好的内容来绕过同源政策：通过寻找将恶意脚本注入网页，攻击者可以获得对敏感页面内容，会话cookie以及浏览器代表用户维护的各种其他信息的提升访问权限。</p>
+<p>为了缓解很大一部分潜在的跨脚本问题，浏览器的扩展程序系统引入了内容安全策略（CSP）的一般概念。简单来说这一技术就是：</p>
+<p><strong>开发者明确告诉客户端（制定比较严格的策略和规则），哪些外部资源是可以加载和执行的 ，即使攻击者发现漏洞，但是它是没办法注入脚本的。</strong></p>
+<a id="more"></a>
+
+<h2 id="启用CSP"><a href="#启用CSP" class="headerlink" title="启用CSP"></a>启用CSP</h2><p>目前有两种方式可以启用：</p>
+<p>1、一种是通过 HTTP 头信息的Content-Security-Policy的字段：</p>
+<p>打开网站（例如 <a href="https://www.zdao.com）" target="_blank" rel="noopener">https://www.zdao.com）</a></p>
+<p>按下F12进入开发者模式，找到Response Header中的Content Security Policy字段，如下图所示。</p>
+<p><img src="/images/CSP.jpg" alt></p>
+<p>这就说明，此站点开启了CSP。</p>
+<p>2、另一种是通过<meta>标签开启CSP</p>
+<meta> 字段如下所示：
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;script-src &apos;self&apos;&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>**注意：第一种在头信息中开启CSP的方式，优先级高于第二种在<meta>标签中开启CSP的方法。因此一般检测站点是否开启CSP ，只需从HTTP的头信息中查找是否有 CSP 字段即可。</p>
+<h2 id="CSP常见策略指令"><a href="#CSP常见策略指令" class="headerlink" title="CSP常见策略指令"></a>CSP常见策略指令</h2><p>常见的CSP指令<br><img src="/images/CSP_command.jpg" alt></p>
+<p>常见的CSP值<br><img src="/images/CSP_value.jpg" alt></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你给我口饭吃!<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/ali.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/wechat.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/17/No6/" class="archive-article-date">
-  	<time datetime="2019-06-17T14:13:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/17/No6/">Python web development with Flask(4) -- flask-script模块与click模块</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">HTTP</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">web development</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CSP</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/05/No7-HTTP头部信息csp与gzip检测/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/17/No5/" class="archive-article-date">
-  	<time datetime="2019-06-17T06:22:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-17</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/06/17/No6/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python web development with Flask(4) -- flask-script模块与click模块</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/17/No5/">Python web development with Flask(3)--Blueprints 蓝图</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">web development</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/14/No4/" class="archive-article-date">
-  	<time datetime="2019-06-14T13:31:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/14/No4/">python中的多进程使用总结（1）</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多进程</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/12/No3/" class="archive-article-date">
-  	<time datetime="2019-06-12T15:59:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/12/No3/">Python 中的正则表达式</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Regular Expression</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/09/No2/" class="archive-article-date">
-  	<time datetime="2019-06-09T14:23:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/09/No2/">Python web development with Flask(2)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">web development</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Http</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/09/No1/" class="archive-article-date">
-  	<time datetime="2019-06-09T03:21:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/09/No1/">Python web development with Flask(1)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">web development</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -452,9 +384,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

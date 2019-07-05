@@ -160,19 +160,107 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-No.6" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-No7-HTTP头部信息csp与gzip检测" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/17/No.6/">Python web development with Flask(4) -- flask-script模块与click模块</a>
+      <a class="article-title" href="/2019/07/05/No7-HTTP头部信息csp与gzip检测/">HTTP头部信息之csp</a>
     </h1>
   
 
         
-        <a href="/2019/06/17/No.6/" class="archive-article-date">
+        <a href="/2019/07/05/No7-HTTP头部信息csp与gzip检测/" class="archive-article-date">
+  	<time datetime="2019-07-05T13:33:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在某公司实习，一直没有时间整理所学。希望以后可以做到每周必更。</p>
+<p>HTTP的头部信息包含许多有用的内容，今天我们重点来聊两个，分别是csp与gzip。</p>
+<h2 id="什么是CSP？"><a href="#什么是CSP？" class="headerlink" title="什么是CSP？"></a>什么是CSP？</h2><p>首先来谈谈CSP。根据维基百科的定义，CSP，即内容安全策略(Content Security Policy）是一种计算机安全标准，旨在防御跨站脚本（XSS）、点击劫持等代码注入攻击，阻止恶意内容在受信网页环境中执行。</p>
+<p>这里就需要讲到XSS，一个网页安全漏洞。</p>
+<p>网站的安全模式源于“同源策略”，web浏览器允许第一个web页面中的脚本访问页面中的数据，但前提是两个web页面具有相同的源。此策略防止一个页面的恶意脚本通过该页面的文档访问另一个网页上的敏感数据。</p>
+<p>在某些情况下，同源策略的限制性如果太强，其实是不太友好的，比如说大型网站的子域之间的数据传递，开发过程中的一些调试等；但是人类是比较聪明的，利用一些技术、从而放宽策略。</p>
+<p>但是，跨网站脚本 (XSS)攻击可通过欺骗网站提供恶意代码和计划好的内容来绕过同源政策：通过寻找将恶意脚本注入网页，攻击者可以获得对敏感页面内容，会话cookie以及浏览器代表用户维护的各种其他信息的提升访问权限。</p>
+<p>为了缓解很大一部分潜在的跨脚本问题，浏览器的扩展程序系统引入了内容安全策略（CSP）的一般概念。简单来说这一技术就是：</p>
+<p><strong>开发者明确告诉客户端（制定比较严格的策略和规则），哪些外部资源是可以加载和执行的 ，即使攻击者发现漏洞，但是它是没办法注入脚本的。</strong></p>
+        
+          <a class="article-more-a" href="/2019/07/05/No7-HTTP头部信息csp与gzip检测/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">HTTP</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CSP</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/05/No7-HTTP头部信息csp与gzip检测/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-No6" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/17/No6/">Python web development with Flask(4) -- flask-script模块与click模块</a>
+    </h1>
+  
+
+        
+        <a href="/2019/06/17/No6/" class="archive-article-date">
   	<time datetime="2019-06-17T14:13:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-17</time>
 </a>
         
@@ -180,12 +268,12 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="Flask-script"><a href="#Flask-script" class="headerlink" title="Flask-script"></a>Flask-script</h2><p>Flask Script扩展提供向Flask插入外部脚本的功能，包括运行一个开发用的服务器，一个定制的Python shell，设置数据库的脚本，cronjobs，及其他运行在web应用之外的命令行任务；使得脚本和系统分开；</p>
+        <h2 id="Flask-script"><a href="#Flask-script" class="headerlink" title="Flask-script"></a>Flask-script</h2><p>Flask Script扩展提供向Flask插入外部脚本的功能，包括运行一个开发用的服务器，一个定制的Python shell，设置数据库的脚本，及其他运行在web应用之外的命令行任务；使得脚本和系统分开；</p>
 <p>Flask Script和Flask本身的工作方式类似，只需定义和添加从命令行中被Manager实例调用的命令；</p>
 <p>先来看一个简单的例子：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># manage.py</span><br><span class="line"># 导入库</span><br><span class="line">from flask_script import Manager</span><br><span class="line">from debug import app</span><br><span class="line"># 实例,参数为Flask实例</span><br><span class="line">manager = Manager(app)</span><br><span class="line"></span><br><span class="line"># 使用command实例的@command修饰符</span><br><span class="line">@manager.command</span><br><span class="line">def hello():</span><br><span class="line">	print(&apos;hello world&apos;)</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">	manager.run()</span><br></pre></td></tr></table></figure>
         
-          <a class="article-more-a" href="/2019/06/17/No.6/#more">more >></a>
+          <a class="article-more-a" href="/2019/06/17/No6/#more">more >></a>
         
       
 
@@ -213,7 +301,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/17/No.6/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/06/17/No6/">展开全文 >></a>
         </p>
       
 
@@ -845,11 +933,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Regular Expression</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">web development</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Regular Expression</a>
+                <a href="javascript:void(0)" class="js-tag color5">Http</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -857,7 +949,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Http</a>
+                <a href="javascript:void(0)" class="js-tag color5">HTTP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">CSP</a>
               </li>
             
             <div class="clearfix"></div>
