@@ -160,6 +160,92 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-No8-HTTP头部信息之gzip" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/06/No8-HTTP头部信息之gzip/">No8-HTTP头部信息之gzip</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/06/No8-HTTP头部信息之gzip/" class="archive-article-date">
+  	<time datetime="2019-07-06T02:48:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>昨天聊了HTTP头部信息之csp，今天来学习一下gzip。实际两者都可以在HTTP头部信息中找到相应的字段。</p>
+<h2 id="什么是gzip"><a href="#什么是gzip" class="headerlink" title="什么是gzip"></a>什么是gzip</h2><p>gzip最早是一个Linux命令，用于压缩文件。后被用于HTTP协议上，是一种用来改进WEB应用程序性能的技术，web服务器和客户端（浏览器）必须共同支持gzip，才能得以启用。</p>
+<p>目前主流的浏览器Chrome,firefox,IE等都支持该协议。常见的服务器如Apache，Nginx，IIS同样支持gzip。gzip压缩比率在3到10倍左右，可以大大节省服务器的网络带宽。而在实际应用中，并不是对所有文件进行压缩，通常只是压缩静态文件。</p>
+<h2 id="如何启用gzip"><a href="#如何启用gzip" class="headerlink" title="如何启用gzip"></a>如何启用gzip</h2><p>要检测gzip，首先要知道gzip是如何工作的，其工作原理如下图所示。</p>
+<p><img src="/images/gzip_principle.png" alt></p>
+<p>1、由客户端向服务器发送请求信息，可在request header中设置属性accept coding，下图中的accept coding字段意味着客户端（浏览器）支持gzip, deflate, br三种压缩方式。</p>
+<p>其中deflate方法与gzip几乎别无二致，不做过多展开。br 算法是由Google在2015年9月新近提出的压缩算法，经过实验，可以在gzip算法的压缩率提升20%，而压缩与解压缩速度则大致不变。</p>
+        
+          <a class="article-more-a" href="/2019/07/06/No8-HTTP头部信息之gzip/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">HTTP</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">gzip</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/06/No8-HTTP头部信息之gzip/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-No7-HTTP头部信息csp与gzip检测" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -933,19 +1019,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Regular Expression</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">web development</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Http</a>
+                <a href="javascript:void(0)" class="js-tag color4">多进程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多进程</a>
+                <a href="javascript:void(0)" class="js-tag color4">Regular Expression</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -954,6 +1036,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">CSP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Http</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">gzip</a>
               </li>
             
             <div class="clearfix"></div>

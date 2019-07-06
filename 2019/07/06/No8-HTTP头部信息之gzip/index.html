@@ -6,19 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2019/6 | DanielHu&#39;s Blog</title>
+  <title>No8-HTTP头部信息之gzip | DanielHu&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="上海大学硕士在读，本博客内容有关于后端开发、通信以及足球">
-<meta name="keywords" content="Python, Coding, Communication Technology, Information Technology，程序猿，后端">
-<meta property="og:type" content="website">
-<meta property="og:title" content="DanielHu&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/archives/2019/06/index.html">
+  <meta name="description" content="昨天聊了HTTP头部信息之csp，今天来学习一下gzip。实际两者都可以在HTTP头部信息中找到相应的字段。 什么是gzipgzip最早是一个Linux命令，用于压缩文件。后被用于HTTP协议上，是一种用来改进WEB应用程序性能的技术，web服务器和客户端（浏览器）必须共同支持gzip，才能得以启用。 目前主流的浏览器Chrome,firefox,IE等都支持该协议。常见的服务器如Apache，N">
+<meta name="keywords" content="HTTP,gzip">
+<meta property="og:type" content="article">
+<meta property="og:title" content="No8-HTTP头部信息之gzip">
+<meta property="og:url" content="http://yoursite.com/2019/07/06/No8-HTTP头部信息之gzip/index.html">
 <meta property="og:site_name" content="DanielHu&#39;s Blog">
-<meta property="og:description" content="上海大学硕士在读，本博客内容有关于后端开发、通信以及足球">
+<meta property="og:description" content="昨天聊了HTTP头部信息之csp，今天来学习一下gzip。实际两者都可以在HTTP头部信息中找到相应的字段。 什么是gzipgzip最早是一个Linux命令，用于压缩文件。后被用于HTTP协议上，是一种用来改进WEB应用程序性能的技术，web服务器和客户端（浏览器）必须共同支持gzip，才能得以启用。 目前主流的浏览器Chrome,firefox,IE等都支持该协议。常见的服务器如Apache，N">
 <meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="http://yoursite.com/images/gzip_principle.png">
+<meta property="og:image" content="http://yoursite.com/images/gzip_request.png">
+<meta property="og:image" content="http://yoursite.com/images/gzip_response.png">
+<meta property="og:image" content="http://yoursite.com/images/gzip_confiency.png">
+<meta property="og:updated_time" content="2019-07-06T17:00:33.373Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DanielHu&#39;s Blog">
-<meta name="twitter:description" content="上海大学硕士在读，本博客内容有关于后端开发、通信以及足球">
+<meta name="twitter:title" content="No8-HTTP头部信息之gzip">
+<meta name="twitter:description" content="昨天聊了HTTP头部信息之csp，今天来学习一下gzip。实际两者都可以在HTTP头部信息中找到相应的字段。 什么是gzipgzip最早是一个Linux命令，用于压缩文件。后被用于HTTP协议上，是一种用来改进WEB应用程序性能的技术，web服务器和客户端（浏览器）必须共同支持gzip，才能得以启用。 目前主流的浏览器Chrome,firefox,IE等都支持该协议。常见的服务器如Apache，N">
+<meta name="twitter:image" content="http://yoursite.com/images/gzip_principle.png">
   
     <link rel="alternative" href="/atom.xml" title="DanielHu&#39;s Blog" type="application/atom+xml">
   
@@ -158,305 +164,201 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-No8-HTTP头部信息之gzip" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      No8-HTTP头部信息之gzip
+    </h1>
+  
+
+        
+        <a href="/2019/07/06/No8-HTTP头部信息之gzip/" class="archive-article-date">
+  	<time datetime="2019-07-06T02:48:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-06</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>昨天聊了HTTP头部信息之csp，今天来学习一下gzip。实际两者都可以在HTTP头部信息中找到相应的字段。</p>
+<h2 id="什么是gzip"><a href="#什么是gzip" class="headerlink" title="什么是gzip"></a>什么是gzip</h2><p>gzip最早是一个Linux命令，用于压缩文件。后被用于HTTP协议上，是一种用来改进WEB应用程序性能的技术，web服务器和客户端（浏览器）必须共同支持gzip，才能得以启用。</p>
+<p>目前主流的浏览器Chrome,firefox,IE等都支持该协议。常见的服务器如Apache，Nginx，IIS同样支持gzip。gzip压缩比率在3到10倍左右，可以大大节省服务器的网络带宽。而在实际应用中，并不是对所有文件进行压缩，通常只是压缩静态文件。</p>
+<h2 id="如何启用gzip"><a href="#如何启用gzip" class="headerlink" title="如何启用gzip"></a>如何启用gzip</h2><p>要检测gzip，首先要知道gzip是如何工作的，其工作原理如下图所示。</p>
+<p><img src="/images/gzip_principle.png" alt></p>
+<p>1、由客户端向服务器发送请求信息，可在request header中设置属性accept coding，下图中的accept coding字段意味着客户端（浏览器）支持gzip, deflate, br三种压缩方式。</p>
+<p>其中deflate方法与gzip几乎别无二致，不做过多展开。br 算法是由Google在2015年9月新近提出的压缩算法，经过实验，可以在gzip算法的压缩率提升20%，而压缩与解压缩速度则大致不变。</p>
+<a id="more"></a>
+
+<p>因此目前已经有服务器开始从gzip算法向br算法迁移。</p>
+<p><img src="/images/gzip_request.png" alt></p>
+<p>2、服务器收到浏览器发送的请求之后，判断浏览器是否支持gzip，如果支持gzip，则向浏览器传送压缩过的内容，不支持则向浏览器发送未经压缩的内容。</p>
+<p>一般情况下，浏览器和服务器都支持gzip，response headers返回包含content-encoding:gzip。</p>
+<p><img src="/images/gzip_response.png" alt></p>
+<p>3、浏览器接收到服务器的响应之后判断内容是否被压缩，如果被压缩则解压缩显示页面内容。</p>
+<p>可以根据浏览器插件检测gzip的压缩效率，这里用淘宝来进行检测。</p>
+<p><img src="/images/gzip_confiency.png" alt></p>
+<p>可以看到，通过使用gzip，静态文件被压缩了80.5%，极大的节省了服务器的网络带宽，这对于访问量巨大的淘宝来讲节约的流量非常可观。</p>
+<h2 id="如何检测gzip-和-csp"><a href="#如何检测gzip-和-csp" class="headerlink" title="如何检测gzip 和 csp"></a>如何检测gzip 和 csp</h2><p>使用Python语言编写脚本检测gzip 与 csp 是非常简便的，只需要用到Request库，通过返回值判断HTTP的头部信息中是否包含content-coding与Content-Security-Policy字段，再判断字段中的值是否包含gzip 与 csp的值即可。</p>
+<p>较为简单，这里就不放上代码了。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>[1] <a href="https://yq.aliyun.com/articles/68451" target="_blank" rel="noopener">你真的了解网站开发中的 GZIP 吗？</a><br>[2] <a href="https://www.runoob.com/linux/linux-comm-gzip.html" target="_blank" rel="noopener">Linux中的gzip命令</a><br>[3] <a href="http://www.mamicode.com/info-detail-2397096.html" target="_blank" rel="noopener">使用 Content-Encoding: br 替换 Content-Encoding: gzip</a></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你给我口饭吃!<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/ali.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/wechat.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/17/No6/" class="archive-article-date">
-  	<time datetime="2019-06-17T14:13:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/17/No6/">Python web development with Flask(4) -- flask-script模块与click模块</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">HTTP</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">web development</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">gzip</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/06/No8-HTTP头部信息之gzip/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/17/No5/" class="archive-article-date">
-  	<time datetime="2019-06-17T06:22:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-17</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/07/05/No7-HTTP头部信息csp与gzip检测/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">HTTP头部信息之csp</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/17/No5/">Python web development with Flask(3)--Blueprints 蓝图</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">web development</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/14/No4/" class="archive-article-date">
-  	<time datetime="2019-06-14T13:31:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/14/No4/">python中的多进程使用总结（1）</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多进程</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/12/No3/" class="archive-article-date">
-  	<time datetime="2019-06-12T15:59:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/12/No3/">Python 中的正则表达式</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Regular Expression</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/09/No2/" class="archive-article-date">
-  	<time datetime="2019-06-09T14:23:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/09/No2/">Python web development with Flask(2)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">web development</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Http</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/09/No1/" class="archive-article-date">
-  	<time datetime="2019-06-09T03:21:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/09/No1/">Python web development with Flask(1)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">web development</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/09/hello-world/" class="archive-article-date">
-  	<time datetime="2019-06-09T03:11:26.209Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/09/hello-world/">Hello World</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -479,8 +381,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
