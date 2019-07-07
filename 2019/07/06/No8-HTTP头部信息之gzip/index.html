@@ -6,23 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>No8-HTTP头部信息之gzip | DanielHu&#39;s Blog</title>
+  <title>HTTP头部信息之gzip | DanielHu&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="昨天聊了HTTP头部信息之csp，今天来学习一下gzip。实际两者都可以在HTTP头部信息中找到相应的字段。 什么是gzipgzip最早是一个Linux命令，用于压缩文件。后被用于HTTP协议上，是一种用来改进WEB应用程序性能的技术，web服务器和客户端（浏览器）必须共同支持gzip，才能得以启用。 目前主流的浏览器Chrome,firefox,IE等都支持该协议。常见的服务器如Apache，N">
 <meta name="keywords" content="HTTP,gzip">
 <meta property="og:type" content="article">
-<meta property="og:title" content="No8-HTTP头部信息之gzip">
+<meta property="og:title" content="HTTP头部信息之gzip">
 <meta property="og:url" content="http://yoursite.com/2019/07/06/No8-HTTP头部信息之gzip/index.html">
 <meta property="og:site_name" content="DanielHu&#39;s Blog">
 <meta property="og:description" content="昨天聊了HTTP头部信息之csp，今天来学习一下gzip。实际两者都可以在HTTP头部信息中找到相应的字段。 什么是gzipgzip最早是一个Linux命令，用于压缩文件。后被用于HTTP协议上，是一种用来改进WEB应用程序性能的技术，web服务器和客户端（浏览器）必须共同支持gzip，才能得以启用。 目前主流的浏览器Chrome,firefox,IE等都支持该协议。常见的服务器如Apache，N">
 <meta property="og:locale" content="zh-cn">
 <meta property="og:image" content="http://yoursite.com/images/gzip_principle.png">
 <meta property="og:image" content="http://yoursite.com/images/gzip_request.png">
-<meta property="og:image" content="http://yoursite.com/images/gzip_response.png">
+<meta property="og:image" content="http://yoursite.com/images/gzip_response.jpg">
 <meta property="og:image" content="http://yoursite.com/images/gzip_confiency.png">
-<meta property="og:updated_time" content="2019-07-06T17:00:33.373Z">
+<meta property="og:updated_time" content="2019-07-06T17:05:53.181Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="No8-HTTP头部信息之gzip">
+<meta name="twitter:title" content="HTTP头部信息之gzip">
 <meta name="twitter:description" content="昨天聊了HTTP头部信息之csp，今天来学习一下gzip。实际两者都可以在HTTP头部信息中找到相应的字段。 什么是gzipgzip最早是一个Linux命令，用于压缩文件。后被用于HTTP协议上，是一种用来改进WEB应用程序性能的技术，web服务器和客户端（浏览器）必须共同支持gzip，才能得以启用。 目前主流的浏览器Chrome,firefox,IE等都支持该协议。常见的服务器如Apache，N">
 <meta name="twitter:image" content="http://yoursite.com/images/gzip_principle.png">
   
@@ -171,7 +171,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      No8-HTTP头部信息之gzip
+      HTTP头部信息之gzip
     </h1>
   
 
@@ -197,7 +197,7 @@
 <p><img src="/images/gzip_request.png" alt></p>
 <p>2、服务器收到浏览器发送的请求之后，判断浏览器是否支持gzip，如果支持gzip，则向浏览器传送压缩过的内容，不支持则向浏览器发送未经压缩的内容。</p>
 <p>一般情况下，浏览器和服务器都支持gzip，response headers返回包含content-encoding:gzip。</p>
-<p><img src="/images/gzip_response.png" alt></p>
+<p><img src="/images/gzip_response.jpg" alt></p>
 <p>3、浏览器接收到服务器的响应之后判断内容是否被压缩，如果被压缩则解压缩显示页面内容。</p>
 <p>可以根据浏览器插件检测gzip的压缩效率，这里用淘宝来进行检测。</p>
 <p><img src="/images/gzip_confiency.png" alt></p>
@@ -459,6 +459,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Http</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">多进程</a>
               </li>
              
@@ -472,10 +476,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">CSP</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Http</a>
               </li>
              
               <li class="article-tag-list-item">
