@@ -6,19 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: python | DanielHu&#39;s Blog</title>
+  <title>No10-ELK监控报警系统(2) | DanielHu&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="上海大学硕士在读，本博客内容有关于后端开发、通信以及足球">
-<meta name="keywords" content="Python, Coding, Communication Technology, Information Technology，程序猿，后端">
-<meta property="og:type" content="website">
-<meta property="og:title" content="DanielHu&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/tags/python/index.html">
+  <meta name="description" content="简介Elastalert是由Yelp团队使用Python 2.6 开发的简单开源(https://github.com/Yelp/elastalert) 框架，用于警告Elasticsearch中的异常数据。 我们使用Elasticsearch，Logstash和Kibana（Elastic Stack）来管理不断增加的数据和日志来管理不断增加的数据和日志。 Kibana非常适合可视化和查询数据，">
+<meta name="keywords" content="ELK">
+<meta property="og:type" content="article">
+<meta property="og:title" content="No10-ELK监控报警系统(2)">
+<meta property="og:url" content="http://yoursite.com/2019/07/07/No10-ELK监控报警系统-2/index.html">
 <meta property="og:site_name" content="DanielHu&#39;s Blog">
-<meta property="og:description" content="上海大学硕士在读，本博客内容有关于后端开发、通信以及足球">
+<meta property="og:description" content="简介Elastalert是由Yelp团队使用Python 2.6 开发的简单开源(https://github.com/Yelp/elastalert) 框架，用于警告Elasticsearch中的异常数据。 我们使用Elasticsearch，Logstash和Kibana（Elastic Stack）来管理不断增加的数据和日志来管理不断增加的数据和日志。 Kibana非常适合可视化和查询数据，">
 <meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="http://yoursite.com/images/email.png">
+<meta property="og:updated_time" content="2019-07-13T16:11:31.523Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DanielHu&#39;s Blog">
-<meta name="twitter:description" content="上海大学硕士在读，本博客内容有关于后端开发、通信以及足球">
+<meta name="twitter:title" content="No10-ELK监控报警系统(2)">
+<meta name="twitter:description" content="简介Elastalert是由Yelp团队使用Python 2.6 开发的简单开源(https://github.com/Yelp/elastalert) 框架，用于警告Elasticsearch中的异常数据。 我们使用Elasticsearch，Logstash和Kibana（Elastic Stack）来管理不断增加的数据和日志来管理不断增加的数据和日志。 Kibana非常适合可视化和查询数据，">
+<meta name="twitter:image" content="http://yoursite.com/images/email.png">
   
     <link rel="alternative" href="/atom.xml" title="DanielHu&#39;s Blog" type="application/atom+xml">
   
@@ -158,278 +161,237 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-No10-ELK监控报警系统-2" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      No10-ELK监控报警系统(2)
+    </h1>
+  
+
+        
+        <a href="/2019/07/07/No10-ELK监控报警系统-2/" class="archive-article-date">
+  	<time datetime="2019-07-07T09:55:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-07</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Elastalert是由Yelp团队使用Python 2.6 开发的简单开源(<a href="https://github.com/Yelp/elastalert" target="_blank" rel="noopener">https://github.com/Yelp/elastalert</a>) 框架，用于警告Elasticsearch中的异常数据。</p>
+<p>我们使用Elasticsearch，Logstash和Kibana（Elastic Stack）来管理不断增加的数据和日志来管理不断增加的数据和日志。 Kibana非常适合可视化和查询数据，但到它需要一个配套工具来警告我们的数据不一致。</p>
+<p>因此，如果需要实时地将数据写入Elasticsearch并希望在数据与某些规则匹配时进行告警，Elastalert完美适配。</p>
+<p>官方文档（<a href="https://elastalert.readthedocs.io/en/latest/）" target="_blank" rel="noopener">https://elastalert.readthedocs.io/en/latest/）</a></p>
+<p>快速安装上手教程可借鉴查看（<a href="https://www.jianshu.com/p/e21a82e56b86）" target="_blank" rel="noopener">https://www.jianshu.com/p/e21a82e56b86）</a></p>
+<h2 id="配置环境"><a href="#配置环境" class="headerlink" title="配置环境"></a>配置环境</h2><p>Centos 7</p>
+<h2 id="工作原理概述"><a href="#工作原理概述" class="headerlink" title="工作原理概述"></a>工作原理概述</h2><p>ElastAlert可靠，高度模块化，易于设置和配置。它的工作原理是将Elasticsearch与Elastalert的规则类型和警报相结合。定期查询Elasticsearch并将数据传递给规则，每个规则都定义了查询，规则类型和一组警报。该规则确定何时找到匹配项。当匹配发生时，即会触发一个或多个警报。</p>
+<p>ElastAlert包含几种具有常见监控范例的规则类型：</p>
+<a id="more"></a>
+<ul>
+<li><p>Y时间内有X次事件发生（频率类型）</p>
+</li>
+<li><p>事件发生率增加或减少（尖峰类型）</p>
+</li>
+<li><p>Y时间内事件发生少于X次（平线型）</p>
+</li>
+<li><p>某个字段与黑名单/白名单匹配（黑名单和白名单类型）</p>
+</li>
+<li><p>匹配过滤器的任何事件（任何类型）</p>
+</li>
+<li><p>一段时间内有两个不同的值（改变类型）</p>
+</li>
+</ul>
+<p>如果上述常见的报警类型无法满足需求，可以自行编写规则或者Download From Kibana以满足需求。采用Kibana插件(<a href="https://github.com/bitsensor/elastalert-kibana-plugin" target="_blank" rel="noopener">https://github.com/bitsensor/elastalert-kibana-plugin</a>) 可以使规则在Kibana上可视化。</p>
+<p>ElastAlert 提供 Email,JIRA,OpsGenie,Commands 等告警方式，甚至可以运用微信告警插件进行实时报警（<a href="https://github.com/anjia0532/elastalert-wechat-plugin）" target="_blank" rel="noopener">https://github.com/anjia0532/elastalert-wechat-plugin）</a></p>
+<h2 id="第一次运行ElastAlert"><a href="#第一次运行ElastAlert" class="headerlink" title="第一次运行ElastAlert"></a>第一次运行ElastAlert</h2><h3 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h3><ul>
+<li>Elasticsearch</li>
+<li>ISO8601 or Unix timestamped data</li>
+<li>Python 2.7（最新ElastAlert版本已支持Python 3，但实际安装过程中出现错误较多，因此推荐使用Python 2）</li>
+<li>pip, see requirements.txt</li>
+<li>Packages on Ubuntu 14.x: python-pip python-dev libffi-dev libssl-dev</li>
+<li>Downloading and Configuring</li>
+</ul>
+<h3 id="下载与配置"><a href="#下载与配置" class="headerlink" title="下载与配置"></a>下载与配置</h3><p>直接安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip install elastalert</span><br></pre></td></tr></table></figure>
+
+<p>或者可以从Github的库中Clone下来：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/Yelp/elastalert.git</span><br></pre></td></tr></table></figure>
+
+<p>配置文件解析：</p>
+<p>打开配置文件config.yaml。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cp config.yaml.example config.yaml #重命名配置文件</span><br><span class="line">$ vim config.yaml</span><br></pre></td></tr></table></figure>
+
+<p>配置以下信息，设置es_host、es_host指向你的Elasticsearch，然后保存退出。</p>
+<p><strong>rules_folder</strong>：ElastAlert将加载规则配置文件的地方，它将尝试加载文件夹中的每个.yaml文件。<br><strong>run_every</strong>：ElastAlert查询Elasticsearch的频率。<br><strong>buffer_time</strong>：是查询窗口的大小，从每个查询运行的时间向后延伸。对于其中use_count_query或use_terms_query设置为true的规则，此值将被忽略。<br><strong>es_host</strong>：是Elasticsearch集群的地址，ElastAlert将存储有关其状态、查询运行、警报和错误的数据。每个规则也可以设置不同的elasticsearch主机进行查询。<br><strong>es_port</strong>：Elasticsearch对应的端口。<br><strong>use_ssl</strong>： （可选的）是否使用TLS;连接到es_host；设置为True或False。<br><strong>verify_certs</strong>： （可选的）是否验证TLS证书; 设置为True或False，默认是True。<br><strong>client_cert</strong>： （可选的）PEM证书的路径。<br><strong>client_key</strong>： （可选的） 作为客户端密钥使用的私钥文件的路径。<br><strong>ca_certs</strong>： （可选的） 用于验证SSL连接的CA证书的路径。<br><strong>es_username</strong>： （可选的） 用于连接Elasticsearch的basic-auth用户名。<br><strong>es_password</strong>： （可选的） 用于连接Elasticsearch的密码。<br><strong>es_url_prefix</strong>： （可选的） Elasticsearch端点的URL前缀。<br><strong>es_send_get_body_as</strong>： （可选的） 查询Elasticsearch方法- GET，POST或source，默认是GET。<br><strong>writeback_index</strong>：是ElastAlert将存储数据的索引名称。<br><strong>alert_time_limit</strong>： 是失败警报的重试窗口。</p>
+<p>设置Elasticsearch：</p>
+<p>ElastAlert将有关其查询及其警报的信息和元数据保存回Elasticsearch。允许ElastAlert重新启动并从中断的位置恢复。强烈建议开启。</p>
+<p>首先，我们需要通过运行elastalert-create-index并按照说明为ElastAlert创建一个索引,默认叫做 elastalert_status</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ elastalert-create-index</span><br><span class="line">New index name (Default elastalert_status)</span><br><span class="line">Name of existing index to copy (Default None)</span><br><span class="line">New index elastalert_status created</span><br><span class="line">Done!</span><br></pre></td></tr></table></figure>
+
+<h2 id="邮箱告警Demo"><a href="#邮箱告警Demo" class="headerlink" title="邮箱告警Demo"></a>邮箱告警Demo</h2><h3 id="配置SMTP"><a href="#配置SMTP" class="headerlink" title="配置SMTP"></a>配置SMTP</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#邮箱用户名</span><br><span class="line">user: example@email.com</span><br><span class="line">#不是邮箱密码，是设置的SMTP密码(邮箱如何开启SMTP，移步Google，填写SMTP密码)</span><br><span class="line">password: XXXXX</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置规则"><a href="#配置规则" class="headerlink" title="配置规则"></a>配置规则</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd elastalert/example_rules</span><br><span class="line">$ vim example_frequency.yaml</span><br></pre></td></tr></table></figure>
+
+<p>配置其中的name（规则名）、规则类型（type）、ES索引（index）、告警类型（Alert）等。</p>
+<h3 id="测试规则"><a href="#测试规则" class="headerlink" title="测试规则"></a>测试规则</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ elastalert-test-rule example_rules / example_frequency.yaml</span><br></pre></td></tr></table></figure>
+
+<h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd /opt/elastalert</span><br><span class="line">$ python -m elastalert.elastalert --verbose --rule example_frequency.yaml</span><br></pre></td></tr></table></figure>
+
+<h3 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h3><p>可在设置的邮箱中，看到结果。</p>
+<p><img src="/images/email.png" alt="告警结果" title="邮箱告警结果"></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你给我口饭吃!<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/ali.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/wechat.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/17/No6/" class="archive-article-date">
-  	<time datetime="2019-06-17T14:13:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/17/No6/">Python web development with Flask(4) -- flask-script模块与click模块</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">web development</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ELK</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/07/No10-ELK监控报警系统-2/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/17/No5/" class="archive-article-date">
-  	<time datetime="2019-06-17T06:22:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-17</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/07/07/No9-ELK监控报警系统-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">ELK监控报警系统(1)</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/17/No5/">Python web development with Flask(3)--Blueprints 蓝图</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">web development</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/14/No4/" class="archive-article-date">
-  	<time datetime="2019-06-14T13:31:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/14/No4/">python中的多进程使用总结（1）</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多进程</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/12/No3/" class="archive-article-date">
-  	<time datetime="2019-06-12T15:59:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/12/No3/">Python 中的正则表达式</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Regular Expression</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/09/No2/" class="archive-article-date">
-  	<time datetime="2019-06-09T14:23:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/09/No2/">Python web development with Flask(2)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">web development</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Http</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/09/No1/" class="archive-article-date">
-  	<time datetime="2019-06-09T03:21:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/09/No1/">Python web development with Flask(1)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">web development</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -452,9 +414,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
