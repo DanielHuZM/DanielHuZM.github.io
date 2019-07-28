@@ -160,6 +160,102 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-No11-ELK监控报警系统-3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/20/No11-ELK监控报警系统-3/">ELK监控报警系统(3)--SSL解密</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/20/No11-ELK监控报警系统-3/" class="archive-article-date">
+  	<time datetime="2019-07-19T16:00:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-20</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="问题发现"><a href="#问题发现" class="headerlink" title="问题发现"></a>问题发现</h2><p>前两天在测试环境部署ElastAlert的时候，遇到了些问题，来这里分享一下，权当做个记录，踩个坑。</p>
+<p>通过运行elastalert-create-index为ElastAlert创建回写索引时，和之前在本地部署的不太一样，显示Connection refused。</p>
+<p>随后，我用curl命令去访问服务器的9200端口（es端口），返回结果：Empty reply from server。</p>
+<p>Google一下，在Stack Overflow等开源平台上面找到了回答，原来<strong>测试环境采用HTTPS协议，仅用curl命令去访问https网站，显然是不可以的。</strong></p>
+<p>CURL对HTTPS的支持要通过<code>--cacert, --capath, --with-ca-bundle</code>来实现。</p>
+<p>那有好奇宝宝又要问了，现在大部分网站都从HTTP转向HTTPS了，我用curl命令去访问<a href="http://www.google.com" target="_blank" rel="noopener">http://www.google.com</a> ，为何还是可以返回正确网页的结果？</p>
+<p>其实这个问题，打开浏览器，打开F12开发者模式，在地址栏中输入<a href="http://www.google.com" target="_blank" rel="noopener">http://www.google.com</a> ，可以发到网页会被redirect(自定向)到<a href="https://www.google.com" target="_blank" rel="noopener">https://www.google.com</a> ，http状态码为307 internal redirect。</p>
+<p>至此，又有第二位好奇宝宝问了，为什么大量的网站都从http协议转向了https协议，http和https的区别是啥？</p>
+<p>那么遵循多问一个为什么原则，今天我们探究一下这个多出来的s，也就是SSL（TLS）到底是什么？</p>
+        
+          <a class="article-more-a" href="/2019/07/20/No11-ELK监控报警系统-3/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ELK</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">SSL</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">对称加密</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">非对称加密</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/20/No11-ELK监控报警系统-3/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-No10-ELK监控报警系统-2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -167,7 +263,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/07/No10-ELK监控报警系统-2/">No10-ELK监控报警系统(2)</a>
+      <a class="article-title" href="/2019/07/07/No10-ELK监控报警系统-2/">ELK监控报警系统(2)</a>
     </h1>
   
 
@@ -929,92 +1025,6 @@
 
 
   
-    <article id="post-No1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/09/No1/">Python web development with Flask(1)</a>
-    </h1>
-  
-
-        
-        <a href="/2019/06/09/No1/" class="archive-article-date">
-  	<time datetime="2019-06-09T03:21:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="/images/Flask_image.png" alt></p>
-<hr>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Flask是目前最为流行的Python Web框架之一。Flask仅仅保留了Web框架的核心，其他功能都交由扩展实现。因其灵活性，越来越多的公司选择Flask作为Web框架，知名公司有Netflix、Reddit和豆瓣等，这也说明了Flask能够经受大型项目的挑战，适应各种需求。</p>
-<hr>
-<h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h2><p>OS ：Windows 10 (x64)<br>软件 : Pycharm<br>版本管理： Git</p>
-<hr>
-<h2 id="Hello-Flask"><a href="#Hello-Flask" class="headerlink" title="Hello, Flask!"></a>Hello, Flask!</h2><p>这是一个最小的Flask程序，仅需5行就能够实现。</p>
-        
-          <a class="article-more-a" href="/2019/06/09/No1/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">web development</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/09/No1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1125,6 +1135,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Http</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SSL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">对称加密</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">非对称加密</a>
               </li>
              
               <li class="article-tag-list-item">
