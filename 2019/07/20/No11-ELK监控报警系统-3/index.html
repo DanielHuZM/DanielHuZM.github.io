@@ -18,7 +18,7 @@
 <meta property="og:locale" content="zh-cn">
 <meta property="og:image" content="http://yoursite.com/images/SSL.png">
 <meta property="og:image" content="http://yoursite.com/images/%E4%B8%AD%E9%97%B4%E4%BA%BA%E5%8A%AB%E6%8C%81.png">
-<meta property="og:updated_time" content="2019-07-28T09:45:11.432Z">
+<meta property="og:updated_time" content="2019-07-28T10:12:57.799Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ELK监控报警系统(3)--SSL解密">
 <meta name="twitter:description" content="问题发现前两天在测试环境部署ElastAlert的时候，遇到了些问题，来这里分享一下，权当做个记录，踩个坑。 通过运行elastalert-create-index为ElastAlert创建回写索引时，和之前在本地部署的不太一样，显示Connection refused。 随后，我用curl命令去访问服务器的9200端口（es端口），返回结果：Empty reply from server。 Go">
@@ -224,7 +224,7 @@
 <p><img src="/images/SSL.png" alt="SSL"></p>
 <p>上图实际上就是HTTPS的实现原理，也是SSL的原理。</p>
 <p>解读一下：</p>
-<p>1、client向server发送请求<a href="https://baidu.com，然后连接到server的443端口。" target="_blank" rel="noopener">https://baidu.com，然后连接到server的443端口。</a></p>
+<p>1、client向server发送请求<a href="https://baidu.com" target="_blank" rel="noopener">https://baidu.com</a> ，然后连接到server的443端口。</p>
 <p>2、服务端必须要有一套数字证书，可以自己制作，也可以向组织申请。区别就是自己颁发的证书需要客户端验证通过，才可以继续访问，而使用受信任的公司申请的证书则不会弹出提示页面，这套证书其实就是一对公钥和私钥。</p>
 <p>3、传送证书<br>   这个证书其实就是公钥，只是包含了很多信息，如证书的颁发机构，过期时间、服务端的公钥，第三方证书认证机构(CA)的签名，服务端的域名信息等内容。</p>
 <p>4、客户端解析证书<br>   这部分工作是由客户端的TLS来完成的，首先会验证公钥是否有效，比如颁发机构，过期时间等等，如果发现异常，则会弹出一个警告框，提示证书存在问题。如果证书没有问题，那么就生成一个随即值（秘钥）。然后用证书对该随机值进行加密。<br>   ** 实际上，这步就是用非对称加密来传对称加密的密钥呀！是不是非常熟悉！**</p>
