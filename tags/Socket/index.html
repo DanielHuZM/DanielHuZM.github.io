@@ -6,30 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>正则表达式（2）--进阶：回溯法 | DanielHu&#39;s Blog</title>
+  <title>Tag: Socket | DanielHu&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="上周在某次技术分享会上，听到了一节关于正则表达式的分享。回头来看，自己之前理解的正则实在是一些皮毛而已，跑到这里再来补补课。 没有回溯的匹配假设我们的正则是/ab{1,3}c/，其可视化形式是：  而当目标字符串是”abbbc”时，就没有所谓的“回溯”。其匹配过程是：">
-<meta name="keywords" content="正则表达式,回溯法">
-<meta property="og:type" content="article">
-<meta property="og:title" content="正则表达式（2）--进阶：回溯法">
-<meta property="og:url" content="http://yoursite.com/2019/07/28/No12/index.html">
+  <meta name="description" content="上海大学硕士在读，本博客内容有关于后端开发、通信以及足球">
+<meta name="keywords" content="Python, Coding, Communication Technology, Information Technology，程序猿，后端">
+<meta property="og:type" content="website">
+<meta property="og:title" content="DanielHu&#39;s Blog">
+<meta property="og:url" content="http://yoursite.com/tags/Socket/index.html">
 <meta property="og:site_name" content="DanielHu&#39;s Blog">
-<meta property="og:description" content="上周在某次技术分享会上，听到了一节关于正则表达式的分享。回头来看，自己之前理解的正则实在是一些皮毛而已，跑到这里再来补补课。 没有回溯的匹配假设我们的正则是/ab{1,3}c/，其可视化形式是：  而当目标字符串是”abbbc”时，就没有所谓的“回溯”。其匹配过程是：">
+<meta property="og:description" content="上海大学硕士在读，本博客内容有关于后端开发、通信以及足球">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:image" content="http://yoursite.com/images/12_1.png">
-<meta property="og:image" content="http://yoursite.com/images/12_2.png">
-<meta property="og:image" content="http://yoursite.com/images/12_3.png">
-<meta property="og:image" content="http://yoursite.com/images/12_4.png">
-<meta property="og:image" content="http://yoursite.com/images/12_5.png">
-<meta property="og:image" content="http://yoursite.com/images/12_6.png">
-<meta property="og:image" content="http://yoursite.com/images/12_7.png">
-<meta property="og:image" content="http://yoursite.com/images/12_8.png">
-<meta property="og:image" content="http://yoursite.com/images/12_9.png">
-<meta property="og:updated_time" content="2019-07-28T16:27:00.811Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="正则表达式（2）--进阶：回溯法">
-<meta name="twitter:description" content="上周在某次技术分享会上，听到了一节关于正则表达式的分享。回头来看，自己之前理解的正则实在是一些皮毛而已，跑到这里再来补补课。 没有回溯的匹配假设我们的正则是/ab{1,3}c/，其可视化形式是：  而当目标字符串是”abbbc”时，就没有所谓的“回溯”。其匹配过程是：">
-<meta name="twitter:image" content="http://yoursite.com/images/12_1.png">
+<meta name="twitter:title" content="DanielHu&#39;s Blog">
+<meta name="twitter:description" content="上海大学硕士在读，本博客内容有关于后端开发、通信以及足球">
   
     <link rel="alternative" href="/atom.xml" title="DanielHu&#39;s Blog" type="application/atom+xml">
   
@@ -169,229 +158,68 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-No12" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      正则表达式（2）--进阶：回溯法
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2020" class="archive-year">2020</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2020/05/02/No15-Socket在Linux中的五大IO模型/" class="archive-article-date">
+  	<time datetime="2020-05-01T16:09:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-02</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2020/05/02/No15-Socket在Linux中的五大IO模型/">Socket在Linux中的五大IO模型</a>
     </h1>
   
 
-        
-        <a href="/2019/07/28/No12/" class="archive-article-date">
-  	<time datetime="2019-07-28T11:42:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>上周在某次技术分享会上，听到了一节关于正则表达式的分享。回头来看，自己之前理解的正则实在是一些皮毛而已，跑到这里再来补补课。</p>
-<h2 id="没有回溯的匹配"><a href="#没有回溯的匹配" class="headerlink" title="没有回溯的匹配"></a>没有回溯的匹配</h2><p>假设我们的正则是/ab{1,3}c/，其可视化形式是：</p>
-<p><img src="/images/12_1.png" alt></p>
-<p>而当目标字符串是”abbbc”时，就没有所谓的“回溯”。其匹配过程是：</p>
-<p><img src="/images/12_2.png" alt></p>
-<a id="more"></a>
-<h2 id="有回溯的匹配"><a href="#有回溯的匹配" class="headerlink" title="有回溯的匹配"></a>有回溯的匹配</h2><p>如果目标字符串是”abbc”，中间就有回溯。</p>
-<p><img src="/images/12_3.png" alt></p>
-<p>图中第5步有红颜色，表示匹配不成功。此时b{1,3}已经匹配到了2个字符“b”，准备尝试第三个时，结果发现接下来的字符是“c”。那么就认为b{1,3}就已经匹配完毕。然后状态又回到之前的状态（即第6步，与第4步一样），最后再用子表达式c，去匹配字符“c”。当然，此时整个表达式匹配成功了。</p>
-<p>你可能对此没有感觉，这里我们再举一个例子。正则是：</p>
-<p><img src="/images/12_4.png" alt></p>
-<p>目标字符串是”abbbc”，匹配过程是：</p>
-<p><img src="/images/12_5.png" alt></p>
-<p>其中第7步和第10步是回溯。第7步与第4步一样，此时b{1,3}匹配了两个”b”，而第10步与第3步一样，此时b{1,3}只匹配了一个”b”，这也是b{1,3}的最终匹配结果。</p>
-<p>这里再看一个清晰的回溯，正则是：</p>
-<p><img src="/images/12_6.png" alt></p>
-<p>目标字符串是：”acd”ef，匹配过程是：</p>
-<p><img src="/images/12_7.png" alt></p>
-<p><strong>解决方法：为了减少一些不必要的回溯，可以把正则修改为/“[^”]”/。</strong></p>
-<h2 id="常见的回溯形式"><a href="#常见的回溯形式" class="headerlink" title="常见的回溯形式"></a>常见的回溯形式</h2><p>正则表达式匹配字符串的这种方式，有个学名，叫回溯法。</p>
-<p>回溯法也称试探法，它的基本思想是：从问题的某一种状态（初始状态）出发，搜索从这种状态出发所能达到的所有“状态”，当一条路走到“尽头”的时候（不能再前进），再后退一步或若干步，从另一种可能“状态”出发，继续搜索，直到所有的“路径”（状态）都试探过。这种不断“前进”、不断“回溯”寻找解的方法，就称作“回溯法”。</p>
-<p>本质上就是深度优先搜索算法。其中退到之前的某一步这一过程，我们称为“回溯”。从上面的描述过程中，可以看出，路走不通时，就会发生“回溯”。即，尝试匹配失败时，接下来的一步通常就是回溯。</p>
-<h3 id="贪婪量词"><a href="#贪婪量词" class="headerlink" title="贪婪量词"></a>贪婪量词</h3><p>之前的例子都是贪婪量词相关的。比如b{1,3}，因为其是贪婪的，尝试可能的顺序是从多往少的方向去尝试。首先会尝试”bbb”，然后再看整个正则是否能匹配。不能匹配时，吐出一个”b”，即在”bb”的基础上，再继续尝试。如果还不行，再吐出一个，再试。如果还不行呢？只能说明匹配失败了。</p>
-<p>虽然局部匹配是贪婪的，但也要满足整体能正确匹配。否则，皮之不存，毛将焉附？</p>
-<p>此时我们不禁会问，如果当多个贪婪量词挨着存在，并相互有冲突时，此时会是怎样？</p>
-<p>答案是，先下手为强！因为深度优先搜索。测试如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">re.match(<span class="string">r'(\d&#123;1,3&#125;)(\d&#123;1,3&#125;)'</span>, <span class="string">'12345'</span>).groups()</span><br><span class="line"></span><br><span class="line">Out[<span class="number">4</span>]: (<span class="string">'123'</span>, <span class="string">'45'</span>)</span><br></pre></td></tr></table></figure>
-
-<p>其中，前面的\d{1,3}匹配的是”123”，后面的\d{1,3}匹配的是”45”。</p>
-<h3 id="惰性量词"><a href="#惰性量词" class="headerlink" title="惰性量词"></a>惰性量词</h3><p>惰性量词就是在贪婪量词后面加个问号。表示尽可能少的匹配，比如：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.match(<span class="string">r'(\d&#123;1,3&#125;?)(\d&#123;1,3&#125;)'</span>, <span class="string">'12345'</span>).groups()</span><br><span class="line">Out[<span class="number">6</span>]: (<span class="string">'1'</span>, <span class="string">'234'</span>)</span><br></pre></td></tr></table></figure>
-
-<p>其中\d{1,3}?只匹配到一个字符”1”，而后面的\d{1,3}匹配了”234”。</p>
-<p>虽然惰性量词不贪，但也会有回溯的现象。比如正则是：</p>
-<p><img src="/images/12_8.png" alt></p>
-<p>目标字符串是”12345”，匹配过程是：</p>
-<p><img src="/images/12_9.png" alt></p>
-<p>知道你不贪、很知足，但是为了整体匹配成，没办法，也只能给你多塞点了。因此最后\d{1,3}?匹配的字符是”12”，是两个数字，而不是一个。</p>
-<h2 id="留个问题"><a href="#留个问题" class="headerlink" title="留个问题"></a>留个问题</h2><p>如何用正则表达式判断某数是否为素数。</p>
-<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>1 <a href="https://cloud.tencent.com/developer/article/1360276" target="_blank" rel="noopener">正则表达式之进阶篇</a><br>2 <a href="https://www.jianshu.com/p/d1030a7a078b" target="_blank" rel="noopener">正则表达式回溯法原理</a><br>3 <a href="https://danielhuzm.github.io/2019/06/12/No3/" target="_blank" rel="noopener">Python 中的正则表达式</a></p>
-
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你给我口饭吃!<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/img/ali.jpg">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/img/wechat.jpg">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">正则表达式</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Socket</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">回溯法</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">IO模型</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/28/No12/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2020/04/30/No13-趣谈计算机网络协议-传输层/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          趣谈计算机网络协议-传输层之TCP协议
-        
-      </div>
-    </a>
   
   
-    <a href="/2019/07/20/No11-ELK监控报警系统-3/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">ELK监控报警系统(3)--SSL解密</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -414,9 +242,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

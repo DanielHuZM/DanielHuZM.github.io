@@ -6,30 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>正则表达式（2）--进阶：回溯法 | DanielHu&#39;s Blog</title>
+  <title>Socket在Linux中的五大IO模型 | DanielHu&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="上周在某次技术分享会上，听到了一节关于正则表达式的分享。回头来看，自己之前理解的正则实在是一些皮毛而已，跑到这里再来补补课。 没有回溯的匹配假设我们的正则是/ab{1,3}c/，其可视化形式是：  而当目标字符串是”abbbc”时，就没有所谓的“回溯”。其匹配过程是：">
-<meta name="keywords" content="正则表达式,回溯法">
+  <meta name="description" content="预备知识用户态与内核态​        从宏观上来看，Linux操作系统的体系框架可以分为用户态与内核态，如下图所示。根据Linux系统“一切皆文件”的最高指示精神，内核从本质上来看当然也可以被认为是一种软件，他控制着计算机的硬件资源（包括CPU资源、I/O资源、存储资源等等），他需要为上层用户态中的应用系统提供运行的环境。用户态中程序的执行相应的必须要依托于内核所提供的资源。为了使上层应用能够访">
+<meta name="keywords" content="Socket,IO模型,Linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="正则表达式（2）--进阶：回溯法">
-<meta property="og:url" content="http://yoursite.com/2019/07/28/No12/index.html">
+<meta property="og:title" content="Socket在Linux中的五大IO模型">
+<meta property="og:url" content="http://yoursite.com/2020/05/02/No15-Socket在Linux中的五大IO模型/index.html">
 <meta property="og:site_name" content="DanielHu&#39;s Blog">
-<meta property="og:description" content="上周在某次技术分享会上，听到了一节关于正则表达式的分享。回头来看，自己之前理解的正则实在是一些皮毛而已，跑到这里再来补补课。 没有回溯的匹配假设我们的正则是/ab{1,3}c/，其可视化形式是：  而当目标字符串是”abbbc”时，就没有所谓的“回溯”。其匹配过程是：">
+<meta property="og:description" content="预备知识用户态与内核态​        从宏观上来看，Linux操作系统的体系框架可以分为用户态与内核态，如下图所示。根据Linux系统“一切皆文件”的最高指示精神，内核从本质上来看当然也可以被认为是一种软件，他控制着计算机的硬件资源（包括CPU资源、I/O资源、存储资源等等），他需要为上层用户态中的应用系统提供运行的环境。用户态中程序的执行相应的必须要依托于内核所提供的资源。为了使上层应用能够访">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:image" content="http://yoursite.com/images/12_1.png">
-<meta property="og:image" content="http://yoursite.com/images/12_2.png">
-<meta property="og:image" content="http://yoursite.com/images/12_3.png">
-<meta property="og:image" content="http://yoursite.com/images/12_4.png">
-<meta property="og:image" content="http://yoursite.com/images/12_5.png">
-<meta property="og:image" content="http://yoursite.com/images/12_6.png">
-<meta property="og:image" content="http://yoursite.com/images/12_7.png">
-<meta property="og:image" content="http://yoursite.com/images/12_8.png">
-<meta property="og:image" content="http://yoursite.com/images/12_9.png">
-<meta property="og:updated_time" content="2019-07-28T16:27:00.811Z">
+<meta property="og:image" content="http://yoursite.com/images/15-1.png">
+<meta property="og:image" content="http://yoursite.com/images/15-2.png">
+<meta property="og:image" content="http://yoursite.com/images/15-3.png">
+<meta property="og:image" content="http://yoursite.com/images/15-4.png">
+<meta property="og:image" content="http://yoursite.com/images/15-5.png">
+<meta property="og:image" content="http://yoursite.com/images/15-6.png">
+<meta property="og:updated_time" content="2020-05-01T16:50:48.930Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="正则表达式（2）--进阶：回溯法">
-<meta name="twitter:description" content="上周在某次技术分享会上，听到了一节关于正则表达式的分享。回头来看，自己之前理解的正则实在是一些皮毛而已，跑到这里再来补补课。 没有回溯的匹配假设我们的正则是/ab{1,3}c/，其可视化形式是：  而当目标字符串是”abbbc”时，就没有所谓的“回溯”。其匹配过程是：">
-<meta name="twitter:image" content="http://yoursite.com/images/12_1.png">
+<meta name="twitter:title" content="Socket在Linux中的五大IO模型">
+<meta name="twitter:description" content="预备知识用户态与内核态​        从宏观上来看，Linux操作系统的体系框架可以分为用户态与内核态，如下图所示。根据Linux系统“一切皆文件”的最高指示精神，内核从本质上来看当然也可以被认为是一种软件，他控制着计算机的硬件资源（包括CPU资源、I/O资源、存储资源等等），他需要为上层用户态中的应用系统提供运行的环境。用户态中程序的执行相应的必须要依托于内核所提供的资源。为了使上层应用能够访">
+<meta name="twitter:image" content="http://yoursite.com/images/15-1.png">
   
     <link rel="alternative" href="/atom.xml" title="DanielHu&#39;s Blog" type="application/atom+xml">
   
@@ -169,66 +166,92 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-No12" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-No15-Socket在Linux中的五大IO模型" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      正则表达式（2）--进阶：回溯法
+      Socket在Linux中的五大IO模型
     </h1>
   
 
         
-        <a href="/2019/07/28/No12/" class="archive-article-date">
-  	<time datetime="2019-07-28T11:42:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
+        <a href="/2020/05/02/No15-Socket在Linux中的五大IO模型/" class="archive-article-date">
+  	<time datetime="2020-05-01T16:09:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-02</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>上周在某次技术分享会上，听到了一节关于正则表达式的分享。回头来看，自己之前理解的正则实在是一些皮毛而已，跑到这里再来补补课。</p>
-<h2 id="没有回溯的匹配"><a href="#没有回溯的匹配" class="headerlink" title="没有回溯的匹配"></a>没有回溯的匹配</h2><p>假设我们的正则是/ab{1,3}c/，其可视化形式是：</p>
-<p><img src="/images/12_1.png" alt></p>
-<p>而当目标字符串是”abbbc”时，就没有所谓的“回溯”。其匹配过程是：</p>
-<p><img src="/images/12_2.png" alt></p>
-<a id="more"></a>
-<h2 id="有回溯的匹配"><a href="#有回溯的匹配" class="headerlink" title="有回溯的匹配"></a>有回溯的匹配</h2><p>如果目标字符串是”abbc”，中间就有回溯。</p>
-<p><img src="/images/12_3.png" alt></p>
-<p>图中第5步有红颜色，表示匹配不成功。此时b{1,3}已经匹配到了2个字符“b”，准备尝试第三个时，结果发现接下来的字符是“c”。那么就认为b{1,3}就已经匹配完毕。然后状态又回到之前的状态（即第6步，与第4步一样），最后再用子表达式c，去匹配字符“c”。当然，此时整个表达式匹配成功了。</p>
-<p>你可能对此没有感觉，这里我们再举一个例子。正则是：</p>
-<p><img src="/images/12_4.png" alt></p>
-<p>目标字符串是”abbbc”，匹配过程是：</p>
-<p><img src="/images/12_5.png" alt></p>
-<p>其中第7步和第10步是回溯。第7步与第4步一样，此时b{1,3}匹配了两个”b”，而第10步与第3步一样，此时b{1,3}只匹配了一个”b”，这也是b{1,3}的最终匹配结果。</p>
-<p>这里再看一个清晰的回溯，正则是：</p>
-<p><img src="/images/12_6.png" alt></p>
-<p>目标字符串是：”acd”ef，匹配过程是：</p>
-<p><img src="/images/12_7.png" alt></p>
-<p><strong>解决方法：为了减少一些不必要的回溯，可以把正则修改为/“[^”]”/。</strong></p>
-<h2 id="常见的回溯形式"><a href="#常见的回溯形式" class="headerlink" title="常见的回溯形式"></a>常见的回溯形式</h2><p>正则表达式匹配字符串的这种方式，有个学名，叫回溯法。</p>
-<p>回溯法也称试探法，它的基本思想是：从问题的某一种状态（初始状态）出发，搜索从这种状态出发所能达到的所有“状态”，当一条路走到“尽头”的时候（不能再前进），再后退一步或若干步，从另一种可能“状态”出发，继续搜索，直到所有的“路径”（状态）都试探过。这种不断“前进”、不断“回溯”寻找解的方法，就称作“回溯法”。</p>
-<p>本质上就是深度优先搜索算法。其中退到之前的某一步这一过程，我们称为“回溯”。从上面的描述过程中，可以看出，路走不通时，就会发生“回溯”。即，尝试匹配失败时，接下来的一步通常就是回溯。</p>
-<h3 id="贪婪量词"><a href="#贪婪量词" class="headerlink" title="贪婪量词"></a>贪婪量词</h3><p>之前的例子都是贪婪量词相关的。比如b{1,3}，因为其是贪婪的，尝试可能的顺序是从多往少的方向去尝试。首先会尝试”bbb”，然后再看整个正则是否能匹配。不能匹配时，吐出一个”b”，即在”bb”的基础上，再继续尝试。如果还不行，再吐出一个，再试。如果还不行呢？只能说明匹配失败了。</p>
-<p>虽然局部匹配是贪婪的，但也要满足整体能正确匹配。否则，皮之不存，毛将焉附？</p>
-<p>此时我们不禁会问，如果当多个贪婪量词挨着存在，并相互有冲突时，此时会是怎样？</p>
-<p>答案是，先下手为强！因为深度优先搜索。测试如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">re.match(<span class="string">r'(\d&#123;1,3&#125;)(\d&#123;1,3&#125;)'</span>, <span class="string">'12345'</span>).groups()</span><br><span class="line"></span><br><span class="line">Out[<span class="number">4</span>]: (<span class="string">'123'</span>, <span class="string">'45'</span>)</span><br></pre></td></tr></table></figure>
+        <h2 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h2><h3 id="用户态与内核态"><a href="#用户态与内核态" class="headerlink" title="用户态与内核态"></a>用户态与内核态</h3><p>​        从宏观上来看，Linux操作系统的体系框架可以分为用户态与内核态，如下图所示。根据Linux系统“一切皆文件”的最高指示精神，内核从本质上来看当然也可以被认为是一种软件，他控制着计算机的硬件资源（包括CPU资源、I/O资源、存储资源等等），他需要为上层用户态中的应用系统提供运行的环境。用户态中程序的执行相应的必须要依托于内核所提供的资源。为了使上层应用能够访问到这些资源，内核必须为上层应用提供访问的接口：即系统调用。</p>
+<a id="more"></a>    
 
-<p>其中，前面的\d{1,3}匹配的是”123”，后面的\d{1,3}匹配的是”45”。</p>
-<h3 id="惰性量词"><a href="#惰性量词" class="headerlink" title="惰性量词"></a>惰性量词</h3><p>惰性量词就是在贪婪量词后面加个问号。表示尽可能少的匹配，比如：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.match(<span class="string">r'(\d&#123;1,3&#125;?)(\d&#123;1,3&#125;)'</span>, <span class="string">'12345'</span>).groups()</span><br><span class="line">Out[<span class="number">6</span>]: (<span class="string">'1'</span>, <span class="string">'234'</span>)</span><br></pre></td></tr></table></figure>
+<img src="/images/15-1.png" alt="15-1" style="zoom: 67%;">    
 
-<p>其中\d{1,3}?只匹配到一个字符”1”，而后面的\d{1,3}匹配了”234”。</p>
-<p>虽然惰性量词不贪，但也会有回溯的现象。比如正则是：</p>
-<p><img src="/images/12_8.png" alt></p>
-<p>目标字符串是”12345”，匹配过程是：</p>
-<p><img src="/images/12_9.png" alt></p>
-<p>知道你不贪、很知足，但是为了整体匹配成，没办法，也只能给你多塞点了。因此最后\d{1,3}?匹配的字符是”12”，是两个数字，而不是一个。</p>
-<h2 id="留个问题"><a href="#留个问题" class="headerlink" title="留个问题"></a>留个问题</h2><p>如何用正则表达式判断某数是否为素数。</p>
-<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>1 <a href="https://cloud.tencent.com/developer/article/1360276" target="_blank" rel="noopener">正则表达式之进阶篇</a><br>2 <a href="https://www.jianshu.com/p/d1030a7a078b" target="_blank" rel="noopener">正则表达式回溯法原理</a><br>3 <a href="https://danielhuzm.github.io/2019/06/12/No3/" target="_blank" rel="noopener">Python 中的正则表达式</a></p>
+<p>​        从上图中也可以看到，系统调用紧紧包围着内核，这说明内核态与用户态的互通必须要经过系统调用。但是，<strong>系统调用是操作系统的最小功能单位</strong>。实现某些应用程序，需要调用大量的系统调用，消耗大量的资源。我们可以通过<strong>公共函数库</strong>，从复杂的细节中解脱出来而提出的一种有效方法。它实现对系统调用的封装，将简单的业务逻辑接口呈现给用户，方便用户调用。从这个角度上看，这样的一种组成方式极大增强了程序设计的灵活性。</p>
+<p>​        <strong>Shell</strong>是一个特殊的应用程序，俗称命令行，本质上是一个命令解释器，它下通系统调用，上通各种应用，通常充当着一种“胶水”的角色，来连接各个小功能程序，让不同程序能够以一个清晰的接口协同工作，从而增强各个程序的功能。同时，Shell是可编程的，它可以执行符合Shell语法的文本，这样的文本称为Shell脚本，通常短短的几行Shell脚本就可以实现一个非常大的功能，原因就是这些Shell语句通常都对系统调用做了一层封装。为了方便用户和系统交互，一般，一个Shell对应一个终端，终端是一个硬件设备，呈现给用户的是一个图形化窗口。我们可以通过这个窗口输入或者输出文本。这个文本直接传递给shell进行分析解释，然后执行。</p>
+<p>​        总结一下，用户态的应用程序可以通过三种方式来访问内核态的资源：</p>
+<ul>
+<li><p>系统调用</p>
+</li>
+<li><p>库函数</p>
+</li>
+<li><p>Shell脚本</p>
+</li>
+</ul>
+<h3 id="用户态和内核态的切换"><a href="#用户态和内核态的切换" class="headerlink" title="用户态和内核态的切换"></a>用户态和内核态的切换</h3><p>​        因为操作系统的资源是有限的，如果访问资源的操作过多，必然会消耗过多的资源，而且如果不对这些操作加以区分，很可能造成资源访问的冲突。所以，为了减少有限资源的访问和使用冲突，Unix/Linux的设计哲学之一就是：对不同的操作赋予不同的执行等级，就是所谓特权的概念。简单说就是有多大能力做多大的事，与系统相关的一些特别关键的操作必须由最高特权的程序来完成。Linux操作系统中主要采用了0和3两个特权级，分别对应的就是内核态和用户态。运行于用户态的进程可以执行的操作和访问的资源都会受到极大的限制，而运行在内核态的进程则可以执行任何操作并且在资源的使用上没有限制。很多程序开始时运行于用户态，但在执行的过程中，一些操作需要在内核权限下才能执行，这就涉及到一个从用户态切换到内核态的过程。比如C函数库中的内存分配函数malloc()，它具体是使用sbrk()系统调用来分配内存，当malloc调用sbrk()的时候就涉及一次从用户态到内核态的切换，类似的函数还有printf()，调用的是wirte()系统调用来输出字符串，等等。</p>
+<p>​        到底在什么情况下会发生从用户态到内核态的切换，一般存在以下三种情况：</p>
+<ul>
+<li><p>当然就是系统调用：原因如上的分析。</p>
+</li>
+<li><p>异常事件： 当CPU正在执行运行在用户态的程序时，突然发生某些预先不可知的异常事件，这个时候就会触发从当前用户态执行的进程转向内核态执行相关的异常事件，典型的如缺页异常。</p>
+</li>
+<li><p>外围设备的中断：当外围设备完成用户的请求操作后，会像CPU发出中断信号，此时，CPU就会暂停执行下一条即将要执行的指令，转而去执行中断信号对应的处理程序，如果先前执行的指令是在用户态下，则自然就发生从用户态到内核态的转换。</p>
+</li>
+</ul>
+<h1 id="I-O-模型"><a href="#I-O-模型" class="headerlink" title="I/O 模型"></a>I/O 模型</h1><p>一个输入操作通常包括两个阶段：</p>
+<ul>
+<li>等待数据准备好</li>
+<li>从内核向进程复制数据</li>
+</ul>
+<p><strong>最简单的例子，就像我现在一样，在Typora上码字就可以如下拆分：我先要在键盘（硬件资源）上准备好文字内容，硬件资源完全受内核空间掌控，之后内核空间向Typora这个进程复制文字内容。</strong></p>
+<p>​        一个Socket上的输入操作，第一步通常涉及等待数据从网络中到达。当所等待数据到达时，它被复制到内核中的某个缓冲区。第二步就是把数据从内核缓冲区复制到应用进程缓冲区。</p>
+<p>Unix 有五种 I/O 模型：</p>
+<ul>
+<li>阻塞式 I/O</li>
+<li>非阻塞式 I/O</li>
+<li>I/O 复用（select 和 poll）</li>
+<li>信号驱动式 I/O（SIGIO）</li>
+<li>异步 I/O（AIO）</li>
+</ul>
+<h3 id="阻塞式I-O"><a href="#阻塞式I-O" class="headerlink" title="阻塞式I/O"></a>阻塞式I/O</h3><p>应用进程被阻塞，直到数据从内核缓冲区复制到应用进程缓冲区中才返回。应该注意到，在阻塞的过程中，其它应用进程还可以执行，因此阻塞不意味着整个操作系统都被阻塞。因为其它应用进程还可以执行，所以不消耗 CPU 时间，这种模型的 CPU 利用率会比较高。</p>
+<p>下图中，recvfrom() 用于接收 Socket 传来的数据，并复制到应用进程的缓冲区 buf 中。这里把 recvfrom() 当成系统调用。</p>
+<p><img src="/images/15-2.png" alt="15-2"></p>
+<h3 id="非阻塞式-I-O"><a href="#非阻塞式-I-O" class="headerlink" title="非阻塞式 I/O"></a>非阻塞式 I/O</h3><p>应用进程执行系统调用之后，内核返回一个错误码。应用进程可以继续执行，但是需要不断的执行系统调用来获知 I/O 是否完成，这种方式称为轮询（polling）。</p>
+<p>由于 CPU 要处理更多的系统调用，因此这种模型的 CPU 利用率比较低。</p>
+<p><img src="/images/15-3.png" alt="15-3"></p>
+<h2 id="I-O-复用"><a href="#I-O-复用" class="headerlink" title="I/O 复用"></a>I/O 复用</h2><p>使用 select 或者 poll 等待数据，并且可以等待多个套接字中的任何一个变为可读。这一过程会被阻塞，当某一个套接字可读时返回，之后再使用 recvfrom 把数据从内核复制到进程中。</p>
+<p>它可以让单个进程具有处理多个 I/O 事件的能力。又被称为 Event Driven I/O，即事件驱动 I/O。</p>
+<p>如果一个 Web 服务器没有 I/O 复用，那么每一个 Socket 连接都需要创建一个线程去处理。如果同时有几万个连接，那么就需要创建相同数量的线程。相比于多进程和多线程技术，I/O 复用不需要进程线程创建和切换的开销，系统开销更小。</p>
+<p><img src="/images/15-4.png" alt="15-4"></p>
+<h3 id="信号驱动-I-O"><a href="#信号驱动-I-O" class="headerlink" title="信号驱动 I/O"></a>信号驱动 I/O</h3><p>应用进程使用 sigaction 系统调用，内核立即返回，应用进程可以继续执行，也就是说等待数据阶段应用进程是非阻塞的。内核在数据到达时向应用进程发送 SIGIO 信号，应用进程收到之后在信号处理程序中调用 recvfrom 将数据从内核复制到应用进程中。</p>
+<p>相比于非阻塞式 I/O 的轮询方式，信号驱动 I/O 的 CPU 利用率更高。</p>
+<p><img src="/images/15-5.png" alt="15-5"></p>
+<h3 id="异步-I-O"><a href="#异步-I-O" class="headerlink" title="异步 I/O"></a>异步 I/O</h3><p>应用进程执行 aio_read 系统调用会立即返回，应用进程可以继续执行，不会被阻塞，内核会在所有操作完成之后向应用进程发送信号。</p>
+<p>异步 I/O 与信号驱动 I/O 的区别在于，异步 I/O 的信号是通知应用进程 I/O 完成，而信号驱动 I/O 的信号是通知应用进程可以开始 I/O。</p>
+<p><img src="/images/15-6.png" alt="15-6"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>​        最后，我们用一个例子来说明一下这五个IO模型：</p>
+<p>​        有A，B，C，D，E五个人钓鱼： </p>
+<ul>
+<li>A一直守着鱼竿，遇上了鱼咬钩再拉杆。</li>
+<li>B守着鱼竿的同时在玩王者荣耀，每死一次就去看一下有没有鱼上钩，有的话就迅速拉杆。</li>
+<li>C在B的基础上，同时放好几根鱼竿，然后守在旁边，一旦有显示说鱼上钩了，它就将对应的鱼竿拉起来。</li>
+<li>D在等鱼上钩的时候去打王者荣耀了，找了个小工帮他看着鱼，一旦发现由于马上要上钩了，即可通知D过来收杆。</li>
+<li>E比D更有钱，让这个小工帮他钓鱼，鱼钓上来了就告诉E请赏。</li>
+</ul>
 
       
 
@@ -273,11 +296,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">正则表达式</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Socket</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">回溯法</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">IO模型</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
         		</li>
       		
 		</ul>
@@ -333,7 +360,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/28/No12/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/05/02/No15-Socket在Linux中的五大IO模型/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -347,18 +374,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/04/30/No13-趣谈计算机网络协议-传输层/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          趣谈计算机网络协议-传输层之TCP协议
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/07/20/No11-ELK监控报警系统-3/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">ELK监控报警系统(3)--SSL解密</div>
+    <a href="/2020/04/30/No14-趣谈计算机网络协议-传输层之UDP协议/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">趣谈计算机网络协议-传输层之UDP协议</div>
       <i class="icon-circle-right"></i>
     </a>
   
