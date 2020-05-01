@@ -8,23 +8,23 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>趣谈计算机网络协议-传输层之TCP协议 | DanielHu&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前言​    太久没来更新技术博客了，主要是由于实验室年底与华为接了一个5G大项目，一直忙于测试与报告写作。直到最近，才把与华为的报告告了一个段落，自己的SCI论文也悲催被拒。意想不到是尽管找了实验室的国际友人修改润色语言，结果审稿专家依然觉得有几处really confused him。现在终于有时间边修改论文，边继续互联网的学习了。今天先从传输层的网络协议开始整理学习，传输层中有两个重要的协议">
+  <meta name="description" content="前言​        太久没来更新技术博客了，主要是由于实验室年底与华为接了一个5G大项目，一直忙于测试与报告写作。直到最近，才把与华为的报告告了一个段落，自己的SCI论文也悲催被拒。意想不到是尽管找了实验室的国际友人修改润色语言，结果审稿专家依然觉得有几处really confused him。现在终于有时间边修改论文，边继续互联网的学习了。今天先从传输层的网络协议开始整理学习，传输层中有两个重">
 <meta name="keywords" content="传输层,网络协议,TCP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="趣谈计算机网络协议-传输层之TCP协议">
 <meta property="og:url" content="http://yoursite.com/2020/04/30/No13-趣谈计算机网络协议-传输层/index.html">
 <meta property="og:site_name" content="DanielHu&#39;s Blog">
-<meta property="og:description" content="前言​    太久没来更新技术博客了，主要是由于实验室年底与华为接了一个5G大项目，一直忙于测试与报告写作。直到最近，才把与华为的报告告了一个段落，自己的SCI论文也悲催被拒。意想不到是尽管找了实验室的国际友人修改润色语言，结果审稿专家依然觉得有几处really confused him。现在终于有时间边修改论文，边继续互联网的学习了。今天先从传输层的网络协议开始整理学习，传输层中有两个重要的协议">
+<meta property="og:description" content="前言​        太久没来更新技术博客了，主要是由于实验室年底与华为接了一个5G大项目，一直忙于测试与报告写作。直到最近，才把与华为的报告告了一个段落，自己的SCI论文也悲催被拒。意想不到是尽管找了实验室的国际友人修改润色语言，结果审稿专家依然觉得有几处really confused him。现在终于有时间边修改论文，边继续互联网的学习了。今天先从传输层的网络协议开始整理学习，传输层中有两个重">
 <meta property="og:locale" content="zh-cn">
 <meta property="og:image" content="http://yoursite.com/images/13-3.png">
 <meta property="og:image" content="http://yoursite.com/images/13-1.png">
 <meta property="og:image" content="http://yoursite.com/images/13-2.png">
 <meta property="og:image" content="https://latex.codecogs.com/gif.latex?RTTs=(1-a)*(RTTs)+a*RTT">
 <meta property="og:image" content="https://latex.codecogs.com/gif.latex?RTO=RTTs+4*RTT_d">
-<meta property="og:updated_time" content="2020-05-01T11:24:38.009Z">
+<meta property="og:updated_time" content="2020-05-01T16:52:47.447Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="趣谈计算机网络协议-传输层之TCP协议">
-<meta name="twitter:description" content="前言​    太久没来更新技术博客了，主要是由于实验室年底与华为接了一个5G大项目，一直忙于测试与报告写作。直到最近，才把与华为的报告告了一个段落，自己的SCI论文也悲催被拒。意想不到是尽管找了实验室的国际友人修改润色语言，结果审稿专家依然觉得有几处really confused him。现在终于有时间边修改论文，边继续互联网的学习了。今天先从传输层的网络协议开始整理学习，传输层中有两个重要的协议">
+<meta name="twitter:description" content="前言​        太久没来更新技术博客了，主要是由于实验室年底与华为接了一个5G大项目，一直忙于测试与报告写作。直到最近，才把与华为的报告告了一个段落，自己的SCI论文也悲催被拒。意想不到是尽管找了实验室的国际友人修改润色语言，结果审稿专家依然觉得有几处really confused him。现在终于有时间边修改论文，边继续互联网的学习了。今天先从传输层的网络协议开始整理学习，传输层中有两个重">
 <meta name="twitter:image" content="http://yoursite.com/images/13-3.png">
   
     <link rel="alternative" href="/atom.xml" title="DanielHu&#39;s Blog" type="application/atom+xml">
@@ -185,11 +185,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>​    太久没来更新技术博客了，主要是由于实验室年底与华为接了一个5G大项目，一直忙于测试与报告写作。直到最近，才把与华为的报告告了一个段落，自己的SCI论文也悲催被拒。意想不到是尽管找了实验室的国际友人修改润色语言，结果审稿专家依然觉得有几处really confused him。现在终于有时间边修改论文，边继续互联网的学习了。今天先从传输层的网络协议开始整理学习，传输层中有两个重要的协议，TCP与UDP，下面对此展开介绍。</p>
-<h2 id="运输层概述"><a href="#运输层概述" class="headerlink" title="运输层概述"></a>运输层概述</h2><p>​    运输层提供应用层端到端的通信服务。通俗讲，两个主机通讯，就是应用层上的进程之间的通信，也就是转换为进程和进程之间的通信了。网络层的IP协议能将分组准确的发送到目的主机，但是停留在网络层，并不知道要怎么交给我们的主机应用进程，通过前面的学习，我们学习有mac地址，通过mac地址能找到同一个网络下主机，有IP地址，通过ip地址能找到不同网络下的网络，结合mac地址就能找到对应主机，那么怎么找到主机应用进程呢，肯定也有一个东西来标识它，那就是我们常说的端口了。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>​        太久没来更新技术博客了，主要是由于实验室年底与华为接了一个5G大项目，一直忙于测试与报告写作。直到最近，才把与华为的报告告了一个段落，自己的SCI论文也悲催被拒。意想不到是尽管找了实验室的国际友人修改润色语言，结果审稿专家依然觉得有几处really confused him。现在终于有时间边修改论文，边继续互联网的学习了。今天先从传输层的网络协议开始整理学习，传输层中有两个重要的协议，TCP与UDP，下面对此展开介绍。</p>
+<h2 id="运输层概述"><a href="#运输层概述" class="headerlink" title="运输层概述"></a>运输层概述</h2><p>​        运输层提供应用层端到端的通信服务。通俗讲，两个主机通讯，就是应用层上的进程之间的通信，也就是转换为进程和进程之间的通信了。网络层的IP协议能将分组准确的发送到目的主机，但是停留在网络层，并不知道要怎么交给我们的主机应用进程，通过前面的学习，我们学习有mac地址，通过mac地址能找到同一个网络下主机，有IP地址，通过ip地址能找到不同网络下的网络，结合mac地址就能找到对应主机，那么怎么找到主机应用进程呢，肯定也有一个东西来标识它，那就是我们常说的端口了。</p>
 <a id="more"></a>
 
-<h3 id="端口"><a href="#端口" class="headerlink" title="端口"></a>端口</h3><p>​    主机之间的通讯，也就是应用进程之间的通讯，都要依靠端口。一个进程对应一个端口，进程A和进程B通信，进程A分到的端口为60000，进程B分到的端口为60001，进程A通过端口60000发送数据给进程B，就知道要交给60001端口，也就到了进程B中，这样就达到了通信的目的。端口占有16位，其大小也就有65536个，是从0~65535。</p>
+<h3 id="端口"><a href="#端口" class="headerlink" title="端口"></a>端口</h3><p>​        主机之间的通讯，也就是应用进程之间的通讯，都要依靠端口。一个进程对应一个端口，进程A和进程B通信，进程A分到的端口为60000，进程B分到的端口为60001，进程A通过端口60000发送数据给进程B，就知道要交给60001端口，也就到了进程B中，这样就达到了通信的目的。端口占有16位，其大小也就有65536个，是从0~65535。</p>
 <h2 id="TCP头部格式"><a href="#TCP头部格式" class="headerlink" title="TCP头部格式"></a>TCP头部格式</h2><p><img src="/images/13-3.png" alt="13-3"></p>
 <ul>
 <li><strong>序号</strong> ：用于对字节流进行编号，例如序号为 301，表示第一个字节的编号为 301，如果携带的数据长度为 100 字节，那么下一个报文段的序号应为 401。</li>
@@ -200,43 +200,45 @@
 <li><strong>终止 FIN</strong> ：用来释放一个连接，当 FIN=1 时，表示此报文段的发送方的数据已发送完毕，并要求释放连接。</li>
 <li><strong>窗口</strong> ：窗口值作为接收方让发送方设置其发送窗口的依据。之所以要有这个限制，是因为接收方的数据缓存空间是有限的。</li>
 </ul>
-<h2 id="TCP协议"><a href="#TCP协议" class="headerlink" title="TCP协议"></a>TCP协议</h2><p>​    传输控制协议（TCP，Transmission Control Protocol）是一种面向连接的、可靠的、基于字节流的传输层通信协议，由IETF的RFC 793 [1] 定义。我们一点点来解释面向连接、可靠、基于字节流这几个关键点。</p>
-<h3 id="面向连接"><a href="#面向连接" class="headerlink" title="面向连接"></a>面向连接</h3><p>​    面向连接就意味着TCP先要建立连接，常被成为三次握手。</p>
+<h2 id="TCP协议"><a href="#TCP协议" class="headerlink" title="TCP协议"></a>TCP协议</h2><p>​        传输控制协议（TCP，Transmission Control Protocol）是一种面向连接的、可靠的、基于字节流的传输层通信协议，由IETF的RFC 793 [1] 定义。我们一点点来解释面向连接、可靠、基于字节流这几个关键点。</p>
+<h3 id="面向连接"><a href="#面向连接" class="headerlink" title="面向连接"></a>面向连接</h3><p>​        面向连接就意味着TCP先要建立连接，常被成为三次握手。</p>
 <p><img src="/images/13-1.png" alt="13-1"></p>
-<p>​    那么问题来了，为什么需要三次？为什么不是两次，不是四次？网络上大多数的“问好”式回答仅仅只能回答为什么不是两次这个问题。我们可以这样去理解。</p>
-<p>​    <strong>第一次握手</strong>：<strong>A</strong>向<strong>B</strong>发送同步SYN请求，同时发送序列号seq=x，这个序列号是一个基于随机的数，目的是告知<strong>B</strong>接下来数据传输的序号。</p>
-<p>​    <strong>第二次握手</strong>：<strong>B</strong>收到<strong>A</strong>的连接请求后，同意连接返回同步SYN请求，确认符ACK，序列号seq=y，同样也是一个随机数，不同的是，这是在告知<strong>A</strong>建立连接后从<strong>B</strong>发往<strong>A</strong>的数据包编号。注意最后，还会附带一个ack=x+1，这就是在告诉<strong>A</strong>我知道你随后数据包的编号要从x+1开始了！</p>
-<p>​    <strong>第三次握手</strong>：<strong>A</strong>收到<strong>B</strong>发送的SYN和ACK之后，发送ACK的ACK，确认号为 y+1，序号为 x+1。这就是在告诉<strong>B</strong>我知道你随后数据包的编号要从y+1开始了！</p>
-<p>​    通过这样的三次握手，双向数据传输的链路就建立起来了。回到先前的问题，为什么不能两次？</p>
+<p>​        那么问题来了，为什么需要三次？为什么不是两次，不是四次？网络上大多数的“问好”式回答仅仅只能回答为什么不是两次这个问题。我们可以这样去理解。</p>
+<p>​        <strong>第一次握手</strong>：<strong>A</strong>向<strong>B</strong>发送同步SYN请求，同时发送序列号seq=x，这个序列号是一个基于随机的数，目的是告知<strong>B</strong>接下来数据传输的序号。</p>
+<p>​        <strong>第二次握手</strong>：<strong>B</strong>收到<strong>A</strong>的连接请求后，同意连接返回同步SYN请求，确认符ACK，序列号seq=y，同样也是一个随机数，不同的是，这是在告知<strong>A</strong>建立连接后从<strong>B</strong>发往<strong>A</strong>的数据包编号。注意最后，还会附带一个ack=x+1，这就是在告诉<strong>A</strong>我知道你随后数据包的编号要从x+1开始了！</p>
+<p>​        <strong>第三次握手</strong>：<strong>A</strong>收到<strong>B</strong>发送的SYN和ACK之后，发送ACK的ACK，确认号为 y+1，序号为 x+1。这就是在告诉<strong>B</strong>我知道你随后数据包的编号要从y+1开始了！</p>
+<p>​        通过这样的三次握手，双向数据传输的链路就建立起来了。回到先前的问题，为什么不能两次？</p>
 <ul>
 <li>如果只有两次握手，<strong>B</strong>返回SYN、ACK、seq之后，并不知道<strong>A</strong>是否已经收到了请求，自然无法建立连接。</li>
 <li>如果只有两次握手，在网络条件不佳的情况下，<strong>A</strong>的连接请求被延迟了很久才发送到<strong>B</strong>，且请求送到的时候，<strong>A</strong>已经没有数据要发。在此情况下，<strong>A</strong>与<strong>B</strong>都会经历长时间的链接建立后的等待数据传输过程，造成了极大的资源浪费。</li>
 </ul>
-<p>​    接下来，我们来看断开连接。</p>
+<p>​        接下来，我们来看断开连接。</p>
 <p><img src="/images/13-2.png" alt="13-2"></p>
-<p>​    <strong>第一次挥手</strong>：<strong>A</strong>发送连接释放报文，<strong>FIN=1</strong>，就进入<strong>FIN_WAIT_1</strong>的状态；</p>
-<p>​    <strong>第二次挥手</strong>：<strong>B</strong>收到<strong>A</strong>的连接请求后，发出确认，此时 TCP 属于<strong>CLOSE_WAIT(半关闭)状态</strong>，<strong>B</strong>能向<strong>A</strong>发送数据，但是<strong>A</strong>不能向<strong>B</strong>发送数据；</p>
-<p>​    <strong>第三次挥手</strong>：<strong>B</strong>发送完剩余数据后，不再需要连接，发送连接释放报文，<strong>FIN=1</strong>；</p>
-<p>​    <strong>第四次挥手</strong>：<strong>A</strong>收到后发出确认，进入 <strong>TIME-WAIT</strong> 状态，等待 <strong>2 MSL（最大报文存活时间</strong>）后释放连接；</p>
-<p>​    这里首先解释上面的问题，<strong>为什么在建立连接时，不需要四次握手？</strong></p>
-<p>​    与释放连接不同，建立连接时不存在发送还未传送完毕的数据的问题，两三两次握手可以合并，以节约时间与空间资源。同时，TCP协议也明确规定在建立连接时，不允许存在<strong>半关闭/半打开</strong>状态。</p>
-<p>​    第二个问题，为什么需要 <strong>TIME-WAIT</strong>：</p>
-<p>​    客户端接收到服务器端的 FIN 报文后进入此状态，此时并不是直接进入 CLOSED 状态，还需要等待一个时间计时器设置的时间<strong>2MSL</strong>。这么做有两个理由：</p>
+<p>​        <strong>第一次挥手</strong>：<strong>A</strong>发送连接释放报文，<strong>FIN=1</strong>，就进入<strong>FIN_WAIT_1</strong>的状态；</p>
+<p>​        <strong>第二次挥手</strong>：<strong>B</strong>收到<strong>A</strong>的连接请求后，发出确认，此时 TCP 属于<strong>CLOSE_WAIT(半关闭)状态</strong>，<strong>B</strong>能向<strong>A</strong>发送数据，但是<strong>A</strong>不能向<strong>B</strong>发送数据；</p>
+<p>​        <strong>第三次挥手</strong>：<strong>B</strong>发送完剩余数据后，不再需要连接，发送连接释放报文，<strong>FIN=1</strong>；</p>
+<p>​        <strong>第四次挥手</strong>：<strong>A</strong>收到后发出确认，进入 <strong>TIME-WAIT</strong> 状态，等待 <strong>2 MSL（最大报文存活时间</strong>）后释放连接；</p>
+<p>​        这里首先解释上面的问题，<strong>为什么在建立连接时，不需要四次握手？</strong></p>
+<p>​        与释放连接不同，建立连接时不存在发送还未传送完毕的数据的问题，两三两次握手可以合并，以节约时间与空间资源。同时，TCP协议也明确规定在建立连接时，不允许存在<strong>半关闭/半打开</strong>状态。</p>
+<p>​        第二个问题，为什么需要 <strong>TIME-WAIT</strong>：</p>
+<p>​        客户端接收到服务器端的 FIN 报文后进入此状态，此时并不是直接进入 CLOSED 状态，还需要等待一个时间计时器设置的时间<strong>2MSL</strong>。这么做有两个理由：</p>
 <ul>
-<li>确保最后一个确认报文能够到达。如果 B 没收到 A 发送来的确认报文，那么就会重新发送连接释放请求报文，A 等待一段时间就是为了处理这种情况的发生。</li>
-<li>等待一段时间是为了让本连接持续时间内所产生的所有报文都从网络中消失，使得下一个新的连接不会出现旧的连接请求报文。</li>
-</ul>
+<li><p>确保最后一个确认报文能够到达。如果 B 没收到 A 发送来的确认报文，那么就会重新发送连接释放请求报文，A 等待一段时间就是为了处理这种情况的发生。</p>
+</li>
+<li><p>等待一段时间是为了让本连接持续时间内所产生的所有报文都从网络中消失，使得下一个新的连接不会出现旧的连接请求报文。</p>
 <p>​    第三个问题，什么是<strong>CLOSE-WAIT</strong>，过多会是什么问题？</p>
 <p>​    首先要说明的是，<strong>CLOSE-WAIT</strong>一定出现在被动关闭方，可能是在关闭连接之前还有许多数据要发送或者其他事要做，导致没有发这个<strong>FIN</strong>。<strong>CLOSE-WAIT</strong> 按照正常操作的话应该很短暂的一个状态，接收到<strong>A</strong>的<strong>FIN</strong>包并且回复客户端<strong>ACK</strong>之后，会继续发送<strong>FIN</strong>包告知<strong>A</strong>关闭连接，之后迁移到<strong>Last_ACK</strong>状态。但是<strong>CLOSE-WAIT</strong>过多只能说明没有迁移到<strong>Last_ACK</strong>，所以问题定位在是否发送<strong>FIN</strong>包。<strong>FIN</strong>包的底层实现其实就是调用socket的close方法，这里的问题出在没有执行close方法。说明服务端socket 忙于读写。解决方案如下：使用完socket调用close方法；第二：socket读控制，当读取的长度为0时（读到结尾），立即close；第三：如果read返回-1，出现错误，检查error返回码，有三种情况：INTR（被中断，可以继续读取），WOULDBLOCK（表示当前socket_fd文件描述符是非阻塞的，但是现在被阻塞了），AGAIN（表示现在没有数据稍后重新读取）。如果不是AGAIN，立即close。</p>
-<h3 id="可靠传输"><a href="#可靠传输" class="headerlink" title="可靠传输"></a>可靠传输</h3><p>​    TCP 使用超时重传来实现可靠传输：如果一个已经发送的报文段在超时时间内没有收到确认，那么就重传这个报文段。</p>
-<p>​    一个报文段从发送再到接收到确认所经过的时间称为往返时间 RTT，加权平均往返时间 RTTs 计算如下：</p>
+</li>
+</ul>
+<h3 id="可靠传输"><a href="#可靠传输" class="headerlink" title="可靠传输"></a>可靠传输</h3><p>​        TCP 使用超时重传来实现可靠传输：如果一个已经发送的报文段在超时时间内没有收到确认，那么就重传这个报文段。</p>
+<p>​        一个报文段从发送再到接收到确认所经过的时间称为往返时间 RTT，加权平均往返时间 RTTs 计算如下：</p>
 <p><img src="https://latex.codecogs.com/gif.latex?RTTs=(1-a)*(RTTs)+a*RTT" alt="img"></p>
 <p>其中，0 ≤ a ＜ 1，RTTs 随着 a 的增加更容易受到 RTT 的影响。</p>
-<p>​    超时时间 RTO 应该略大于 RTTs，TCP 使用的超时时间计算如下：</p>
+<p>​        超时时间 RTO 应该略大于 RTTs，TCP 使用的超时时间计算如下：</p>
 <p><img src="https://latex.codecogs.com/gif.latex?RTO=RTTs+4*RTT_d" alt="img"></p>
-<p>​    其中 RTTd 为偏差的加权平均值。</p>
-<h3 id="面向字节流"><a href="#面向字节流" class="headerlink" title="面向字节流"></a>面向字节流</h3><p>​    面向字节流的话，虽然应用程序和TCP的交互是一次一个数据块（大小不等），但TCP把应用程序看成是一连串的无结构的字节流。TCP有一个缓冲，当应用程序传送的数据块太长，TCP就可以把它划分短一些再传送。如果应用程序一次只发送一个字节，TCP也可以等待积累有足够多的字节后再构成报文段发送出去。由于超时传输的存在，因此接收方只需要接收到所有数据后，将其按照序号拼接在一起即可。所以，面向字节流的好处是数据包可大可小，所受限制小。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>​    本文总结了传输层中的TCP协议，主要简述了TCP协议的三大特点——面向连接、可靠传输、面向字节流。下一篇将会对UDP协议进行论述，并与TCP相比较。</p>
+<p>其中 RTTd 为偏差的加权平均值。</p>
+<h3 id="面向字节流"><a href="#面向字节流" class="headerlink" title="面向字节流"></a>面向字节流</h3><p>​        面向字节流的话，虽然应用程序和TCP的交互是一次一个数据块（大小不等），但TCP把应用程序看成是一连串的无结构的字节流。TCP有一个缓冲，当应用程序传送的数据块太长，TCP就可以把它划分短一些再传送。如果应用程序一次只发送一个字节，TCP也可以等待积累有足够多的字节后再构成报文段发送出去。由于超时传输的存在，因此接收方只需要接收到所有数据后，将其按照序号拼接在一起即可。所以，面向字节流的好处是数据包可大可小，所受限制小。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>​        本文总结了传输层中的TCP协议，主要简述了TCP协议的三大特点——面向连接、可靠传输、面向字节流。下一篇将会对UDP协议进行论述，并与TCP相比较。</p>
 <p>​    </p>
 <p>​    </p>
 
@@ -498,7 +500,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">web development</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">ELK</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SSL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">对称加密</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">非对称加密</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -522,27 +544,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SSL</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">对称加密</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">非对称加密</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">web development</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">多进程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Http</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -554,11 +560,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Http</a>
+                <a href="javascript:void(0)" class="js-tag color5">gzip</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">gzip</a>
+                <a href="javascript:void(0)" class="js-tag color4">TCP</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -571,10 +577,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">TCP</a>
               </li>
             
             <div class="clearfix"></div>
