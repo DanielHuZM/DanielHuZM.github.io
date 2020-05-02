@@ -6,22 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Python web development with Flask(1) | DanielHu&#39;s Blog</title>
+  <title>Tag: 源码 | DanielHu&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前言Flask是目前最为流行的Python Web框架之一。Flask仅仅保留了Web框架的核心，其他功能都交由扩展实现。因其灵活性，越来越多的公司选择Flask作为Web框架，知名公司有Netflix、Reddit和豆瓣等，这也说明了Flask能够经受大型项目的挑战，适应各种需求。  开发环境OS ：Windows 10 (x64)软件 : Pycharm版本管理： Git  Hello,">
-<meta name="keywords" content="python,web development">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Python web development with Flask(1)">
-<meta property="og:url" content="http://yoursite.com/2019/06/09/No1/index.html">
+  <meta name="description" content="上海大学硕士在读，本博客内容有关于后端开发、通信以及足球">
+<meta name="keywords" content="Python, Coding, Communication Technology, Information Technology，程序猿，后端">
+<meta property="og:type" content="website">
+<meta property="og:title" content="DanielHu&#39;s Blog">
+<meta property="og:url" content="http://yoursite.com/tags/源码/index.html">
 <meta property="og:site_name" content="DanielHu&#39;s Blog">
-<meta property="og:description" content="前言Flask是目前最为流行的Python Web框架之一。Flask仅仅保留了Web框架的核心，其他功能都交由扩展实现。因其灵活性，越来越多的公司选择Flask作为Web框架，知名公司有Netflix、Reddit和豆瓣等，这也说明了Flask能够经受大型项目的挑战，适应各种需求。  开发环境OS ：Windows 10 (x64)软件 : Pycharm版本管理： Git  Hello,">
+<meta property="og:description" content="上海大学硕士在读，本博客内容有关于后端开发、通信以及足球">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:image" content="http://yoursite.com/images/Flask_image.png">
-<meta property="og:updated_time" content="2019-06-18T02:38:44.261Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python web development with Flask(1)">
-<meta name="twitter:description" content="前言Flask是目前最为流行的Python Web框架之一。Flask仅仅保留了Web框架的核心，其他功能都交由扩展实现。因其灵活性，越来越多的公司选择Flask作为Web框架，知名公司有Netflix、Reddit和豆瓣等，这也说明了Flask能够经受大型项目的挑战，适应各种需求。  开发环境OS ：Windows 10 (x64)软件 : Pycharm版本管理： Git  Hello,">
-<meta name="twitter:image" content="http://yoursite.com/images/Flask_image.png">
+<meta name="twitter:title" content="DanielHu&#39;s Blog">
+<meta name="twitter:description" content="上海大学硕士在读，本博客内容有关于后端开发、通信以及足球">
   
     <link rel="alternative" href="/atom.xml" title="DanielHu&#39;s Blog" type="application/atom+xml">
   
@@ -161,217 +158,72 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-No1" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      Python web development with Flask(1)
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2020" class="archive-year">2020</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2020/05/02/NO17Python源码试读-sort底层实现/" class="archive-article-date">
+  	<time datetime="2020-05-02T10:08:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-02</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2020/05/02/NO17Python源码试读-sort底层实现/">Python源码试读--sort底层实现</a>
     </h1>
   
 
-        
-        <a href="/2019/06/09/No1/" class="archive-article-date">
-  	<time datetime="2019-06-09T03:21:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="/images/Flask_image.png" alt></p>
-<hr>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Flask是目前最为流行的Python Web框架之一。Flask仅仅保留了Web框架的核心，其他功能都交由扩展实现。因其灵活性，越来越多的公司选择Flask作为Web框架，知名公司有Netflix、Reddit和豆瓣等，这也说明了Flask能够经受大型项目的挑战，适应各种需求。</p>
-<hr>
-<h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h2><p>OS ：Windows 10 (x64)<br>软件 : Pycharm<br>版本管理： Git</p>
-<hr>
-<h2 id="Hello-Flask"><a href="#Hello-Flask" class="headerlink" title="Hello, Flask!"></a>Hello, Flask!</h2><p>这是一个最小的Flask程序，仅需5行就能够实现。</p>
-<a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line">@app.route(&apos;/&apos;)</span><br><span class="line">def index():</span><br><span class="line">    return &apos;Hello Flask！&apos;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="启动开发服务器"><a href="#启动开发服务器" class="headerlink" title="启动开发服务器"></a>启动开发服务器</h2><p>Flask内置了一个简单的开发服务器（由Werkzeug提供），足够在开发和测试时使用。通过依赖包Click, Flask内置了一个CLI系统，可以通过flask命令执行内置命令、扩展提供的命令或者自己定义的命令。其中flask run命令就是用来启动内置的开发服务器。</p>
-<p>一般来说，在执行flask run命令运行程序前，需要提供程序实例所在的模块的位置。Flask会自动探测程序实例，规则如下：</p>
-<ol>
-<li>寻找app.py或者wsgi.py模块，并从中寻找名为app或者application的程序实例。</li>
-<li>从环境变量Flask_APP对应的模块名寻找名为app或者application的程序实例。</li>
-</ol>
-<p>如果程序的主模块名为app.py，flask run命令会自动在其中寻找程序实例，符合规则1，即可运行。</p>
-<p>如果程序的主模块名是其他名称，例如hello.py，则需要设置环境变量,如下所示：<br>Linu/macOS：$ export FLASK_ALL=hello.py<br>Windows: &gt; set Flask_APP=hello.py</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(venv) &gt;set FLASK_APP=hello.py &amp; flask run</span><br><span class="line"> * Serving Flask app &quot;hello.py &quot;</span><br><span class="line"> * Environment: production</span><br><span class="line">   WARNING: Do not use the development server in a production environment.</span><br><span class="line">   Use a production WSGI server instead.</span><br><span class="line"> * Debug mode: off</span><br><span class="line"> * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)</span><br></pre></td></tr></table></figure>
-
-<p>提示：旧的启动开发服务器的方法是app.run()方法，目前已不推荐使用。</p>
-<h3 id="启动选项"><a href="#启动选项" class="headerlink" title="启动选项"></a>启动选项</h3><p>1.服务器外部可见：<br>Flask提供的服务器默认是对外不可见的，可以在run命令后添加–host选项将主机地址设为0.0.0.0，这会让操作系统监听所有公网IP。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; flask run --host=0.0.0.0</span><br></pre></td></tr></table></figure>
-
-<p>2.改变默认端口：<br>Flask提供的服务器默认监听5000端口。可以通过传入函数改变：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; flask run --port=8000</span><br></pre></td></tr></table></figure>
-
-<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>书籍：<a href="http://helloflask.com/book/" target="_blank" rel="noopener">Flask Web开发实战——入门、进阶与原理解析</a></p>
-
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你给我口饭吃!<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/img/ali.jpg">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/img/wechat.jpg">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">web development</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">List</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Sort</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">源码</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/06/09/No1/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2019/06/09/No2/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Python web development with Flask(2)
-        
-      </div>
-    </a>
   
   
-    <a href="/2019/06/09/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Hello World</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -394,9 +246,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

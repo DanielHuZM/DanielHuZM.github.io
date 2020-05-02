@@ -6,22 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Python web development with Flask(1) | DanielHu&#39;s Blog</title>
+  <title>Python源码试读--常见容器的底层实现(List) | DanielHu&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前言Flask是目前最为流行的Python Web框架之一。Flask仅仅保留了Web框架的核心，其他功能都交由扩展实现。因其灵活性，越来越多的公司选择Flask作为Web框架，知名公司有Netflix、Reddit和豆瓣等，这也说明了Flask能够经受大型项目的挑战，适应各种需求。  开发环境OS ：Windows 10 (x64)软件 : Pycharm版本管理： Git  Hello,">
-<meta name="keywords" content="python,web development">
+  <meta name="description" content="前言​        Python中的常见容器有以下几种：列表(List)、集合(Set)、元祖(Tuple)、字典(Dict)等。下文会从Cpython的源码入手，看看这些常见容器在底层是如何实现的。今天先来看下最简单的List。">
+<meta name="keywords" content="Python,List,容器">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python web development with Flask(1)">
-<meta property="og:url" content="http://yoursite.com/2019/06/09/No1/index.html">
+<meta property="og:title" content="Python源码试读--常见容器的底层实现(List)">
+<meta property="og:url" content="http://yoursite.com/2020/05/02/No16-Python中常见容器的底层实现/index.html">
 <meta property="og:site_name" content="DanielHu&#39;s Blog">
-<meta property="og:description" content="前言Flask是目前最为流行的Python Web框架之一。Flask仅仅保留了Web框架的核心，其他功能都交由扩展实现。因其灵活性，越来越多的公司选择Flask作为Web框架，知名公司有Netflix、Reddit和豆瓣等，这也说明了Flask能够经受大型项目的挑战，适应各种需求。  开发环境OS ：Windows 10 (x64)软件 : Pycharm版本管理： Git  Hello,">
+<meta property="og:description" content="前言​        Python中的常见容器有以下几种：列表(List)、集合(Set)、元祖(Tuple)、字典(Dict)等。下文会从Cpython的源码入手，看看这些常见容器在底层是如何实现的。今天先来看下最简单的List。">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:image" content="http://yoursite.com/images/Flask_image.png">
-<meta property="og:updated_time" content="2019-06-18T02:38:44.261Z">
+<meta property="og:updated_time" content="2020-05-02T10:02:21.322Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python web development with Flask(1)">
-<meta name="twitter:description" content="前言Flask是目前最为流行的Python Web框架之一。Flask仅仅保留了Web框架的核心，其他功能都交由扩展实现。因其灵活性，越来越多的公司选择Flask作为Web框架，知名公司有Netflix、Reddit和豆瓣等，这也说明了Flask能够经受大型项目的挑战，适应各种需求。  开发环境OS ：Windows 10 (x64)软件 : Pycharm版本管理： Git  Hello,">
-<meta name="twitter:image" content="http://yoursite.com/images/Flask_image.png">
+<meta name="twitter:title" content="Python源码试读--常见容器的底层实现(List)">
+<meta name="twitter:description" content="前言​        Python中的常见容器有以下几种：列表(List)、集合(Set)、元祖(Tuple)、字典(Dict)等。下文会从Cpython的源码入手，看看这些常见容器在底层是如何实现的。今天先来看下最简单的List。">
   
     <link rel="alternative" href="/atom.xml" title="DanielHu&#39;s Blog" type="application/atom+xml">
   
@@ -161,54 +159,68 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-No1" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-No16-Python中常见容器的底层实现" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Python web development with Flask(1)
+      Python源码试读--常见容器的底层实现(List)
     </h1>
   
 
         
-        <a href="/2019/06/09/No1/" class="archive-article-date">
-  	<time datetime="2019-06-09T03:21:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-09</time>
+        <a href="/2020/05/02/No16-Python中常见容器的底层实现/" class="archive-article-date">
+  	<time datetime="2020-05-02T06:11:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-02</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="/images/Flask_image.png" alt></p>
-<hr>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Flask是目前最为流行的Python Web框架之一。Flask仅仅保留了Web框架的核心，其他功能都交由扩展实现。因其灵活性，越来越多的公司选择Flask作为Web框架，知名公司有Netflix、Reddit和豆瓣等，这也说明了Flask能够经受大型项目的挑战，适应各种需求。</p>
-<hr>
-<h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h2><p>OS ：Windows 10 (x64)<br>软件 : Pycharm<br>版本管理： Git</p>
-<hr>
-<h2 id="Hello-Flask"><a href="#Hello-Flask" class="headerlink" title="Hello, Flask!"></a>Hello, Flask!</h2><p>这是一个最小的Flask程序，仅需5行就能够实现。</p>
-<a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line">@app.route(&apos;/&apos;)</span><br><span class="line">def index():</span><br><span class="line">    return &apos;Hello Flask！&apos;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>​        Python中的常见容器有以下几种：列表(List)、集合(Set)、元祖(Tuple)、字典(Dict)等。下文会从Cpython的源码入手，看看这些常见容器在底层是如何实现的。今天先来看下最简单的List。</p>
+<a id="more"></a>    
 
-<h2 id="启动开发服务器"><a href="#启动开发服务器" class="headerlink" title="启动开发服务器"></a>启动开发服务器</h2><p>Flask内置了一个简单的开发服务器（由Werkzeug提供），足够在开发和测试时使用。通过依赖包Click, Flask内置了一个CLI系统，可以通过flask命令执行内置命令、扩展提供的命令或者自己定义的命令。其中flask run命令就是用来启动内置的开发服务器。</p>
-<p>一般来说，在执行flask run命令运行程序前，需要提供程序实例所在的模块的位置。Flask会自动探测程序实例，规则如下：</p>
-<ol>
-<li>寻找app.py或者wsgi.py模块，并从中寻找名为app或者application的程序实例。</li>
-<li>从环境变量Flask_APP对应的模块名寻找名为app或者application的程序实例。</li>
-</ol>
-<p>如果程序的主模块名为app.py，flask run命令会自动在其中寻找程序实例，符合规则1，即可运行。</p>
-<p>如果程序的主模块名是其他名称，例如hello.py，则需要设置环境变量,如下所示：<br>Linu/macOS：$ export FLASK_ALL=hello.py<br>Windows: &gt; set Flask_APP=hello.py</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(venv) &gt;set FLASK_APP=hello.py &amp; flask run</span><br><span class="line"> * Serving Flask app &quot;hello.py &quot;</span><br><span class="line"> * Environment: production</span><br><span class="line">   WARNING: Do not use the development server in a production environment.</span><br><span class="line">   Use a production WSGI server instead.</span><br><span class="line"> * Debug mode: off</span><br><span class="line"> * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)</span><br></pre></td></tr></table></figure>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><ul>
+<li>cpython/Objects/listobject.c</li>
+<li>cpython/Objects/clinic/listobject.c.h</li>
+<li>cpython/Include/listobject.h</li>
+<li>cpython/Objects/listsort.txt</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    PyObject_VAR_HEAD</span><br><span class="line">    PyObject **ob_item;</span><br><span class="line">    Py_ssize_t allocated;</span><br><span class="line">&#125; PyListObject;</span><br></pre></td></tr></table></figure>
 
-<p>提示：旧的启动开发服务器的方法是app.run()方法，目前已不推荐使用。</p>
-<h3 id="启动选项"><a href="#启动选项" class="headerlink" title="启动选项"></a>启动选项</h3><p>1.服务器外部可见：<br>Flask提供的服务器默认是对外不可见的，可以在run命令后添加–host选项将主机地址设为0.0.0.0，这会让操作系统监听所有公网IP。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; flask run --host=0.0.0.0</span><br></pre></td></tr></table></figure>
+<p>​        下面我们来逐行解释。首先<code>Pyobject_Var_HEAD</code>是什么东西？再来看源码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//object.h</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">object</span> &#123;</span></span><br><span class="line">    Py_ssize_t ob_refcnt;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> _<span class="title">typeobject</span> *<span class="title">ob_type</span>;</span></span><br><span class="line">&#125; PyObject; <span class="comment">// PyObject不用我说</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    PyObject ob_base;</span><br><span class="line">    Py_ssize_t ob_size; </span><br><span class="line">&#125; PyVarObject;</span><br><span class="line"><span class="comment">//这个也已经介绍了，就是在PyObject的基础上加了一个ob_size</span></span><br><span class="line"><span class="comment">//这个是专门针对变长对象的，ob_size表示变长对象中容纳了多少个元素</span></span><br><span class="line"><span class="comment">//l = [1, 2, 3, 4]，显然l对应的ob_size就是4</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PyObject_VAR_HEAD      PyVarObject ob_base;</span></span><br><span class="line"><span class="comment">//这是一个宏定义，所以，这个PyObject_VAR_HEAD</span></span><br><span class="line"><span class="comment">//就等同于PyVarObject ob_base，说白了就是一个PyVarObject结构体实例</span></span><br></pre></td></tr></table></figure>
 
-<p>2.改变默认端口：<br>Flask提供的服务器默认监听5000端口。可以通过传入函数改变：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; flask run --port=8000</span><br></pre></td></tr></table></figure>
+<p>​        从上面源码中，我们可以看到，<code>Pyobject_Var_HEAD</code>中有一个<code>ob_size</code>，记录着这个变长对象当前所容纳的元素个数。其次，<code>ob_item</code>就对应list对象存储的元素，<code>ob_item[0]</code>就是<code>list[0]</code>。</p>
+<p>​        最后，<code>allocated</code>表示最大能存储多少个元素，因为这是一个变长对象，因此就意味着可以随时对其进行删除、增加等操作，如果每次添加都要<code>malloc</code>，那么    效率会非常低下，因此python会事先申请一大份内存，而<code>allocated</code>正是记录了这个一大份内存的容量是多少。而ob_size则是目前已经存了多少个，如果你学过golang，你会发现ob_size对应    golang里面切片的len，而allocated则对应cap。假设一个能容纳10个元素的PyListObject对象已经存了5个元素，那么ob_size就是5，allocated就是10。</p>
+<p>​        那么，我们平时所用的<code>len(list)</code>实际上就等于<code>ob_size</code>。</p>
+<h2 id="Resize"><a href="#Resize" class="headerlink" title="Resize"></a>Resize</h2><p>​        <strong>刚才说了，python事先会申请一大份内存，这个并不是指在创建的时候申请一大份内存，而是在扩容的时候，会申请更多的内存。</strong></p>
+<p>​        <strong>PyListObject有一个resize操作，不用想，这个肯定是修改列表容量的。因为allocated一开始是固定的，但是随着ob_size越来越大，肯定要申请更多的内存，即增大allocated</strong>。</p>
+<p>​        同样的，在pop()操作中，同样会缩减内存。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">int</span></span><br><span class="line">list_resize(PyListObject *self, Py_ssize_t newsize)</span><br><span class="line">&#123;	</span><br><span class="line">    <span class="comment">//参数self就是PyListObject *对象本身</span></span><br><span class="line">    <span class="comment">//参数newsize就是当前的ob_size</span></span><br><span class="line">    PyObject **items;</span><br><span class="line">    <span class="comment">//既然resize，所以new_allocated就是新的最大容量</span></span><br><span class="line">    <span class="keyword">size_t</span> new_allocated, num_allocated_bytes;</span><br><span class="line">    <span class="comment">//这里的获取当前PyListObject的allocated</span></span><br><span class="line">    Py_ssize_t allocated = self-&gt;allocated;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//如果当前的容量大于newsize(ob_size)，并且newsize &gt;= 容量除以2</span></span><br><span class="line">    <span class="comment">//基本上啥也没干直接返回，这一步不需要关心。</span></span><br><span class="line">    <span class="comment">//因为执行这一步表示内存不需要重新分配</span></span><br><span class="line">    <span class="keyword">if</span> (allocated &gt;= newsize &amp;&amp; newsize &gt;= (allocated &gt;&gt; <span class="number">1</span>)) &#123;</span><br><span class="line">        assert(self-&gt;ob_item != <span class="literal">NULL</span> || newsize == <span class="number">0</span>);</span><br><span class="line">        Py_SIZE(self) = newsize;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* </span></span><br><span class="line"><span class="comment">    计算重新分配的内存的大小</span></span><br><span class="line"><span class="comment">    这一步很重要，新分配的容量就等于newsize + newsize &gt;&gt; 3 + 3 if newsize &lt; 9 else 6</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    new_allocated = (<span class="keyword">size_t</span>)newsize + (newsize &gt;&gt; <span class="number">3</span>) + (newsize &lt; <span class="number">9</span> ? <span class="number">3</span> : <span class="number">6</span>);</span><br><span class="line">    <span class="keyword">if</span> (new_allocated &gt; (<span class="keyword">size_t</span>)PY_SSIZE_T_MAX / <span class="keyword">sizeof</span>(PyObject *)) &#123;</span><br><span class="line">        PyErr_NoMemory();</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">//如果新的ob_size是0，那么新分配的容量也是0</span></span><br><span class="line">    <span class="keyword">if</span> (newsize == <span class="number">0</span>)</span><br><span class="line">        new_allocated = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">//所占的字节，就是new_allocated * sizeof(PyObject *)</span></span><br><span class="line">    <span class="comment">//但是我们发现这里乘上的是一个指针的大小，这是一个很关键的问题，我们后面会详谈</span></span><br><span class="line">    num_allocated_bytes = new_allocated * <span class="keyword">sizeof</span>(PyObject *);</span><br><span class="line">    <span class="comment">//为ob_item申请内存</span></span><br><span class="line">    items = (PyObject **)PyMem_Realloc(self-&gt;ob_item, num_allocated_bytes);</span><br><span class="line">    <span class="keyword">if</span> (items == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        PyErr_NoMemory();</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//指向新的内存块，扩展列表。</span></span><br><span class="line">    self-&gt;ob_item = items;</span><br><span class="line">    <span class="comment">//将ob_size变为newsize</span></span><br><span class="line">    Py_SIZE(self) = newsize;</span><br><span class="line">    <span class="comment">//将allocated变为新的new_allocated</span></span><br><span class="line">    self-&gt;allocated = new_allocated;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>书籍：<a href="http://helloflask.com/book/" target="_blank" rel="noopener">Flask Web开发实战——入门、进阶与原理解析</a></p>
+<p>​        我们在Pycharm中测试一下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">l = []</span><br><span class="line"></span><br><span class="line">allocated = <span class="number">0</span></span><br><span class="line">print(allocated, end=<span class="string">" "</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">    l.append(i)</span><br><span class="line">    <span class="keyword">if</span> len(l) &gt; allocated:</span><br><span class="line">        <span class="comment"># [].__sizeof__() = 40，这说明list除了值本身以外，还有其他信息占了5个字节</span></span><br><span class="line">        <span class="comment"># 比如列表的话减去一个[]，字符串减去一个""</span></span><br><span class="line">        <span class="comment"># 从变量名也能看出，这获取的是容量，但是为什么要除以8呢？</span></span><br><span class="line">        <span class="comment"># 因为[]里面的每一个元素占8个字节啊，咦，那列表里面存"xx" * 1000，这也占8个字节？</span></span><br><span class="line">        <span class="comment"># 没错，是的，关于为什么我们会后面说。</span></span><br><span class="line">        <span class="comment"># 同时这也引出了一个问题：为什么python中list对象在支持存储不同类型数据的前提下，还能保证查询的时间复杂度是O(1)呢？</span></span><br><span class="line">        <span class="comment"># 先保留这些疑问，后面会解答</span></span><br><span class="line">        a = l.__sizeof__()</span><br><span class="line">        b = [].__sizeof__()</span><br><span class="line">        allocated = (l.__sizeof__() - [].__sizeof__()) // <span class="number">8</span></span><br><span class="line">        print(allocated, end=<span class="string">" "</span>)  <span class="comment"># 0 4 8 16 25 35 46 58 72 88 106</span></span><br></pre></td></tr></table></figure>
+
+<p>​        但是每次初始化一个列表时，有多少元素，容量就是多少，此时allocated = ob_size。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">l = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">print((l.__sizeof__() - [].__sizeof__()) // <span class="number">8</span>)  <span class="comment"># 5</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">结果是5，我们在之前的结果并没有看见5啊。这是因为对于初始化一个列表时，有多少元素，容量就是多少，此时allocated和ob_size是相等的</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">l.append(<span class="number">6</span>)</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">什么时候会扩容呢？是当我们往列表进行append的时候，解释器发现容量不够。</span></span><br><span class="line"><span class="string">比如此时上面的ob_size和allocated都是5，但是当append一个6的时候，解释器发现容量不够了</span></span><br><span class="line"><span class="string">ob_size已经超过allocated了，于是才会扩容。按照 newsize + (newsize &gt;&gt; 3) + (if newsize &lt; 9 ? 3 : 6)</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="comment"># 此时扩容的结果就是9，尽管里面只存储的了6个元素，但是人家内存已经分配了</span></span><br><span class="line"><span class="comment"># 所以计算的就是9个元素的内存，那么除以8，得到的就是9，即分配的内存能够容纳9个元素</span></span><br><span class="line">print((l.__sizeof__() - [].__sizeof__()) // <span class="number">8</span>)  <span class="comment"># 9</span></span><br></pre></td></tr></table></figure>
+
+<p>​        <strong>对于初始化一个列表，你认为<code>l = []</code>和<code>l = list()</code>哪个速度更快呢？首先这两者你print之后得到的都是一个[]</strong></p>
+<p>​        <strong>答案是<code>l = []</code>更快，因为python中的list在C语言的层面可以看做是<code>allocated-array：过分配数组</code>，直接使用的是底层C语言的数据结构。而<code>l = list()</code>相当于是python层面上的一个函数调用，既然调用肯定要创建栈帧、记录函数参数等等，会进行额外的资源消耗。</strong></p>
+<h2 id="为什么list通过索引查找元素的时间复杂度是O-1"><a href="#为什么list通过索引查找元素的时间复杂度是O-1" class="headerlink" title="为什么list通过索引查找元素的时间复杂度是O(1)"></a>为什么list通过索引查找元素的时间复杂度是O(1)</h2><p>​        python里面列表通过索引定位元素的时间复杂度是O(1)，可是列表里面存放的元素大小不一，是怎么做到的呢？还记的我们之前说，列表里面存储的元素都占8个字节吗？我们再来验证一下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import sys</span><br><span class="line"></span><br><span class="line">l = [&quot;a&quot; * 1000, &quot;b&quot; * 1000]</span><br><span class="line">print(sys.getsizeof(l) - sys.getsizeof([]))  # 16</span><br><span class="line"></span><br><span class="line">print(sys.getsizeof(l[0]) - sys.getsizeof(&quot;&quot;))  # 1000</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">由于python中的对象除了值本身，还有其他的信息</span><br><span class="line">比如引用计数、ob_size等等，这些都是要占内存的。</span><br><span class="line">我们把这些值减掉，比如列表的话减去一个[]，字符串减去一个&quot;&quot;，</span><br><span class="line">把共同具有的那些特征那么所占的内存去掉，那么剩下来的就是值本身占的内存</span><br><span class="line">&quot;&quot;&quot;</span><br></pre></td></tr></table></figure>
+
+<p>​        可以看到，加上本身的信息，l[0]占了不止1000个字节，同理l[1]也是，但是我们计算列表的时候，发现里面的值只占了16个字节，说明每一个值占了8个字节。其实任何一个对象存在列表里面都是8个字节，而我们看PyListObject的定义，里面有一个<code>PyObject \**ob_item</code>，因此很容易猜到，python的list里面存储的实际上是<strong>指针</strong>。其实这个ob_item是一个指向指针数组的指针，这个指针指向了指针数组的<strong>首地址</strong>。因此我们可以看到，python的list、tuple，实际是哪个都是采用了<strong>元素外置</strong>的方法，元素的实际的值都存储在堆上，至于列表本身，存储的不过是这些元素的内存指针。不管你值本身占的内存有多大，但是内存地址是固定的，在64位机器上是8个字节。通过索引可以瞬间计算出指针的偏移量，从而找到对应元素的指针，打印的时候会自动打印指针所指向的内存。索引我们使用id(l[0])查看第一个元素的内存地址时，会打印一串数字，也就是内存地址，但是实际上l[0]在python的底层中，存储的就是地址。我们打印的时候，打印的也是指针，只不过我们没有权限操作指针，能有权限操作指针的只有解释器，因此当我们打印会自动打印指针的指向内存，我们可以认为尽管存储的是指针，但是最终操作的都是指针指向的内存。</p>
+<h2 id="内存中堆与栈的区别"><a href="#内存中堆与栈的区别" class="headerlink" title="内存中堆与栈的区别"></a>内存中堆与栈的区别</h2><p>​        栈是内存中给一个线程预留的内存空间，有编译器自动管理分配和释放。栈遵循LIFO（Last in First out）的顺序，通过指针可以方便的释放空间。</p>
+<p>​        堆是动态分配的空间，一般情况下由一个程序的多个线程共用。比如C++中用new创建的对象存放于堆中。</p>
+<h3 id="存储内容"><a href="#存储内容" class="headerlink" title="存储内容"></a>存储内容</h3><p>​        栈中存放函数调用的参数和局部变量等。顺序是在函数调用时，函数调用语句的下一条可执行语句的地址首先进栈，接着是函数的各个参数，一般是由右往左的顺序进行入栈操作，再然后是函数中的局部变量。 当本次函数调用结束后，以与入栈相反的顺序进行出栈操作，局部变量先出栈，接着是参数，最后栈顶指针指向最开始存的地址，也就是主函数中的下一条指令，程序以该点位置继续往后运行。 另外对象也可以存放在栈中。</p>
+<p>​        堆一般是在堆的头部用一个字节存放堆的大小。堆中的具体内容则有程序员安排。例如通过new声明的对象存放在堆中。</p>
+<h3 id="储存大小"><a href="#储存大小" class="headerlink" title="储存大小"></a>储存大小</h3><p>​        栈的大小是固定的。当程序申请的内存大小大于栈可分配的内存时，会出现stack overflow. 堆的大小不是固定的，当程序运行时大小可以根据需求变化。</p>
+<h3 id="访问速度"><a href="#访问速度" class="headerlink" title="访问速度"></a>访问速度</h3><p>​        栈的读写速度更快，因为分配内存的机制，只是移动指针，而堆还要做查找等操作</p>
+<p>​        栈的读取机制类似于数据机构栈，而堆类似于数据结构链表。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>​        本文介绍了Cpython中的列表(List)实现，下篇我将介绍List的排序(Timsort)是如何在底层实现的。</p>
 
       
 
@@ -253,11 +265,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">web development</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">List</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">容器</a>
         		</li>
       		
 		</ul>
@@ -313,7 +329,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/06/09/No1/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/05/02/No16-Python中常见容器的底层实现/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -327,18 +343,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/06/09/No2/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/05/02/NO17Python源码试读-sort底层实现/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          Python web development with Flask(2)
+          Python源码试读--sort底层实现
         
       </div>
     </a>
   
   
-    <a href="/2019/06/09/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Hello World</div>
+    <a href="/2020/05/02/No15-Socket在Linux中的五大IO模型/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Socket在Linux中的五大IO模型</div>
       <i class="icon-circle-right"></i>
     </a>
   

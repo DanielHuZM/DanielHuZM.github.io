@@ -160,29 +160,29 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-No16Python中常见容器的底层实现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-NO17Python源码试读-sort底层实现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/02/No16Python中常见容器的底层实现/">Python源码试读--常见容器的底层实现(List)</a>
+      <a class="article-title" href="/2020/05/02/NO17Python源码试读-sort底层实现/">Python源码试读--sort底层实现</a>
     </h1>
   
 
         
-        <a href="/2020/05/02/No16Python中常见容器的底层实现/" class="archive-article-date">
-  	<time datetime="2020-05-02T06:11:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-02</time>
+        <a href="/2020/05/02/NO17Python源码试读-sort底层实现/" class="archive-article-date">
+  	<time datetime="2020-05-02T10:08:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-02</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>​        Python中的常见容器有以下几种：列表(List)、集合(Set)、元祖(Tuple)、字典(Dict)等。下文会从Cpython的源码入手，看看这些常见容器在底层是如何实现的。今天先来看下最简单的List。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>​        上一篇文章我介绍了在Cpython中是如何实现List的，作为list的重要方法sort，它的内部实现机制是什么没时间复杂度是多少呢？本文将对此展开介绍。Timsort是结合了合并排序（merge sort）和折半排序（binary sort）而得出的排序算法，它在现实中有很好的效率。Tim Peters在2002年设计了该算法并在Python中使用（TimSort 是 Python 中 list.sort 的默认实现）。该算法找到数据中已经排好序的块-分区，每一个分区叫一个run，然后按规则合并这些run。Pyhton自从2.3版以来一直采用Timsort算法排序，现在Java SE7和Android也采用Timsort算法对数组排序。</p>
         
-          <a class="article-more-a" href="/2020/05/02/No16Python中常见容器的底层实现/#more">more >></a>
+          <a class="article-more-a" href="/2020/05/02/NO17Python源码试读-sort底层实现/#more">more >></a>
         
       
 
@@ -200,11 +200,15 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">容器</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">List</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">List</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Sort</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">源码</a>
         		</li>
       		
 		</ul>
@@ -214,7 +218,91 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/02/No16Python中常见容器的底层实现/">展开全文 >></a>
+          <a class="article-more-a" href="/2020/05/02/NO17Python源码试读-sort底层实现/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-No16-Python中常见容器的底层实现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/02/No16-Python中常见容器的底层实现/">Python源码试读--常见容器的底层实现(List)</a>
+    </h1>
+  
+
+        
+        <a href="/2020/05/02/No16-Python中常见容器的底层实现/" class="archive-article-date">
+  	<time datetime="2020-05-02T06:11:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>​        Python中的常见容器有以下几种：列表(List)、集合(Set)、元祖(Tuple)、字典(Dict)等。下文会从Cpython的源码入手，看看这些常见容器在底层是如何实现的。今天先来看下最简单的List。</p>
+        
+          <a class="article-more-a" href="/2020/05/02/No16-Python中常见容器的底层实现/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">List</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">容器</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/02/No16-Python中常见容器的底层实现/">展开全文 >></a>
         </p>
       
 
@@ -941,94 +1029,6 @@
 
 
   
-    <article id="post-No7-HTTP头部信息csp与gzip检测" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/05/No7-HTTP头部信息csp与gzip检测/">HTTP头部信息之csp</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/05/No7-HTTP头部信息csp与gzip检测/" class="archive-article-date">
-  	<time datetime="2019-07-05T13:33:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近在某公司实习，一直没有时间整理所学。希望以后可以做到每周必更。</p>
-<p>HTTP的头部信息包含许多有用的内容，今天我们重点来聊两个，分别是csp与gzip。</p>
-<h2 id="什么是CSP？"><a href="#什么是CSP？" class="headerlink" title="什么是CSP？"></a>什么是CSP？</h2><p>首先来谈谈CSP。根据维基百科的定义，CSP，即内容安全策略(Content Security Policy）是一种计算机安全标准，旨在防御跨站脚本（XSS）、点击劫持等代码注入攻击，阻止恶意内容在受信网页环境中执行。</p>
-<p>这里就需要讲到XSS，一个网页安全漏洞。</p>
-<p>网站的安全模式源于“同源策略”，web浏览器允许第一个web页面中的脚本访问页面中的数据，但前提是两个web页面具有相同的源。此策略防止一个页面的恶意脚本通过该页面的文档访问另一个网页上的敏感数据。</p>
-<p>在某些情况下，同源策略的限制性如果太强，其实是不太友好的，比如说大型网站的子域之间的数据传递，开发过程中的一些调试等；但是人类是比较聪明的，利用一些技术、从而放宽策略。</p>
-<p>但是，跨网站脚本 (XSS)攻击可通过欺骗网站提供恶意代码和计划好的内容来绕过同源政策：通过寻找将恶意脚本注入网页，攻击者可以获得对敏感页面内容，会话cookie以及浏览器代表用户维护的各种其他信息的提升访问权限。</p>
-<p>为了缓解很大一部分潜在的跨脚本问题，浏览器的扩展程序系统引入了内容安全策略（CSP）的一般概念。简单来说这一技术就是：</p>
-<p><strong>开发者明确告诉客户端（制定比较严格的策略和规则），哪些外部资源是可以加载和执行的 ，即使攻击者发现漏洞，但是它是没办法注入脚本的。</strong></p>
-        
-          <a class="article-more-a" href="/2019/07/05/No7-HTTP头部信息csp与gzip检测/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">HTTP</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CSP</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/05/No7-HTTP头部信息csp与gzip检测/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1126,7 +1126,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ELK</a>
+                <a href="javascript:void(0)" class="js-tag color2">Python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">List</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Sort</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">源码</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1146,6 +1158,22 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">传输层</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">网络协议</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UDP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ELK</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">SSL</a>
               </li>
              
@@ -1162,10 +1190,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多进程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">HTTP</a>
               </li>
              
@@ -1174,19 +1198,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">传输层</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">网络协议</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UDP</a>
+                <a href="javascript:void(0)" class="js-tag color4">多进程</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">gzip</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">容器</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1199,18 +1219,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">容器</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">List</a>
               </li>
              
               <li class="article-tag-list-item">
