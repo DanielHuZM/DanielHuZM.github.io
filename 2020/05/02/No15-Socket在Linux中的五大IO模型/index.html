@@ -6,12 +6,12 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Socket在Linux中的五大IO模型 | DanielHu&#39;s Blog</title>
+  <title>Socket五大I/O模型 | DanielHu&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="预备知识用户态与内核态​        从宏观上来看，Linux操作系统的体系框架可以分为用户态与内核态，如下图所示。根据Linux系统“一切皆文件”的最高指示精神，内核从本质上来看当然也可以被认为是一种软件，他控制着计算机的硬件资源（包括CPU资源、I/O资源、存储资源等等），他需要为上层用户态中的应用系统提供运行的环境。用户态中程序的执行相应的必须要依托于内核所提供的资源。为了使上层应用能够访">
-<meta name="keywords" content="Socket,IO模型,Linux">
+<meta name="keywords" content="Socket,I&#x2F;O模型,Linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Socket在Linux中的五大IO模型">
+<meta property="og:title" content="Socket五大I&#x2F;O模型">
 <meta property="og:url" content="http://yoursite.com/2020/05/02/No15-Socket在Linux中的五大IO模型/index.html">
 <meta property="og:site_name" content="DanielHu&#39;s Blog">
 <meta property="og:description" content="预备知识用户态与内核态​        从宏观上来看，Linux操作系统的体系框架可以分为用户态与内核态，如下图所示。根据Linux系统“一切皆文件”的最高指示精神，内核从本质上来看当然也可以被认为是一种软件，他控制着计算机的硬件资源（包括CPU资源、I/O资源、存储资源等等），他需要为上层用户态中的应用系统提供运行的环境。用户态中程序的执行相应的必须要依托于内核所提供的资源。为了使上层应用能够访">
@@ -22,9 +22,10 @@
 <meta property="og:image" content="http://yoursite.com/images/15-4.png">
 <meta property="og:image" content="http://yoursite.com/images/15-5.png">
 <meta property="og:image" content="http://yoursite.com/images/15-6.png">
-<meta property="og:updated_time" content="2020-05-01T16:50:48.930Z">
+<meta property="og:image" content="http://yoursite.com/images/15-7.png">
+<meta property="og:updated_time" content="2020-05-03T05:52:51.887Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Socket在Linux中的五大IO模型">
+<meta name="twitter:title" content="Socket五大I&#x2F;O模型">
 <meta name="twitter:description" content="预备知识用户态与内核态​        从宏观上来看，Linux操作系统的体系框架可以分为用户态与内核态，如下图所示。根据Linux系统“一切皆文件”的最高指示精神，内核从本质上来看当然也可以被认为是一种软件，他控制着计算机的硬件资源（包括CPU资源、I/O资源、存储资源等等），他需要为上层用户态中的应用系统提供运行的环境。用户态中程序的执行相应的必须要依托于内核所提供的资源。为了使上层应用能够访">
 <meta name="twitter:image" content="http://yoursite.com/images/15-1.png">
   
@@ -173,7 +174,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Socket在Linux中的五大IO模型
+      Socket五大I/O模型
     </h1>
   
 
@@ -243,7 +244,20 @@
 <h3 id="异步-I-O"><a href="#异步-I-O" class="headerlink" title="异步 I/O"></a>异步 I/O</h3><p>应用进程执行 aio_read 系统调用会立即返回，应用进程可以继续执行，不会被阻塞，内核会在所有操作完成之后向应用进程发送信号。</p>
 <p>异步 I/O 与信号驱动 I/O 的区别在于，异步 I/O 的信号是通知应用进程 I/O 完成，而信号驱动 I/O 的信号是通知应用进程可以开始 I/O。</p>
 <p><img src="/images/15-6.png" alt="15-6"></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>​        最后，我们用一个例子来说明一下这五个IO模型：</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>​        我们来总结一下阻塞、非阻塞，同步和异步这两组概念。</p>
+<p>先来说阻塞和非阻塞：</p>
+<ul>
+<li>阻塞调用会一直等待远程数据就绪再返回，即上面的<strong>阶段1</strong>会阻塞调用者，直到读取结束。</li>
+<li>而非阻塞无论在什么情况下都会立即返回，虽然非阻塞大部分时间不会被block，但是它仍要求进程不断地去主动询问kernel是否准备好数据，也需要进程主动地再次调用recvfrom来将数据拷贝到用户内存。</li>
+</ul>
+<p>再说一说同步和异步：</p>
+<ul>
+<li>同步方法会一直阻塞进程，直到I/O操作结束，注意这里相当于上面的<strong>阶段1，阶段2</strong>都会阻塞调用者。其中 Blocking IO - 阻塞IO，Nonblocking IO - 非阻塞IO，IO multiplexing - IO多路复用，signal driven IO - 信号驱动IO 这四种IO都可以归类为同步IO。</li>
+<li>而异步方法不会阻塞调用者进程，即使是从内核空间的缓冲区将数据拷贝到进程中这一操作也不会阻塞进程，拷贝完毕后内核会通知进程数据拷贝结束。</li>
+</ul>
+<p>下面的这张图很好地总结了之前讲的这五种I/O模型（来自Unix Network Programming）</p>
+<p><img src="/images/15-7.png" alt="15-7"></p>
+<p>​        最后，我们用一个例子来说明一下这五个IO模型：</p>
 <p>​        有A，B，C，D，E五个人钓鱼： </p>
 <ul>
 <li>A一直守着鱼竿，遇上了鱼咬钩再拉杆。</li>
@@ -300,7 +314,7 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">IO模型</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">I/O模型</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
@@ -527,19 +541,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
+                <a href="javascript:void(0)" class="js-tag color4">ELK</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">web development</a>
+                <a href="javascript:void(0)" class="js-tag color4">SSL</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">正则表达式</a>
+                <a href="javascript:void(0)" class="js-tag color5">对称加密</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">回溯法</a>
+                <a href="javascript:void(0)" class="js-tag color1">非对称加密</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -555,19 +569,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ELK</a>
+                <a href="javascript:void(0)" class="js-tag color1">正则表达式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SSL</a>
+                <a href="javascript:void(0)" class="js-tag color4">回溯法</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">对称加密</a>
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">非对称加密</a>
+                <a href="javascript:void(0)" class="js-tag color1">web development</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -591,7 +605,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">容器</a>
+                <a href="javascript:void(0)" class="js-tag color4">TCP</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -599,7 +613,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">IO模型</a>
+                <a href="javascript:void(0)" class="js-tag color1">I/O模型</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -607,7 +621,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">TCP</a>
+                <a href="javascript:void(0)" class="js-tag color5">Dict</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">容器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">I/O复用</a>
               </li>
             
             <div class="clearfix"></div>

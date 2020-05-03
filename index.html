@@ -160,19 +160,184 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-NO17Python源码试读-sort底层实现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-No19-Socket-I-O复用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/02/NO17Python源码试读-sort底层实现/">Python源码试读--sort底层实现</a>
+      <a class="article-title" href="/2020/05/03/No19-Socket-I-O复用/">Socket I/O复用</a>
     </h1>
   
 
         
-        <a href="/2020/05/02/NO17Python源码试读-sort底层实现/" class="archive-article-date">
+        <a href="/2020/05/03/No19-Socket-I-O复用/" class="archive-article-date">
+  	<time datetime="2020-05-03T05:32:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>​        select/poll/epoll 都是 I/O 多路复用的具体实现，select 出现的最早，之后是 poll，再是 epoll。</p>
+<h2 id="select"><a href="#select" class="headerlink" title="select"></a>select</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">select</span><span class="params">(<span class="keyword">int</span> n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout)</span></span>;</span><br></pre></td></tr></table></figure>
+        
+          <a class="article-more-a" href="/2020/05/03/No19-Socket-I-O复用/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Socket</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">I/O复用</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/03/No19-Socket-I-O复用/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-No18-Python源码试读-dict的底层实现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/02/No18-Python源码试读-dict的底层实现/">Python源码试读--常见容器的底层实现(Dict)</a>
+    </h1>
+  
+
+        
+        <a href="/2020/05/02/No18-Python源码试读-dict的底层实现/" class="archive-article-date">
+  	<time datetime="2020-05-02T15:44:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>​        元素和元素之间可能存在着某种关系，比如学生姓名和成绩。我希望能够通过学生的姓名找到这个学生的成绩，那么只需要将两者关联起来即可。字典正是这么做的，字典中的每个元素就是一个<code>key:value</code>键值对，通过指定的key可以找到value。字典这种数据结构，python底层也在大量的使用，比如每一个类都有自己的属性字典，这就意味着python对字典这种数据结构的性能要求是极其苛刻的。所以在python底层，对字典这种数据结构进行了高度的优化。理论上，字典查找元素的时间复杂度是O(1)。那么我们来看一下PyDictObject，为什么字典的查找效率是O(1)，它底层是使用了什么原理。</p>
+        
+          <a class="article-more-a" href="/2020/05/02/No18-Python源码试读-dict的底层实现/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">源码</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Dict</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/02/No18-Python源码试读-dict的底层实现/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-NO17-Python源码试读-sort底层实现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/02/NO17-Python源码试读-sort底层实现/">Python源码试读--sort底层实现</a>
+    </h1>
+  
+
+        
+        <a href="/2020/05/02/NO17-Python源码试读-sort底层实现/" class="archive-article-date">
   	<time datetime="2020-05-02T10:08:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-02</time>
 </a>
         
@@ -182,7 +347,7 @@
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>​        上一篇文章我介绍了在Cpython中是如何实现List的，作为list的重要方法sort，它的内部实现机制是什么没时间复杂度是多少呢？本文将对此展开介绍。Timsort是结合了合并排序（merge sort）和折半排序（binary sort）而得出的排序算法，它在现实中有很好的效率。Tim Peters在2002年设计了该算法并在Python中使用（TimSort 是 Python 中 list.sort 的默认实现）。该算法找到数据中已经排好序的块-分区，每一个分区叫一个run，然后按规则合并这些run。Pyhton自从2.3版以来一直采用Timsort算法排序，现在Java SE7和Android也采用Timsort算法对数组排序。</p>
         
-          <a class="article-more-a" href="/2020/05/02/NO17Python源码试读-sort底层实现/#more">more >></a>
+          <a class="article-more-a" href="/2020/05/02/NO17-Python源码试读-sort底层实现/#more">more >></a>
         
       
 
@@ -218,7 +383,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/02/NO17Python源码试读-sort底层实现/">展开全文 >></a>
+          <a class="article-more-a" href="/2020/05/02/NO17-Python源码试读-sort底层实现/">展开全文 >></a>
         </p>
       
 
@@ -339,7 +504,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/02/No15-Socket在Linux中的五大IO模型/">Socket在Linux中的五大IO模型</a>
+      <a class="article-title" href="/2020/05/02/No15-Socket在Linux中的五大IO模型/">Socket五大I/O模型</a>
     </h1>
   
 
@@ -372,7 +537,7 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">IO模型</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">I/O模型</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
@@ -595,19 +760,19 @@
 
 
   
-    <article id="post-No12" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-No12-正则表达式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/28/No12/">正则表达式（2）--进阶：回溯法</a>
+      <a class="article-title" href="/2019/07/28/No12-正则表达式/">正则表达式（2）--进阶：回溯法</a>
     </h1>
   
 
         
-        <a href="/2019/07/28/No12/" class="archive-article-date">
+        <a href="/2019/07/28/No12-正则表达式/" class="archive-article-date">
   	<time datetime="2019-07-28T11:42:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
 </a>
         
@@ -621,7 +786,7 @@
 <p>而当目标字符串是”abbbc”时，就没有所谓的“回溯”。其匹配过程是：</p>
 <p><img src="/images/12_2.png" alt></p>
         
-          <a class="article-more-a" href="/2019/07/28/No12/#more">more >></a>
+          <a class="article-more-a" href="/2019/07/28/No12-正则表达式/#more">more >></a>
         
       
 
@@ -649,7 +814,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/28/No12/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/07/28/No12-正则表达式/">展开全文 >></a>
         </p>
       
 
@@ -858,177 +1023,6 @@
 
 
   
-    <article id="post-No9-ELK监控报警系统-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/07/No9-ELK监控报警系统-1/">ELK监控报警系统(1)</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/07/No9-ELK监控报警系统-1/" class="archive-article-date">
-  	<time datetime="2019-07-07T05:02:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这段时间的工作任务主要是搭建一个监控报警系统，工作方向偏运维。目前最流行的监控报警系统无疑就是ELK了，因此今天先分享一下ELK的搭建安装。</p>
-<p>要研究任何一个东西，我认为都得分几步走。</p>
-<p>第一，了解这个东西是什么？功能是啥？</p>
-<p>第二，运行，配置环境，先将最简单的demo跑起来看看。</p>
-<p>第三，要知道运行原理，这就涉及到阅读源码，可以先从Git上迁出最简单的0.1（或1.0）版本先行理解。</p>
-<p>第四，修改源码，使之符合自己的需求。</p>
-<p>接下来就先了解一下什么是ELK。</p>
-<h2 id="什么是ELK？"><a href="#什么是ELK？" class="headerlink" title="什么是ELK？"></a>什么是ELK？</h2><p>ELK平台是当前应用比较广泛的一套开源实时日志分析解决方案。ELK由ElasticSearch、Logstash和Kiabana三个开源工具组成。</p>
-<p>Elasticsearch是个开源分布式搜索引擎，提供搜集、分析、存储数据三大功能。它的特点有：分布式，零配置，自动发现，索引自动分片，索引副本机制，restful风格接口，多数据源，自动搜索负载等。</p>
-<p>Logstash 主要是用来日志的搜集、分析、过滤日志的工具，支持大量的数据获取方式。一般工作方式为c/s架构，client端安装在需要收集日志的主机上，server端负责将收到的各节点日志进行过滤、修改等操作在一并发往elasticsearch上去。</p>
-        
-          <a class="article-more-a" href="/2019/07/07/No9-ELK监控报警系统-1/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ELK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/07/No9-ELK监控报警系统-1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-No8-HTTP头部信息之gzip" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/06/No8-HTTP头部信息之gzip/">HTTP头部信息之gzip</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/06/No8-HTTP头部信息之gzip/" class="archive-article-date">
-  	<time datetime="2019-07-06T02:48:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>昨天聊了HTTP头部信息之csp，今天来学习一下gzip。实际两者都可以在HTTP头部信息中找到相应的字段。</p>
-<h2 id="什么是gzip"><a href="#什么是gzip" class="headerlink" title="什么是gzip"></a>什么是gzip</h2><p>gzip最早是一个Linux命令，用于压缩文件。后被用于HTTP协议上，是一种用来改进WEB应用程序性能的技术，web服务器和客户端（浏览器）必须共同支持gzip，才能得以启用。</p>
-<p>目前主流的浏览器Chrome,firefox,IE等都支持该协议。常见的服务器如Apache，Nginx，IIS同样支持gzip。gzip压缩比率在3到10倍左右，可以大大节省服务器的网络带宽。而在实际应用中，并不是对所有文件进行压缩，通常只是压缩静态文件。</p>
-<h2 id="如何启用gzip"><a href="#如何启用gzip" class="headerlink" title="如何启用gzip"></a>如何启用gzip</h2><p>要检测gzip，首先要知道gzip是如何工作的，其工作原理如下图所示。</p>
-<p><img src="/images/gzip_principle.png" alt></p>
-<p>1、由客户端向服务器发送请求信息，可在request header中设置属性accept coding，下图中的accept coding字段意味着客户端（浏览器）支持gzip, deflate, br三种压缩方式。</p>
-<p>其中deflate方法与gzip几乎别无二致，不做过多展开。br 算法是由Google在2015年9月新近提出的压缩算法，经过实验，可以在gzip算法的压缩率提升20%，而压缩与解压缩速度则大致不变。</p>
-        
-          <a class="article-more-a" href="/2019/07/06/No8-HTTP头部信息之gzip/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">HTTP</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">gzip</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/06/No8-HTTP头部信息之gzip/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1142,19 +1136,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
+                <a href="javascript:void(0)" class="js-tag color4">ELK</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">web development</a>
+                <a href="javascript:void(0)" class="js-tag color4">SSL</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">正则表达式</a>
+                <a href="javascript:void(0)" class="js-tag color5">对称加密</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">回溯法</a>
+                <a href="javascript:void(0)" class="js-tag color1">非对称加密</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1170,19 +1164,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ELK</a>
+                <a href="javascript:void(0)" class="js-tag color1">正则表达式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SSL</a>
+                <a href="javascript:void(0)" class="js-tag color4">回溯法</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">对称加密</a>
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">非对称加密</a>
+                <a href="javascript:void(0)" class="js-tag color1">web development</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1206,7 +1200,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">容器</a>
+                <a href="javascript:void(0)" class="js-tag color4">TCP</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1214,7 +1208,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">IO模型</a>
+                <a href="javascript:void(0)" class="js-tag color1">I/O模型</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1222,7 +1216,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">TCP</a>
+                <a href="javascript:void(0)" class="js-tag color5">Dict</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">容器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">I/O复用</a>
               </li>
             
             <div class="clearfix"></div>

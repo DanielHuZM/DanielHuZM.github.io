@@ -160,6 +160,177 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-No9-ELK监控报警系统-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/07/No9-ELK监控报警系统-1/">ELK监控报警系统(1)</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/07/No9-ELK监控报警系统-1/" class="archive-article-date">
+  	<time datetime="2019-07-07T05:02:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这段时间的工作任务主要是搭建一个监控报警系统，工作方向偏运维。目前最流行的监控报警系统无疑就是ELK了，因此今天先分享一下ELK的搭建安装。</p>
+<p>要研究任何一个东西，我认为都得分几步走。</p>
+<p>第一，了解这个东西是什么？功能是啥？</p>
+<p>第二，运行，配置环境，先将最简单的demo跑起来看看。</p>
+<p>第三，要知道运行原理，这就涉及到阅读源码，可以先从Git上迁出最简单的0.1（或1.0）版本先行理解。</p>
+<p>第四，修改源码，使之符合自己的需求。</p>
+<p>接下来就先了解一下什么是ELK。</p>
+<h2 id="什么是ELK？"><a href="#什么是ELK？" class="headerlink" title="什么是ELK？"></a>什么是ELK？</h2><p>ELK平台是当前应用比较广泛的一套开源实时日志分析解决方案。ELK由ElasticSearch、Logstash和Kiabana三个开源工具组成。</p>
+<p>Elasticsearch是个开源分布式搜索引擎，提供搜集、分析、存储数据三大功能。它的特点有：分布式，零配置，自动发现，索引自动分片，索引副本机制，restful风格接口，多数据源，自动搜索负载等。</p>
+<p>Logstash 主要是用来日志的搜集、分析、过滤日志的工具，支持大量的数据获取方式。一般工作方式为c/s架构，client端安装在需要收集日志的主机上，server端负责将收到的各节点日志进行过滤、修改等操作在一并发往elasticsearch上去。</p>
+        
+          <a class="article-more-a" href="/2019/07/07/No9-ELK监控报警系统-1/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ELK</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/07/No9-ELK监控报警系统-1/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-No8-HTTP头部信息之gzip" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/06/No8-HTTP头部信息之gzip/">HTTP头部信息之gzip</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/06/No8-HTTP头部信息之gzip/" class="archive-article-date">
+  	<time datetime="2019-07-06T02:48:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>昨天聊了HTTP头部信息之csp，今天来学习一下gzip。实际两者都可以在HTTP头部信息中找到相应的字段。</p>
+<h2 id="什么是gzip"><a href="#什么是gzip" class="headerlink" title="什么是gzip"></a>什么是gzip</h2><p>gzip最早是一个Linux命令，用于压缩文件。后被用于HTTP协议上，是一种用来改进WEB应用程序性能的技术，web服务器和客户端（浏览器）必须共同支持gzip，才能得以启用。</p>
+<p>目前主流的浏览器Chrome,firefox,IE等都支持该协议。常见的服务器如Apache，Nginx，IIS同样支持gzip。gzip压缩比率在3到10倍左右，可以大大节省服务器的网络带宽。而在实际应用中，并不是对所有文件进行压缩，通常只是压缩静态文件。</p>
+<h2 id="如何启用gzip"><a href="#如何启用gzip" class="headerlink" title="如何启用gzip"></a>如何启用gzip</h2><p>要检测gzip，首先要知道gzip是如何工作的，其工作原理如下图所示。</p>
+<p><img src="/images/gzip_principle.png" alt></p>
+<p>1、由客户端向服务器发送请求信息，可在request header中设置属性accept coding，下图中的accept coding字段意味着客户端（浏览器）支持gzip, deflate, br三种压缩方式。</p>
+<p>其中deflate方法与gzip几乎别无二致，不做过多展开。br 算法是由Google在2015年9月新近提出的压缩算法，经过实验，可以在gzip算法的压缩率提升20%，而压缩与解压缩速度则大致不变。</p>
+        
+          <a class="article-more-a" href="/2019/07/06/No8-HTTP头部信息之gzip/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">HTTP</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">gzip</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/06/No8-HTTP头部信息之gzip/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-No7-HTTP头部信息csp与gzip检测" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -543,11 +714,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">正则表达式</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">正则表达式</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
         		</li>
       		
 		</ul>
@@ -949,19 +1120,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
+                <a href="javascript:void(0)" class="js-tag color4">ELK</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">web development</a>
+                <a href="javascript:void(0)" class="js-tag color4">SSL</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">正则表达式</a>
+                <a href="javascript:void(0)" class="js-tag color5">对称加密</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">回溯法</a>
+                <a href="javascript:void(0)" class="js-tag color1">非对称加密</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -977,19 +1148,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ELK</a>
+                <a href="javascript:void(0)" class="js-tag color1">正则表达式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SSL</a>
+                <a href="javascript:void(0)" class="js-tag color4">回溯法</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">对称加密</a>
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">非对称加密</a>
+                <a href="javascript:void(0)" class="js-tag color1">web development</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1013,7 +1184,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">容器</a>
+                <a href="javascript:void(0)" class="js-tag color4">TCP</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1021,7 +1192,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">IO模型</a>
+                <a href="javascript:void(0)" class="js-tag color1">I/O模型</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1029,7 +1200,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">TCP</a>
+                <a href="javascript:void(0)" class="js-tag color5">Dict</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">容器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">I/O复用</a>
               </li>
             
             <div class="clearfix"></div>

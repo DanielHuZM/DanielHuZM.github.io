@@ -6,19 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | DanielHu&#39;s Blog</title>
+  <title>Python源码试读--常见容器的底层实现(Dict) | DanielHu&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="上海大学硕士在读，本博客内容有关于后端开发、通信以及足球">
-<meta name="keywords" content="Python, Coding, Communication Technology, Information Technology，程序猿，后端">
-<meta property="og:type" content="website">
-<meta property="og:title" content="DanielHu&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="前言​        元素和元素之间可能存在着某种关系，比如学生姓名和成绩。我希望能够通过学生的姓名找到这个学生的成绩，那么只需要将两者关联起来即可。字典正是这么做的，字典中的每个元素就是一个key:value键值对，通过指定的key可以找到value。字典这种数据结构，python底层也在大量的使用，比如每一个类都有自己的属性字典，这就意味着python对字典这种数据结构的性能要求是极其苛刻的。">
+<meta name="keywords" content="Python,源码,Dict">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python源码试读--常见容器的底层实现(Dict)">
+<meta property="og:url" content="http://yoursite.com/2020/05/02/No18-Python源码试读-dict的底层实现/index.html">
 <meta property="og:site_name" content="DanielHu&#39;s Blog">
-<meta property="og:description" content="上海大学硕士在读，本博客内容有关于后端开发、通信以及足球">
+<meta property="og:description" content="前言​        元素和元素之间可能存在着某种关系，比如学生姓名和成绩。我希望能够通过学生的姓名找到这个学生的成绩，那么只需要将两者关联起来即可。字典正是这么做的，字典中的每个元素就是一个key:value键值对，通过指定的key可以找到value。字典这种数据结构，python底层也在大量的使用，比如每一个类都有自己的属性字典，这就意味着python对字典这种数据结构的性能要求是极其苛刻的。">
 <meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="http://yoursite.com/images/18-1.png">
+<meta property="og:updated_time" content="2020-05-03T12:37:55.810Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DanielHu&#39;s Blog">
-<meta name="twitter:description" content="上海大学硕士在读，本博客内容有关于后端开发、通信以及足球">
+<meta name="twitter:title" content="Python源码试读--常见容器的底层实现(Dict)">
+<meta name="twitter:description" content="前言​        元素和元素之间可能存在着某种关系，比如学生姓名和成绩。我希望能够通过学生的姓名找到这个学生的成绩，那么只需要将两者关联起来即可。字典正是这么做的，字典中的每个元素就是一个key:value键值对，通过指定的key可以找到value。字典这种数据结构，python底层也在大量的使用，比如每一个类都有自己的属性字典，这就意味着python对字典这种数据结构的性能要求是极其苛刻的。">
+<meta name="twitter:image" content="http://yoursite.com/images/18-1.png">
   
     <link rel="alternative" href="/atom.xml" title="DanielHu&#39;s Blog" type="application/atom+xml">
   
@@ -158,78 +161,108 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-No18-Python源码试读-dict的底层实现" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/03/No19-Socket-I-O复用/" class="archive-article-date">
-  	<time datetime="2020-05-03T05:32:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-03</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/03/No19-Socket-I-O复用/">Socket I/O复用</a>
+    <h1 class="article-title" itemprop="name">
+      Python源码试读--常见容器的底层实现(Dict)
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Socket</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">I/O复用</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/02/No18-Python源码试读-dict的底层实现/" class="archive-article-date">
+        
+        <a href="/2020/05/02/No18-Python源码试读-dict的底层实现/" class="archive-article-date">
   	<time datetime="2020-05-02T15:44:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-02</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/02/No18-Python源码试读-dict的底层实现/">Python源码试读--常见容器的底层实现(Dict)</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>​        元素和元素之间可能存在着某种关系，比如学生姓名和成绩。我希望能够通过学生的姓名找到这个学生的成绩，那么只需要将两者关联起来即可。字典正是这么做的，字典中的每个元素就是一个<code>key:value</code>键值对，通过指定的key可以找到value。字典这种数据结构，python底层也在大量的使用，比如每一个类都有自己的属性字典，这就意味着python对字典这种数据结构的性能要求是极其苛刻的。所以在python底层，对字典这种数据结构进行了高度的优化。理论上，字典查找元素的时间复杂度是O(1)。那么我们来看一下PyDictObject，为什么字典的查找效率是O(1)，它底层是使用了什么原理。</p>
+<a id="more"></a>
 
-        <div class="article-info info-on-right">
-          
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><ul>
+<li>cpython/Objects/dictobject.c</li>
+<li>cpython/Objects/clinic/dictobject.c.h</li>
+<li>cpython/Include/dictobject.h</li>
+<li>cpython/Include/cpython/dictobject.h</li>
+</ul>
+<h2 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h2><p>​        dict底层正是使用了哈希表，哈希表也叫做散列表。它是将值通过hash运算转为一个数值，这个数值来充当索引。这样解释可能会让人很迷，我们来具体看一张图。</p>
+<p><img src="/images/18-1.png" alt="18-1"></p>
+<p>我们发现除了key、value之外，还有一个index。其实hash表本质上也是使用了索引的思想，会把这个key通过函数映射成一个数值，作为索引。至于是怎么映射的，可以的话后面再谈，现在我们就假设是按照我们接下来说的方法映射的。</p>
+<p>比如我们这里有一个能容纳10个元素的字典，我们先设置d[“satori”]=82，那么会对satori这个字符串进行一个哈希运算，然后再对10、也就是当前的总容量取模，这样的是不是能够得到一个小于10的数呢？假设是5，那么就存在索引为5地方。然后又进行d[“koishi”]=83，那么按照同样的规则运算得到8，那么就存在索引为8的位置，同理第三次设置d[“mashiro”]=80，对mashiro进行哈希、取模，得到2，那么存储在索引为2的地方。</p>
+<p>同理，当我们取值的时候，取d[“satori”]，那么同样会对satori进行哈希、取模，得到索引，发现是5，直接把索引为5的value给取出来。当然这种说法肯定是不严谨的，为什么我们来想一个问题。</p>
+<ul>
+<li>哈希、取模运算之后得到的结果一定是不同的吗？</li>
+<li>在运算得到索引的时候，发现这个位置已经有人占了怎么办？</li>
+<li>取值的时候，索引为5，可如果索引为5对应的key和我们指定获取的key不一致怎么办？</li>
+</ul>
+<h3 id="哈希冲突"><a href="#哈希冲突" class="headerlink" title="哈希冲突"></a>哈希冲突</h3><p>​        哈希冲突是指不同的两个key经过哈希运算后，得到的结果是一样的。首先先要明确一点，<strong>无论哈希函数设计得多么精妙，哈希冲突一定是不可避免的。</strong>因此，在python的底层中，当容量到达三分之二的时候，就会申请一份更大的空间，以便来容纳新的元素。</p>
+<p>​        所以我们发现哈希表实际上就是一种空间换时间的方法，如果容量为100，那么就相当于有100个位置，每个元素都进行哈希映射，找到自己的位置。各自的位置都是不固定的，也许会空出来很多元素，但是无所谓，只要保证这些元素在100个位置上是相对有序、通过哈希运算得到索引之后，可以在相应的位置找到它即可。</p>
+<p>​        发生了哈希冲突，目前主要的解决方法包括开放地址方法(线性探测、再平方探测、伪随机探测等)、链式地址法（HashMap的哈希冲突解决方法）、再哈希法等等。好的解决方法要使得散列值尽可能大，这样就不容易再次发生冲突。在Python的底层中，采用了perturb探测的方法解决哈希冲突。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">j = ((<span class="number">5</span>*j) + <span class="number">1</span>) mod <span class="number">2</span>**i</span><br><span class="line"><span class="number">0</span> -&gt; <span class="number">1</span> -&gt; <span class="number">6</span> -&gt; <span class="number">7</span> -&gt; <span class="number">4</span> -&gt; <span class="number">5</span> -&gt; <span class="number">2</span> -&gt; <span class="number">3</span> -&gt; <span class="number">0</span> [<span class="keyword">and</span> here it's repeating]</span><br><span class="line">perturb &gt;&gt;= PERTURB_SHIFT;</span><br><span class="line">j = (<span class="number">5</span>*j) + <span class="number">1</span> + perturb;</span><br><span class="line">use j % <span class="number">2</span>**i as the next table index;</span><br></pre></td></tr></table></figure>
+
+<p>​        这里加了个<strong>perturb</strong>,很有意思，通过<a href="https://stackoverflow.com/a/6607353/6931919" target="_blank" rel="noopener">这里的伪代码</a>我发现这个值也是通过hash计算出来的。这就意味着，对Python的字典进行hash碰撞攻击是非常困难的。</p>
+<p>​        看到这里，就能大致明白哈希表的时间复杂度是O(1)了，就实际因为转化成了索引，每一个索引都是连续的，只不过一部分索引没有相应的key、value罢了。但这无所谓，因为索引和key、value是一一对应的，通过索引我们能瞬间定位到指定的key，再来检测key是否存在以及和我们指定的key是否一致。如果不存在，那么不好意思，证明这个地方根本没有key、value，说明我们指定了一个不存在的key。</p>
+<h2 id="PyDictObject对象"><a href="#PyDictObject对象" class="headerlink" title="PyDictObject对象"></a>PyDictObject对象</h2><p>**字典中的一个key、value，我们在底层会把它称之为一个entry。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">dictkeysobject</span> <span class="title">PyDictKeysObject</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* The ma_values pointer is NULL for a combined table</span></span><br><span class="line"><span class="comment"> * or points to an array of PyObject* for a split table</span></span><br><span class="line"><span class="comment"> 对于一张combined table，ma_values指针为NULL</span></span><br><span class="line"><span class="comment"> 对于一张split table，则指向一个数组，数组里面都是PyObject *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="comment">//注意这是PyObject_HEAD,不是PyObject_VAR_HEAD</span></span><br><span class="line">    <span class="comment">//PyObject_HEAD只有引用计数和类型，没有ob_size</span></span><br><span class="line">    PyObject_HEAD</span><br><span class="line"></span><br><span class="line">    <span class="comment">//字典里面元素的个数，active</span></span><br><span class="line">    Py_ssize_t ma_used;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Dictionary version: globally unique, value change each time</span></span><br><span class="line"><span class="comment">       the dictionary is modified </span></span><br><span class="line"><span class="comment">       字典版本：全局唯一，每一次value的变动，都会导致其改变</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="keyword">uint64_t</span> ma_version_tag;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    如果ma_values为NULL，这是一张combined table，所有的key和value都存在ma_keys里面</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    PyDictKeysObject *ma_keys;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* </span></span><br><span class="line"><span class="comment">	   如果ma_values不为NULL，这是一张split table，那么key都存在ma_keys里</span></span><br><span class="line"><span class="comment">	   所有的values都存在ma_values这个数组里</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line">    PyObject **ma_values;</span><br><span class="line">&#125; PyDictObject;</span><br><span class="line"></span><br><span class="line"><span class="comment">//不管装在设么地方，我们看到存储的都是PyObject *</span></span><br><span class="line"><span class="comment">//说明字典是什么都可以装的(不可变类型)</span></span><br><span class="line">但是说实话，直接这么看是很难看懂的，然而我们发现有一个PyDictKeysObject *，而这个家伙就是_dictkeysobject，从最上面的<span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span>也能看出来，我们来看看这个_<span class="title">dictkeysobject</span>是什么吧</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"> </span></span><br><span class="line"><span class="class">//<span class="title">Objects</span>/<span class="title">dict</span>-<span class="title">common</span>.<span class="title">h</span></span></span><br><span class="line"><span class="class"><span class="title">struct</span> _<span class="title">dictkeysobject</span> &#123;</span></span><br><span class="line">    <span class="comment">//引用计数</span></span><br><span class="line">    Py_ssize_t dk_refcnt;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Size of the hash table (dk_indices). It must be a power of 2. */</span></span><br><span class="line">    <span class="comment">/* 哈希表的大小，必须是2的倍数 */</span></span><br><span class="line">    Py_ssize_t dk_size;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 与哈希表有关的函数 */</span></span><br><span class="line">    dict_lookup_func dk_lookup;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Number of usable entries in dk_entries. */</span></span><br><span class="line">    <span class="comment">/* dk_entries中可用的entries数量 */</span></span><br><span class="line">    Py_ssize_t dk_usable;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Number of used entries in dk_entries. */</span></span><br><span class="line">    <span class="comment">/* dk_entries中已经使用的entries数量 */</span></span><br><span class="line">    Py_ssize_t dk_nentries;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Actual hash table of dk_size entries. It holds indices in dk_entries,</span></span><br><span class="line"><span class="comment">       or DKIX_EMPTY(-1) or DKIX_DUMMY(-2).</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">       Indices must be: 0 &lt;= indice &lt; USABLE_FRACTION(dk_size).</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">       The size in bytes of an indice depends on dk_size:</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">       Dynamically sized, SIZEOF_VOID_P is minimum. */</span></span><br><span class="line">    <span class="comment">//最终的哈希表，它存储了dk_entries的索引</span></span><br><span class="line">    <span class="comment">//里面的类型是会随着dk_size的大小而变化的</span></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">       - 1 byte if dk_size &lt;= 0xff (char*)</span></span><br><span class="line"><span class="comment">       - 2 bytes if dk_size &lt;= 0xffff (int16_t*)</span></span><br><span class="line"><span class="comment">       - 4 bytes if dk_size &lt;= 0xffffffff (int32_t*)</span></span><br><span class="line"><span class="comment">       - 8 bytes otherwise (int64_t*)</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="keyword">char</span> dk_indices[];  <span class="comment">/* char is required to avoid strict aliasing. */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* "PyDictKeyEntry dk_entries[dk_usable];" array follows:</span></span><br><span class="line"><span class="comment">       see the DK_ENTRIES() macro */</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//我们一直提到了dk_entries，这又是个啥？</span></span><br><span class="line"><span class="comment">//dk_entries是一个数组，里面的元素类型是PyDictKeyEntry，就是一个一个的键值对</span></span><br><span class="line"><span class="comment">//所以我们把某个键值对称之为一个entry，它的大小可以用USABLE_FRACTION这个宏来获取</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="comment">/* me_key的哈希值，避免每次查询的时候都要重新建立 */</span></span><br><span class="line">    Py_hash_t me_hash;</span><br><span class="line">    <span class="comment">//字典的key</span></span><br><span class="line">    PyObject *me_key;</span><br><span class="line">    <span class="comment">//这个字段只对combined table有意义</span></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    还记得ma_values吗？上面说了如果是combined table，那么key和value都会存在PyDictKeysObject *ma_keys里面，但如果是split table，那就只有key会存在PyDictKeysObject *ma_keys里面，也就是这里me_key，所以这里注释了：me_value这个字段只对combined table有意义。因为是split table的话，value都会存储在ma_values里面，而不是这里的me_value</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    PyObject *me_value; <span class="comment">/* This field is only meaningful for combined tables */</span></span><br><span class="line">&#125; PyDictKeyEntry;</span><br></pre></td></tr></table></figure>
+
+<p>PyDictObject里面有一个ma_values，如果是combined table，那么这个值是为NULL，key和value是放在PyDictKeyEntry里面的，由me_key和me_value存储，这当然也是一个PyObject *指针类型。如果是split table，那么ma_values则是一个数组，存储所有value，当然这里的value也是指针，PyDictKeyEntry则只存储key。而哈希表还要对应一个索引啊，这个索引都是放在PyDictKeysObject里面的。</p>
+<h2 id="再谈哈希冲突"><a href="#再谈哈希冲突" class="headerlink" title="再谈哈希冲突"></a>再谈哈希冲突</h2><p>​        哈希表的基本思想，就是通过某个函数将需要搜索的键值映射为一个索引，然后通过索引去访问连续的内存区域。而对于哈希表这种数据结构，最终目的就是加速键的搜索过程。而用于映射的函数就是哈希函数，映射之后的值就是哈希值。因此在哈希表的实现中，哈希函数的优劣将直接决定实现的哈希表的搜索效率的高低。</p>
+<p>​        通过多次使用探测函数f，从一个位置可以到达多个位置，我们认为这些位置形成了一个”冲突探测链(探测序列)”，比如当我们插入一个key=”satori”的键值对，在a位置发现不行，又走b位置，发现也被人占了，于是到达c位置，发现没有key，于是就占了c这个位置。但是问题来了，如果我此时把b位置上键值对给删掉会引发什么后果？首先我们知道，b位置上的key和我们指定的值为”satori”的key通过哈希函数映射出来的索引是一样的，当我们直接获取d[“satori”]，肯定会先走a位置，发现有人但key又不是”satori”，于是重新映射，走到b，发现还不对，再走到c位置，发现key是”satori”，于是就把值取出来了。但是，我要说但是了，如果我们把b位置上的元素删掉呢？那么老规矩，获取、映射、走到a发现坑被占、走到b结果发现居然没有内容，那么直接就报出了一个KeyError。继续寻找的前提是，这个地方要存储了key、value，并且存在的key和指定的key不相同，但如果没有的话，就说明根本没有这个key。然而呢？”satori”这个key确实是存在的，因此发生这种情况我们就说<code>探测链断裂</code>。本来应该走到c的，但是由于b没有元素，因此探测函数在b处就停止了。</p>
+<p>​        <strong>因此我们发现，当一个元素只要位于任何一条探测链当中，在删除元素时都不能真正意义上的删除，而是一种”伪删除”操作。</strong></p>
+<h2 id="entry的三种状态"><a href="#entry的三种状态" class="headerlink" title="entry的三种状态"></a>entry的三种状态</h2><p><strong>还记得这个entry吗？对于字典里面的一个键值对就叫做一个entry</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    Py_hash_t me_hash;</span><br><span class="line">    PyObject *me_key;</span><br><span class="line">    PyObject *me_value;</span><br><span class="line">&#125; PyDictKeyEntry;</span><br></pre></td></tr></table></figure>
+
+<p><strong>在python中，当一个PyDictObject对象发生变化时，其中的entry会在三种不同的状态之间进行切换：unused态、active态、dummy态。</strong></p>
+<ul>
+<li>当一个entry的me_key和me_value都是NULL的时候，entry处于unused态。unused态表明该entry中并没有存储key、value，并且在此之前也没有存储过它们。每一个entry在初始化的时候都会处于这个状态，me_value不管何时都可能会NULL，这取决于到底是combined table、还是split table，但是对于me_key，只可能在unused的时候才可能会NULL。</li>
+<li>当entry存储了key时，那么此时entry便从unused态变成了active态</li>
+<li>当entry中的key(value)被删除后，状态便从active态变成dummy态，注意：这里是dummy，删除了并不代表就能够回到unused态，来存储其他key了。我们也说了，unused态是指当前没有、并且之前也没有存储过。key被删除后，会变成dummy。否则就会发生我们之前说的探测链断裂，至于这个dummy到底是啥，我们后面说。总是entry进入dummy态，就是我们刚才提到的伪删除技术，当python沿着某条探测链搜索时，如果发现一个entry处于dummy态，就会明白虽然当前的entry是无效的，但是后面的entry可能是有效的，而不会直接就停止搜索、报错，这样就保证了探测链的连续性。至于报错，是在找到了unused状态的entry时才会报错，因为这里确实一直都没有存储过key，但是索引确实是这个位置，这说明当前指定的key就真的不存在哈希表中，此时才会报错。</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>​        现在，我们大致弄明白了 python底层字典对象的内部实现了。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你给我口饭吃!<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/ali.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/wechat.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -249,396 +282,114 @@
 		</ul>
 	</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/02/NO17-Python源码试读-sort底层实现/" class="archive-article-date">
-  	<time datetime="2020-05-02T10:08:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/02/NO17-Python源码试读-sort底层实现/">Python源码试读--sort底层实现</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">List</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Sort</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">源码</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/02/No16-Python中常见容器的底层实现/" class="archive-article-date">
-  	<time datetime="2020-05-02T06:11:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/02/No16-Python中常见容器的底层实现/">Python源码试读--常见容器的底层实现(List)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">List</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">容器</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/02/No15-Socket在Linux中的五大IO模型/" class="archive-article-date">
-  	<time datetime="2020-05-01T16:09:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/02/No15-Socket在Linux中的五大IO模型/">Socket五大I/O模型</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Socket</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">I/O模型</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/30/No14-趣谈计算机网络协议-传输层之UDP协议/" class="archive-article-date">
-  	<time datetime="2020-04-30T10:55:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/30/No14-趣谈计算机网络协议-传输层之UDP协议/">趣谈计算机网络协议-传输层之UDP协议</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">传输层</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">网络协议</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">UDP</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/30/No13-趣谈计算机网络协议-传输层/" class="archive-article-date">
-  	<time datetime="2020-04-30T08:50:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/30/No13-趣谈计算机网络协议-传输层/">趣谈计算机网络协议-传输层之TCP协议</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">传输层</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">网络协议</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">TCP</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
       
-        </div></section>
+
       
+
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/28/No12-正则表达式/" class="archive-article-date">
-  	<time datetime="2019-07-28T11:42:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/28/No12-正则表达式/">正则表达式（2）--进阶：回溯法</a>
-    </h1>
-  
+      </div>
+    </span>
+  </div>
+</div>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">正则表达式</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">回溯法</a>
-        		</li>
-      		
-		</ul>
-	</div>
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/05/02/No18-Python源码试读-dict的底层实现/" alt="微信分享二维码">
+    </div>
+</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/20/No11-ELK监控报警系统-3/" class="archive-article-date">
-  	<time datetime="2019-07-19T16:00:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-20</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2020/05/03/No19-Socket-I-O复用/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Socket I/O复用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/05/02/NO17-Python源码试读-sort底层实现/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python源码试读--sort底层实现</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/20/No11-ELK监控报警系统-3/">ELK监控报警系统(3)--SSL解密</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ELK</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">SSL</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">对称加密</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">非对称加密</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/07/No10-ELK监控报警系统-2/" class="archive-article-date">
-  	<time datetime="2019-07-07T09:55:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/07/No10-ELK监控报警系统-2/">ELK监控报警系统(2)</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ELK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -662,8 +413,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

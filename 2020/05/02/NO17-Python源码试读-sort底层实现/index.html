@@ -6,19 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | DanielHu&#39;s Blog</title>
+  <title>Python源码试读--sort底层实现 | DanielHu&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="上海大学硕士在读，本博客内容有关于后端开发、通信以及足球">
-<meta name="keywords" content="Python, Coding, Communication Technology, Information Technology，程序猿，后端">
-<meta property="og:type" content="website">
-<meta property="og:title" content="DanielHu&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="前言​        上一篇文章我介绍了在Cpython中是如何实现List的，作为list的重要方法sort，它的内部实现机制是什么没时间复杂度是多少呢？本文将对此展开介绍。Timsort是结合了合并排序（merge sort）和折半排序（binary sort）而得出的排序算法，它在现实中有很好的效率。Tim Peters在2002年设计了该算法并在Python中使用（TimSort 是 Py">
+<meta name="keywords" content="Python,List,Sort,源码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python源码试读--sort底层实现">
+<meta property="og:url" content="http://yoursite.com/2020/05/02/NO17-Python源码试读-sort底层实现/index.html">
 <meta property="og:site_name" content="DanielHu&#39;s Blog">
-<meta property="og:description" content="上海大学硕士在读，本博客内容有关于后端开发、通信以及足球">
+<meta property="og:description" content="前言​        上一篇文章我介绍了在Cpython中是如何实现List的，作为list的重要方法sort，它的内部实现机制是什么没时间复杂度是多少呢？本文将对此展开介绍。Timsort是结合了合并排序（merge sort）和折半排序（binary sort）而得出的排序算法，它在现实中有很好的效率。Tim Peters在2002年设计了该算法并在Python中使用（TimSort 是 Py">
 <meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="http://yoursite.com/images/17-1.png">
+<meta property="og:image" content="http://yoursite.com/images/17-2.jpg">
+<meta property="og:image" content="http://yoursite.com/images/17-3.jpg">
+<meta property="og:image" content="http://yoursite.com/images/17-4.jpg">
+<meta property="og:updated_time" content="2020-05-02T15:08:11.648Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DanielHu&#39;s Blog">
-<meta name="twitter:description" content="上海大学硕士在读，本博客内容有关于后端开发、通信以及足球">
+<meta name="twitter:title" content="Python源码试读--sort底层实现">
+<meta name="twitter:description" content="前言​        上一篇文章我介绍了在Cpython中是如何实现List的，作为list的重要方法sort，它的内部实现机制是什么没时间复杂度是多少呢？本文将对此展开介绍。Timsort是结合了合并排序（merge sort）和折半排序（binary sort）而得出的排序算法，它在现实中有很好的效率。Tim Peters在2002年设计了该算法并在Python中使用（TimSort 是 Py">
+<meta name="twitter:image" content="http://yoursite.com/images/17-1.png">
   
     <link rel="alternative" href="/atom.xml" title="DanielHu&#39;s Blog" type="application/atom+xml">
   
@@ -158,124 +164,98 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-NO17-Python源码试读-sort底层实现" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/03/No19-Socket-I-O复用/" class="archive-article-date">
-  	<time datetime="2020-05-03T05:32:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-03</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/03/No19-Socket-I-O复用/">Socket I/O复用</a>
+    <h1 class="article-title" itemprop="name">
+      Python源码试读--sort底层实现
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Socket</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">I/O复用</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/02/No18-Python源码试读-dict的底层实现/" class="archive-article-date">
-  	<time datetime="2020-05-02T15:44:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/02/No18-Python源码试读-dict的底层实现/">Python源码试读--常见容器的底层实现(Dict)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">源码</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Dict</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/02/NO17-Python源码试读-sort底层实现/" class="archive-article-date">
+        
+        <a href="/2020/05/02/NO17-Python源码试读-sort底层实现/" class="archive-article-date">
   	<time datetime="2020-05-02T10:08:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-02</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/02/NO17-Python源码试读-sort底层实现/">Python源码试读--sort底层实现</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>​        上一篇文章我介绍了在Cpython中是如何实现List的，作为list的重要方法sort，它的内部实现机制是什么没时间复杂度是多少呢？本文将对此展开介绍。Timsort是结合了合并排序（merge sort）和折半排序（binary sort）而得出的排序算法，它在现实中有很好的效率。Tim Peters在2002年设计了该算法并在Python中使用（TimSort 是 Python 中 list.sort 的默认实现）。该算法找到数据中已经排好序的块-分区，每一个分区叫一个run，然后按规则合并这些run。Pyhton自从2.3版以来一直采用Timsort算法排序，现在Java SE7和Android也采用Timsort算法对数组排序。</p>
+<a id="more"></a>    
 
-        <div class="article-info info-on-right">
-          
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><ul>
+<li>cpython/Objects/listobject.c</li>
+</ul>
+<h2 id="核心过程"><a href="#核心过程" class="headerlink" title="核心过程"></a>核心过程</h2><p>​        <strong>TimSort 算法为了减少对升序部分的回溯和对降序部分的性能倒退，将输入按其升序和降序特点进行了分区。排序的输入的单位不是一个个单独的数字，而是一个个的块-分区。其中每一个分区叫一个minrun。针对这些 minrun序列，每次拿一个 minrun出来按规则进行合并。每次合并会将两个 minrun合并成一个 minrun。合并的结果保存到栈中。合并直到消耗掉所有的 minrun，这时将栈上剩余的 minrun合并到只剩一个 minrun为止。这时这个仅剩的 minrun便是排好序的结果。</strong></p>
+<p>​    <strong>综上述过程，Timsort算法的过程包括</strong></p>
+<ul>
+<li>如何数组长度小于某个值，直接用二分插入排序算法</li>
+<li>找到各个minrun，并入栈</li>
+<li>按规则合并minrun</li>
+</ul>
+<h3 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h3><p>​         现实中的大多数据通常是有部分已经排好序的，Timsort利用了这一特点。Timsort排序的输入的单位不是一个个单独的数字，而是一个个的分区。其中每一个分区叫一个“minrun“（图1）。针对这个 minrun序列，每次拿一个 minrun出来进行归并。每次归并会将两个 minrun合并成一个 minrun。每个minrun最少要有2个元素。Timesor按照升序和降序划分出各个minrun：minrun如果是是升序的，那么minrun中的后一元素要大于或等于前一元素（a[lo] &lt;= a[lo + 1] &lt;= a[lo + 2] &lt;= …）；如果minrun是<strong>严格降序</strong>的，即minrun中的前一元素大于后一元素（a[lo] &gt; a[lo + 1] &gt; a[lo + 2] &gt; …），需要将run 中的元素翻转（这里注意降序的部分必须是“严格”降序才能进行翻转。因为 TimSort 的一个重要目标是保持稳定性stability。如果在 &gt;= 的情况下进行翻转这个算法就不再是 stable）。</p>
+<p><img src="/images/17-1.png" alt="17-1"></p>
+<h3 id="binary-sort"><a href="#binary-sort" class="headerlink" title="binary sort"></a>binary sort</h3><p>​        二分排序也称折半排序(Binary Sort)实际上是直接插入排序的改进版，在插入到已排序的数据时采用来折半查找（二分查找），取已经排好序的数组的中间元素，与插入的数据进行比较，如果比插入的数据大，那么插入的数据肯定属于前半部分，否则属于后半部分，依次不断缩小范围，确定要插入的位置。</p>
+<h3 id="minrun"><a href="#minrun" class="headerlink" title="minrun"></a>minrun</h3><p>​        实际上 <code>minrun</code> 的值是通过下面这个函数进行计算的, 如果当前剩余未排序的长度小于 64, 则返回并用 binary sort 进行分组内元素排序, 不然的话就一直对当前的剩余长度减半, 直到小于 64 为止, 返回并进行排序。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> Py_ssize_t</span><br><span class="line">merge_compute_minrun(Py_ssize_t n)</span><br><span class="line">&#123;</span><br><span class="line">    Py_ssize_t r = <span class="number">0</span>;           <span class="comment">/* becomes 1 if any 1 bits are shifted off */</span></span><br><span class="line"></span><br><span class="line">    assert(n &gt;= <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">while</span> (n &gt;= <span class="number">64</span>) &#123;</span><br><span class="line">        r |= n &amp; <span class="number">1</span>;</span><br><span class="line">        n &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> n + r;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="merge-at"><a href="#merge-at" class="headerlink" title="merge at"></a>merge at</h2><p><code>merge_at</code> 包含了两部分, 一部分是合并排序 [merge_sort](<a href="https://github.com/zpoint/Algorithms/tree/master/Sort/merge" target="_blank" rel="noopener">https://github.com/zpoint/Algorithms/tree/master/Sort/merge</a> sort), 另一部分是 <a href="https://github.com/zpoint/CPython-Internals/blob/master/BasicObject/list/list_cn.md#galloping-mode" target="_blank" rel="noopener">galloping mode</a></p>
+<p>​        划分run和优化run长度以后，然后就是对各个run进行合并。合并run的原则是 run合并的技术要保证有最高的效率。当Timsort算法找到一个run时，会将该run在数组中的起始位置和run的长度放入栈中，然后根据先前放入栈中的run决定是否该合并run。</p>
+<p>​        Timsort会合并在栈中2个连续的run。X、Y、Z代表栈最上方的3个run的长度（图2），当同时不满足下面2个条件是，X、Y这两个run会被合并，直到同时满足下面2个条件，则合并结束：</p>
+<p>(1) X&gt;Y+Z</p>
+<p>(2) Y&gt;Z</p>
+<p>例如：如果X&lt;Y+Z，那么X+Y合并为一个新的run，然后入栈。重复上述步骤，直到同时满足上述2个条件。当合并结束后，Timsort会继续找下一run，然后找到以后入栈，重复上述步骤，及每次run入栈都会检查是否需要合并2个run。</p>
+<p><img src="/images/17-2.jpg" alt="17-2"></p>
+<h3 id="核心算法总结"><a href="#核心算法总结" class="headerlink" title="核心算法总结"></a>核心算法总结</h3><p>​        根据信息学理论，在平均情况下，比较排序不会比O(n log n)更快。由于Timsort算法利用了现实中大多数数据中会有一些排好序的区，所以Timsort会比O(n log n)快些。对于随机数没有可以利用的排好序的区，Timsort时间复杂度会是log(n!)。</p>
+<p>Timsort与其他比较排序算法时间复杂度（time complexity）的比较：</p>
+<p><img src="/images/17-3.jpg" alt="17-3"></p>
+<p>空间复杂度（space complexities）比较</p>
+<p><img src="/images/17-4.jpg" alt="17-4"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>​        Python底层是通过TimSort 算法来实现对List的排序的，Timsort排序的输入的单位不是一个个单独的数字，而是一个个的块-分区。其中每一个分区叫一个minrun。每一个minrun都采用binary sort(折半排序)的算法进行排序。针对这些 minrun已经过排序的序列，每次拿一个 minrun出来按规则进行合并。每次合并会将两个 minrun合并成一个 minrun。合并的结果保存到栈中。合并直到消耗掉所有的 minrun，这时将栈上剩余的 minrun合并到只剩一个 minrun为止。这时这个仅剩的 minrun便是排好序的结果。</p>
+<p>​        <strong>从结果来看，Timsort是稳定的算法，当待排序的数组中已经有排序好的数，它的时间复杂度会小于n logn。与其他合并排序一样，Timesrot是稳定的排序算法，最坏时间复杂度是O（n log n）。在最坏情况下，Timsort算法需要的临时空间是n/2，在最好情况下，它只需要一个很小的临时存储空间。</strong></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你给我口饭吃!<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/ali.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/wechat.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -299,346 +279,114 @@
 		</ul>
 	</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/02/No16-Python中常见容器的底层实现/" class="archive-article-date">
-  	<time datetime="2020-05-02T06:11:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/02/No16-Python中常见容器的底层实现/">Python源码试读--常见容器的底层实现(List)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">List</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">容器</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/02/No15-Socket在Linux中的五大IO模型/" class="archive-article-date">
-  	<time datetime="2020-05-01T16:09:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/02/No15-Socket在Linux中的五大IO模型/">Socket五大I/O模型</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Socket</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">I/O模型</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/30/No14-趣谈计算机网络协议-传输层之UDP协议/" class="archive-article-date">
-  	<time datetime="2020-04-30T10:55:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/30/No14-趣谈计算机网络协议-传输层之UDP协议/">趣谈计算机网络协议-传输层之UDP协议</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">传输层</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">网络协议</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">UDP</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/30/No13-趣谈计算机网络协议-传输层/" class="archive-article-date">
-  	<time datetime="2020-04-30T08:50:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/30/No13-趣谈计算机网络协议-传输层/">趣谈计算机网络协议-传输层之TCP协议</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">传输层</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">网络协议</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">TCP</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
       
-        </div></section>
+
       
+
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/28/No12-正则表达式/" class="archive-article-date">
-  	<time datetime="2019-07-28T11:42:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/28/No12-正则表达式/">正则表达式（2）--进阶：回溯法</a>
-    </h1>
-  
+      </div>
+    </span>
+  </div>
+</div>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">正则表达式</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">回溯法</a>
-        		</li>
-      		
-		</ul>
-	</div>
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/05/02/NO17-Python源码试读-sort底层实现/" alt="微信分享二维码">
+    </div>
+</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/20/No11-ELK监控报警系统-3/" class="archive-article-date">
-  	<time datetime="2019-07-19T16:00:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-20</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2020/05/02/No18-Python源码试读-dict的底层实现/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Python源码试读--常见容器的底层实现(Dict)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/05/02/No16-Python中常见容器的底层实现/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python源码试读--常见容器的底层实现(List)</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/20/No11-ELK监控报警系统-3/">ELK监控报警系统(3)--SSL解密</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ELK</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">SSL</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">对称加密</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">非对称加密</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/07/No10-ELK监控报警系统-2/" class="archive-article-date">
-  	<time datetime="2019-07-07T09:55:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/07/No10-ELK监控报警系统-2/">ELK监控报警系统(2)</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ELK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -662,8 +410,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
