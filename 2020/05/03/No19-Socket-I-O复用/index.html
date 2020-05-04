@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="DanielHu&#39;s Blog">
 <meta property="og:description" content="前言​        select/poll/epoll 都是 I/O 多路复用的具体实现，select 出现的最早，之后是 poll，再是 epoll。 select1int select(int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout);">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2020-05-03T07:27:47.627Z">
+<meta property="og:updated_time" content="2020-05-04T14:58:38.687Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Socket I&#x2F;O复用">
 <meta name="twitter:description" content="前言​        select/poll/epoll 都是 I/O 多路复用的具体实现，select 出现的最早，之后是 poll，再是 epoll。 select1int select(int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout);">
@@ -253,7 +253,7 @@
 <p>等待epfd上的io事件，最多返回maxevents个事件。<br>参数events用来从内核得到事件的集合，maxevents告之内核这个events有多大，这个maxevents的值不能大于创建epoll_create()时的size，参数timeout是超时时间（毫秒，0会立即返回，-1将不确定，也有说法说是永久阻塞）。该函数返回需要处理的事件数目，如返回0表示已超时。</p>
 </li>
 </ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">epoll_event</span> <span class="title">events</span>[5];</span></span><br><span class="line"> <span class="keyword">int</span> epfd = epoll_create(<span class="number">10</span>);</span><br><span class="line"> ...</span><br><span class="line"> ...</span><br><span class="line"> <span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++) </span><br><span class="line"> &#123;</span><br><span class="line">   <span class="keyword">static</span> <span class="class"><span class="keyword">struct</span> <span class="title">epoll_event</span> <span class="title">ev</span>;</span></span><br><span class="line">   <span class="built_in">memset</span>(&amp;client, <span class="number">0</span>, <span class="keyword">sizeof</span> (client));</span><br><span class="line">   addrlen = <span class="keyword">sizeof</span>(client);</span><br><span class="line">   ev.data.fd = accept(sockfd,(struct sockaddr*)&amp;client, &amp;addrlen);</span><br><span class="line">   ev.events = EPOLLIN;</span><br><span class="line">   epoll_ctl(epfd, EPOLL_CTL_ADD, ev.data.fd, &amp;ev); </span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line"> 	<span class="built_in">puts</span>(<span class="string">"round again"</span>);</span><br><span class="line"> 	nfds = epoll_wait(epfd, events, <span class="number">5</span>, <span class="number">10000</span>);<span class="comment">// 这里会对epfd进行重排，排到最前面</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;nfds;i++) &#123; <span class="comment">// 不需要再去轮询所有epfd，因此复杂度降为O(1)</span></span><br><span class="line">		<span class="built_in">memset</span>(buffer,<span class="number">0</span>,MAXBUF);</span><br><span class="line">		read(events[i].data.fd, buffer, MAXBUF);</span><br><span class="line">		<span class="built_in">puts</span>(buffer);</span><br><span class="line">&#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">epoll_event</span> <span class="title">events</span>[5];</span></span><br><span class="line"> <span class="keyword">int</span> epfd = epoll_create(<span class="number">10</span>);</span><br><span class="line"> ...</span><br><span class="line"> ...</span><br><span class="line"> <span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++) </span><br><span class="line"> &#123;</span><br><span class="line">   <span class="keyword">static</span> <span class="class"><span class="keyword">struct</span> <span class="title">epoll_event</span> <span class="title">ev</span>;</span></span><br><span class="line">   <span class="built_in">memset</span>(&amp;client, <span class="number">0</span>, <span class="keyword">sizeof</span> (client));</span><br><span class="line">   addrlen = <span class="keyword">sizeof</span>(client);</span><br><span class="line">   ev.data.fd = accept(sockfd,(struct sockaddr*)&amp;client, &amp;addrlen);</span><br><span class="line">   ev.events = EPOLLIN;</span><br><span class="line">   epoll_ctl(epfd, EPOLL_CTL_ADD, ev.data.fd, &amp;ev); </span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line"> 	<span class="built_in">puts</span>(<span class="string">"round again"</span>);</span><br><span class="line"> 	nfds = epoll_wait(epfd, events, <span class="number">5</span>, <span class="number">10000</span>);<span class="comment">// 这里会对epfd进行重排，排到最前面</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;nfds;i++) &#123; <span class="comment">// 不需要再去轮询所有epfd，因此复杂度降为O(1)</span></span><br><span class="line">	<span class="built_in">memset</span>(buffer,<span class="number">0</span>,MAXBUF);</span><br><span class="line">	read(events[i].data.fd, buffer, MAXBUF);</span><br><span class="line">	<span class="built_in">puts</span>(buffer);</span><br><span class="line">&#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="工作模式"><a href="#工作模式" class="headerlink" title="工作模式"></a>工作模式</h3><p>epoll 的描述符事件有两种触发模式：LT（level trigger）和 ET（edge trigger）。</p>
 <h4 id="1-LT-模式"><a href="#1-LT-模式" class="headerlink" title="1. LT 模式"></a>1. LT 模式</h4><p>当 epoll_wait() 检测到描述符事件到达时，将此事件通知进程，进程可以不立即处理该事件，下次调用 epoll_wait() 会再次通知进程。是默认的一种模式，并且同时支持 Blocking 和 No-Blocking。</p>
@@ -384,6 +384,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2020/05/04/No20-进程管理/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          No20-进程管理
+        
+      </div>
+    </a>
   
   
     <a href="/2020/05/02/No18-Python源码试读-dict的底层实现/" id="article-nav-older" class="article-nav-link-wrap">
@@ -529,6 +538,34 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">web development</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">正则表达式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">回溯法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">传输层</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">网络协议</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UDP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">ELK</a>
               </li>
              
@@ -545,31 +582,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">传输层</a>
+                <a href="javascript:void(0)" class="js-tag color3">进程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">网络协议</a>
+                <a href="javascript:void(0)" class="js-tag color5">进程调度</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UDP</a>
+                <a href="javascript:void(0)" class="js-tag color5">进程通信</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">正则表达式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">回溯法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">web development</a>
+                <a href="javascript:void(0)" class="js-tag color4">多进程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -585,15 +610,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多进程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">gzip</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">TCP</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -609,11 +626,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Dict</a>
+                <a href="javascript:void(0)" class="js-tag color4">TCP</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">容器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Dict</a>
               </li>
              
               <li class="article-tag-list-item">
