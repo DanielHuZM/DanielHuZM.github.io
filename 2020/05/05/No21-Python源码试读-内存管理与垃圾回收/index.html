@@ -6,19 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: python | DanielHu&#39;s Blog</title>
+  <title>Python源码试读-内存管理 | DanielHu&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="上海大学硕士在读，本博客内容有关于后端开发、通信以及足球">
-<meta name="keywords" content="Python, Coding, Communication Technology, Information Technology，程序猿，后端">
-<meta property="og:type" content="website">
-<meta property="og:title" content="DanielHu&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/tags/python/index.html">
+  <meta name="description" content="前言​        内存管理，对于python这样的动态语言是至关重要的一部分，它在很大程度上决定了python的执行效率，因为在python的运行中会创建和销毁大量的对象，这些都设计内存的管理。">
+<meta name="keywords" content="Python,源码,内存管理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python源码试读-内存管理">
+<meta property="og:url" content="http://yoursite.com/2020/05/05/No21-Python源码试读-内存管理与垃圾回收/index.html">
 <meta property="og:site_name" content="DanielHu&#39;s Blog">
-<meta property="og:description" content="上海大学硕士在读，本博客内容有关于后端开发、通信以及足球">
+<meta property="og:description" content="前言​        内存管理，对于python这样的动态语言是至关重要的一部分，它在很大程度上决定了python的执行效率，因为在python的运行中会创建和销毁大量的对象，这些都设计内存的管理。">
 <meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="http://yoursite.com/images/21-1.png">
+<meta property="og:image" content="http://yoursite.com/images/21-3.png">
+<meta property="og:image" content="http://yoursite.com/images/21-4.png">
+<meta property="og:updated_time" content="2020-05-05T17:28:43.781Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DanielHu&#39;s Blog">
-<meta name="twitter:description" content="上海大学硕士在读，本博客内容有关于后端开发、通信以及足球">
+<meta name="twitter:title" content="Python源码试读-内存管理">
+<meta name="twitter:description" content="前言​        内存管理，对于python这样的动态语言是至关重要的一部分，它在很大程度上决定了python的执行效率，因为在python的运行中会创建和销毁大量的对象，这些都设计内存的管理。">
+<meta name="twitter:image" content="http://yoursite.com/images/21-1.png">
   
     <link rel="alternative" href="/atom.xml" title="DanielHu&#39;s Blog" type="application/atom+xml">
   
@@ -158,278 +163,252 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-No21-Python源码试读-内存管理与垃圾回收" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Python源码试读-内存管理
+    </h1>
+  
+
+        
+        <a href="/2020/05/05/No21-Python源码试读-内存管理与垃圾回收/" class="archive-article-date">
+  	<time datetime="2020-05-05T09:53:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>​        内存管理，对于python这样的动态语言是至关重要的一部分，它在很大程度上决定了python的执行效率，因为在python的运行中会创建和销毁大量的对象，这些都设计内存的管理。</p>
+<a id="more"></a>
+
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><ul>
+<li>cpython/Modules/gcmodule.c</li>
+<li>cpython/Objects/object.c</li>
+<li>cpython/Include/cpython/object.h</li>
+<li>cpython/Include/object.h</li>
+<li>cpython/Include/objimpl.h</li>
+<li>cpython/Objects/obmalloc.c</li>
+<li>cpython/Python/pyarena.c</li>
+</ul>
+<h2 id="内存管理架构"><a href="#内存管理架构" class="headerlink" title="内存管理架构"></a>内存管理架构</h2><p>​        python中内存管理机制是分层次的，我们可以看成有四层，0 1 2 3。在最底层，也就是第0层是由操作系统提供的内存管理接口，比如C提供了malloc和free接口，这一层是由操作系统实现并且管理的，python不能干涉这一行为。从这一层往上，剩余的三层则都是由python实现并维护的。</p>
+<p>​        第一层是python基于第0层操作系统管理接口包装而成的，这一层并没有在第0层上加入太多的动作，其目的仅仅是为python提供一层统一的raw memory的管理接口。这么做的原因就是虽然不同的操作系统都提供了ANSI C标准所定义的内存管理接口，但是对于某些特殊情况不同操作系统有不同的行为。比如调用<code>malloc(0)</code>，有的操作系统会返回NULL，表示申请失败，但是有的操作系统则会返回一个貌似正常的指针， 但是这个指针指向的内存并不是有效的。为了最广泛的可移植性，python必须保证相同的语义一定代表着相同的运行时行为，为了处理这些与平台相关的内存分配行为，python必须要在C的内存分配接口之上再提供一层包装。</p>
+<p>​        第一层所提供的内存管理接口的功能是非常有限的，如果创建一个PyLongObject对象，还需要做很多额外的工作，比如设置对象的类型参数、初始化对象的引用计数值等等。因此为了简化python自身的开发，python在比第一层更高的抽象层次上提供了第二层内存管理接口。在这一层，是一组以<code>PyObject_</code>为前缀的函数族，主要提供了创建python对象的接口。这一套函数族又被换做Pymalloc机制。因此在第二层的内存管理机制上，python对于一些内建对象构建了更高抽象层次的内存管理策略。而对于第三层的内存管理策略，主要就是对象的缓存机制。</p>
+<p>​        因此，总结一下：</p>
+<ul>
+<li><p>第0层：操作系统负责管理内存，python无权干预</p>
+</li>
+<li><p>第1层：仅仅对c中原生的malloc进行了简单包装</p>
+</li>
+<li><p>第2层：真正在python中发挥巨大作用，并且也是GC的藏身之处</p>
+</li>
+<li><p>第3层：缓冲池，比如小整数对象池等等。</p>
+<p>下面我们就来对第二层内存管理机制进行剖析。</p>
+</li>
+</ul>
+<h2 id="第二层——小块空间的内存池"><a href="#第二层——小块空间的内存池" class="headerlink" title="第二层——小块空间的内存池"></a>第二层——小块空间的内存池</h2><p>​        整个小块内存的内存池可以视为一个层次结构，在这个层次结构中一共分为4层，从下至上分别是：block、pool、arena和usedpool。并且block、pool、arena都是python代码中可以找到的实体，而最顶层的usedpool只是一个概念上的东西，表示python对整个小块内存分配和释放行为的内存管理机制。</p>
+<h3 id="Block"><a href="#Block" class="headerlink" title="Block"></a>Block</h3><p>​        在最底层，block是一个确定大小的内存块。在Python中有很多种block，不同种类的block都有不同的内存大小（size class）。为了在当前主流32位和64位平台获得最佳性能，所有block的长度都是8字节对齐的。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//obmalloc.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ALIGNMENT       8       <span class="comment">/* must be 2^N */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ALIGNMENT_SHIFT     3</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ALIGNMENT_MASK      (ALIGNMENT - 1)</span></span><br></pre></td></tr></table></figure>
+
+<p>​        同时，python为block的大小设定了一个上限，当申请的内存大小小于这个上限时，python可以使用不同种类的block满足对内存的需求；当申请的内存大小超过了这个上限，python就会将对内存的请求转交给第一层的内存管理机制，即PyMem函数族来处理。这个上限值在python中被设置为<strong>512字节</strong>，如果超过了这个值还是要经过操作系统临时申请的。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//obmalloc.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SMALL_REQUEST_THRESHOLD 512</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> NB_SMALL_SIZE_CLASSES   (SMALL_REQUEST_THRESHOLD / ALIGNMENT)</span></span><br></pre></td></tr></table></figure>
+
+<p>​        根据SMALL_REQUEST_THRESHOLD和ALIGNMENT的限定，实际上我们可以由此得到不同种类的block和size class。block是以8字节对齐，那么每一个块的大小都是<strong>8字节的整倍数，最大不超过512字节</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">* Request in bytes     Size of allocated block      Size class idx</span><br><span class="line"> * ----------------------------------------------------------------</span><br><span class="line"> *        1-8                     8                       0</span><br><span class="line"> *        9-16                   16                       1</span><br><span class="line"> *       17-24                   24                       2</span><br><span class="line"> *       25-32                   32                       3</span><br><span class="line"> *       33-40                   40                       4</span><br><span class="line"> *       41-48                   48                       5</span><br><span class="line"> *       49-56                   56                       6</span><br><span class="line"> *       57-64                   64                       7</span><br><span class="line"> *       65-72                   72                       8</span><br><span class="line"> *        ...                   ...                     ...</span><br><span class="line"> *      497-504                 504                      62</span><br><span class="line"> *      505-512                 512                      63</span><br></pre></td></tr></table></figure>
+
+<p>​        因此当我们申请一个44字节的内存时，<code>PyObject_Malloc</code>会从内存池中划分一个48字节的block给我们。</p>
+<h3 id="Pool"><a href="#Pool" class="headerlink" title="Pool"></a>Pool</h3><p>​        一组block的集合成为一个pool，换句话说，一个pool管理着一堆具有固定大小的内存块<code>(block)</code>。事实上，pool管理者一大块内存，它有一定的策略，将这块大的内存划分为多个小的内存块。在python中，一个pool的大小通常是为一个系统内存页，也就是<strong>4kb</strong>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//obmalloc.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SYSTEM_PAGE_SIZE        (4 * 1024)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SYSTEM_PAGE_SIZE_MASK   (SYSTEM_PAGE_SIZE - 1)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> POOL_SIZE               SYSTEM_PAGE_SIZE        <span class="comment">/* must be 2^N */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> POOL_SIZE_MASK          SYSTEM_PAGE_SIZE_MASK</span></span><br></pre></td></tr></table></figure>
+
+<p>​        pool的结构如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//obmalloc.c</span></span><br><span class="line"><span class="comment">/* Pool for small blocks. */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">pool_header</span> &#123;</span></span><br><span class="line">    <span class="keyword">union</span> &#123; block *_padding;</span><br><span class="line">            uint count; &#125; ref;          <span class="comment">/* 当然pool里面的block数量    */</span></span><br><span class="line">    block *freeblock;                   <span class="comment">/* 一个链表，指向下一个可用的block   */</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">pool_header</span> *<span class="title">nextpool</span>;</span>       <span class="comment">/* 指向下一个pool  */</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">pool_header</span> *<span class="title">prevpool</span>;</span>       <span class="comment">/* 指向上一个pool       ""        */</span></span><br><span class="line">    uint arenaindex;                    <span class="comment">/* 在area里面的索引 */</span></span><br><span class="line">    uint szidx;                         <span class="comment">/* block的大小     */</span></span><br><span class="line">    uint nextoffset;                    <span class="comment">/* 下一个可用block的内存偏移量         */</span></span><br><span class="line">    uint maxnextoffset;                 <span class="comment">/* 最后一个block距离开始位置的距离     */</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">pool_header</span> *<span class="title">poolp</span>;</span></span><br></pre></td></tr></table></figure>
+
+<p>​        这个结构体叫做pool_header，它仅仅一个pool的头部，除去这个pool_header，还剩下的内存才是维护的所有block的集合所占的内存。</p>
+<p><img src="/images/21-1.png" alt="21-1"></p>
+<p>​        我们注意到，pool_header里面有一个szidx，这就意味着pool里面管理的内存块大小都是一样的。也就是说，一个pool可能管理了20个32字节的block、也可能管理了20个64字节的block，但是不会出现管理了10个32字节的block加上10个64字节的block存在。每一个pool都和一个size联系在一起，更确切的说都和一个<code>size class index</code>联系在一起，表示pool里面存储的block都是多少字节的。这就是里面的域<code>szidx</code>存在的意义。</p>
+<h3 id="Arena"><a href="#Arena" class="headerlink" title="Arena"></a>Arena</h3><p>​        在python中，多个pool聚合的结果就是一个arena。上一节提到，pool的大小默认是4kb，同样每个arena的大小也有一个默认值。<code>#define ARENA_SIZE (256 &lt;&lt; 10)</code>，显然这个值默认是256KB，也就是<code>ARENA_SIZE / POOL_SIZE = 64</code>个pool的大小。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//obmalloc.c</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">arena_object</span> &#123;</span></span><br><span class="line">    <span class="keyword">uintptr_t</span> address;</span><br><span class="line">    block* pool_address;</span><br><span class="line">    uint nfreepools;</span><br><span class="line">    uint ntotalpools;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">pool_header</span>* <span class="title">freepools</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">arena_object</span>* <span class="title">nextarena</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">arena_object</span>* <span class="title">prevarena</span>;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/21-3.png" alt="21-3"></p>
+<h3 id="Usedpools"><a href="#Usedpools" class="headerlink" title="Usedpools"></a>Usedpools</h3><p>​        通过<code>#define SMALL_REQUEST_THRESHOLD 512</code>我们知道python内部默认的小块内存与大块内存的分界点定在512个字节。也就是说，当申请的内存小于512个字节，pymalloc_alloc会在内存池中申请内存，而当申请的内存超过了512字节，那么pymalloc_alloc将退化为malloc，通过操作系统来申请内存。当然，通过修改python源代码我们可以改变这个值，从而改变python的默认内存管理行为。</p>
+<p>​        然而在实际的使用中，python并不直接与arenas和arena数组打交道。当python申请内存时，最基本的操作单元并不是arena，而是pool。举个例子，当我们申请一个28字节的内存时，python内部会在内存池寻找一块能够满足需求的pool，从中取出一个block返回，而不会去寻找arena。这实际上是由pool和arena的属性决定的，在python中，pool是一个有size概念的内存管理抽象体，一个pool中的block总是有确定的大小，这个pool总是和某个size class index对应，还记得pool_header中的那个szidx么？而arena是没有size概念的内存管理抽象体。这就意味着，同一个arena在某个时刻，其内部的pool集合可能都是32字节的block；而到了另一个时刻，由于系统需要，这个arena可能被重新划分，其中的pool集合可能改为64字节的block了，甚至pool集合中一般的pool管理32字节，另一半管理64字节。这就决定了在进行内存分配和销毁时，所有的动作都是在pool上完成的。</p>
+<p>​        当然内存池中的pool不仅仅是一个有size概念的内存管理抽象体，更进一步的，它还是一个有状态的内存管理抽象体。一个pool在python运行的任何一个时刻，总是处于一下三种状态中的一种：</p>
+<ul>
+<li>used状态：pool中至少有一个block已经被使用，并且至少有一个block未被使用。这种状态的pool受控于python内部维护的usedpools数组。</li>
+<li>full状态：pool中所有的block都已经被使用，这种状态的pool在arena中，但是不再arena的freepools链表中。</li>
+<li>empty状态：pool中所有的block都未被使用，处于这个状态的pool的集合通过其pool_header中的nextpool构成一个链表，这个链表的表头就是arena中的freepools。</li>
+</ul>
+<p><img src="/images/21-4.png" alt="21-4"></p>
+<p>​        <strong>usedpools</strong> 中的元素类型为 <code>pool_header *</code>, <strong>usedpools</strong> 的大小为 128, 但是实际上只有一半的元素是用到了的。<strong>usedpools</strong> 存储了含有空闲空间的 <strong>pool</strong> 对象, <strong>usedpools</strong> 中的每一个 <strong>pool</strong> 至少含有一个未使用的内存块。如果你从 <strong>idx0</strong> 中获取到了 <strong>pool 1</strong>, 那么从 <strong>pool 1</strong> 中你每次能获得一个内存块(8 bytes)大小的空余空间, 如果你从 <strong>idx2</strong> 中获取到了 <strong>pool 4</strong>, 那么从 <strong>pool 4</strong> 中你每次能获得一个内存块(24 bytes)大小的空余空间, 以此类推。</p>
+<p>​        通常应用中小块的内存申请是比较频繁的, 每一次内存申请都需要找到 <strong>usedpools</strong> 中对应的 <strong>idxn</strong>, 所以对于每次内存分配申请大小为 <strong>nbytes</strong> 的请求, 必须有一种非常快就能定位到对应的 <strong>idxn</strong> 的方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#define ALIGNMENT_SHIFT         3</span><br><span class="line">size = (uint)(nbytes - 1) &gt;&gt; ALIGNMENT_SHIFT</span><br><span class="line"># idxn = size + size</span><br><span class="line">pool = usedpools[size + size]</span><br></pre></td></tr></table></figure>
+
+<p>​        如果申请的大小 <strong>nbytes</strong> 为 7, (7 - 1) &gt;&gt; 3 为 0, idxn = 0 + 0, usedpools[0 + 0] 就是被选中的链表, <strong>idx0</strong> 中的第一个 <strong>pool</strong> 既为获取到的 <strong>pool。</strong></p>
+<p>​        如果申请的大小 <strong>nbytes</strong> 为 24, (24 - 1) &gt;&gt; 3 为 2, idxn = 2 + 2, usedpools[0 + 0] 就是被选中的链表, <strong>idx2</strong> 中的第一个 <strong>pool</strong> 既为获取到的 <strong>pool。</strong></p>
+<p>​        <code>usedpools</code> 的大小为实际需要大小的两倍, 你可以通过以上的位移和加减运算就得到对应的 <strong>idx</strong> 位置, 这样设计极大地缩短了获得对应 <strong>pool</strong> 的入口的时间。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>​        本文对Python底层源码中涉及内存管理的部分进行了探究，下一节我们将聚焦于Python的垃圾回收机制。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你给我口饭吃!<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/ali.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/wechat.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/17/No6/" class="archive-article-date">
-  	<time datetime="2019-06-17T14:13:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/17/No6/">Python web development with Flask(4) -- flask-script模块与click模块</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">web development</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">源码</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">内存管理</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/05/05/No21-Python源码试读-内存管理与垃圾回收/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/17/No5/" class="archive-article-date">
-  	<time datetime="2019-06-17T06:22:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-17</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/05/04/No20-进程管理/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">No20-进程管理</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/17/No5/">Python web development with Flask(3)--Blueprints 蓝图</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">web development</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/14/No4/" class="archive-article-date">
-  	<time datetime="2019-06-14T13:31:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/14/No4/">python中的多进程使用总结（1）</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多进程</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/12/No3/" class="archive-article-date">
-  	<time datetime="2019-06-12T15:59:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/12/No3/">Python 中的正则表达式</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">正则表达式</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/09/No2/" class="archive-article-date">
-  	<time datetime="2019-06-09T14:23:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/09/No2/">Python web development with Flask(2)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">web development</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Http</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/09/No1/" class="archive-article-date">
-  	<time datetime="2019-06-09T03:21:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/09/No1/">Python web development with Flask(1)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">web development</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -452,9 +431,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
