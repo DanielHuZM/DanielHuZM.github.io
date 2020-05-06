@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>No22-Python源码试读-垃圾回收 | DanielHu&#39;s Blog</title>
+  <title>Python源码试读-垃圾回收 | DanielHu&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="前言​        和Java，C#等语言不同，Python中大多数对象的生命周期是通过对象的引用计数来管理的，对于python中最基础的对象PyObject，有两个属性，一个是该对象的类型，还有一个就是引用计数(ob_refcnt)。不过从广义上将，引用计数也算是一种垃圾回收机制，而且它是一中最简单最直观的垃圾回收计数。尽管需要一个值来维护引用计数，但是引用计数有一个最大的优点：实时性。任何内">
 <meta name="keywords" content="Python,源码,垃圾回收">
 <meta property="og:type" content="article">
-<meta property="og:title" content="No22-Python源码试读-垃圾回收">
+<meta property="og:title" content="Python源码试读-垃圾回收">
 <meta property="og:url" content="http://yoursite.com/2020/05/06/No22-Python源码试读-垃圾回收/index.html">
 <meta property="og:site_name" content="DanielHu&#39;s Blog">
 <meta property="og:description" content="前言​        和Java，C#等语言不同，Python中大多数对象的生命周期是通过对象的引用计数来管理的，对于python中最基础的对象PyObject，有两个属性，一个是该对象的类型，还有一个就是引用计数(ob_refcnt)。不过从广义上将，引用计数也算是一种垃圾回收机制，而且它是一中最简单最直观的垃圾回收计数。尽管需要一个值来维护引用计数，但是引用计数有一个最大的优点：实时性。任何内">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2020-05-06T17:25:18.169Z">
+<meta property="og:updated_time" content="2020-05-06T17:27:34.848Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="No22-Python源码试读-垃圾回收">
+<meta name="twitter:title" content="Python源码试读-垃圾回收">
 <meta name="twitter:description" content="前言​        和Java，C#等语言不同，Python中大多数对象的生命周期是通过对象的引用计数来管理的，对于python中最基础的对象PyObject，有两个属性，一个是该对象的类型，还有一个就是引用计数(ob_refcnt)。不过从广义上将，引用计数也算是一种垃圾回收机制，而且它是一中最简单最直观的垃圾回收计数。尽管需要一个值来维护引用计数，但是引用计数有一个最大的优点：实时性。任何内">
   
     <link rel="alternative" href="/atom.xml" title="DanielHu&#39;s Blog" type="application/atom+xml">
@@ -166,7 +166,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      No22-Python源码试读-垃圾回收
+      Python源码试读-垃圾回收
     </h1>
   
 
@@ -502,14 +502,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">web development</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Python</a>
               </li>
              
@@ -526,15 +518,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">web development</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">ELK</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">正则表达式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">回溯法</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -562,11 +554,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Http</a>
+                <a href="javascript:void(0)" class="js-tag color1">正则表达式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多进程</a>
+                <a href="javascript:void(0)" class="js-tag color4">回溯法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Http</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -591,6 +587,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">gzip</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">多进程</a>
               </li>
              
               <li class="article-tag-list-item">
